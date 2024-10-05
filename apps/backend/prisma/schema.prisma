@@ -12,10 +12,11 @@ model User {
   email          String         @unique
   password       String
   name           String
+  birthday       DateTime?
   role           Role
   appointment    Appointment[]
   likedPosts     BlogPost[]     @relation("PostLikes")
-  profilePicture String?
+  imgUrl         String?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   doctor         Doctor?       
@@ -69,6 +70,7 @@ enum AppointmentStatus {
 model Service {
   id           Int           @id @default(autoincrement())
   name         String
+  imgUrl       String
   doctors      Doctor[]
   appointments Appointment[]
 }
@@ -77,6 +79,7 @@ model BlogPost {
   id           Int            @id @default(autoincrement())
   title        String
   content      String
+  imgUrl       String
   doctorId     Int
   doctor       Doctor         @relation(fields: [doctorId], references: [id])
   views        Int            @default(0)
