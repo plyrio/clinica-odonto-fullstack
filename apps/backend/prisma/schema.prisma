@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int            @id @default(autoincrement())
+  email          String         @unique
+  password       String
+  name           String
+  role           Role
+  appointment    Appointment[]
+  likedPosts     BlogPost[]     @relation("PostLikes")
+  profilePicture String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  doctor         Doctor?       
+  BlogPostView   BlogPostView[]
+}
+
+model Doctor {
+  id           Int           @id @default(autoincrement())
+  user         User          @relation(fields: [userId], references: [id])
+  userId       Int           @unique 
+  specialties  Speciality[]
+  services     Service[]
+  appointments Appointment[]
+  blogs        BlogPost[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+enum Role {
+  USER
+  DOCTOR
+  ADMIN
+}
+
+model Speciality {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  doctors Doctor[]
+}
+
+model Appointment {
+  id        Int               @id @default(autoincrement())
+  user      User              @relation(fields: [userId], references: [id])
+  userId    Int
+  doctor    Doctor            @relation(fields: [doctorId], references: [id])
+  doctorId  Int
+  service   Service?          @relation(fields: [serviceId], references: [id])
+  serviceId Int?
+  status    AppointmentStatus
+  date      DateTime
+  createdAt DateTime          @default(now())
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELED
+}
+
+model Service {
+  id           Int           @id @default(autoincrement())
+  name         String
+  doctors      Doctor[]
+  appointments Appointment[]
+}
+
+model BlogPost {
+  id           Int            @id @default(autoincrement())
+  title        String
+  content      String
+  doctorId     Int
+  doctor       Doctor         @relation(fields: [doctorId], references: [id])
+  views        Int            @default(0)
+  likes        Int            @default(0)
+  likedBy      User[]         @relation("PostLikes")
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  BlogPostView BlogPostView[]
+}
+
+model BlogPostView {
+  id         Int      @id @default(autoincrement())
+  blogPostId Int
+  blogPost   BlogPost @relation(fields: [blogPostId], references: [id])
+  viewerId   Int?
+  viewer     User?    @relation(fields: [viewerId], references: [id])
+  viewedAt   DateTime @default(now())
+}
