@@ -7,10 +7,11 @@ import { SpecialitiesModule } from './specialities/specialities.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { ServicesModule } from './services/services.module';
 import { BlogPostsModule } from './blog-posts/blog-posts.module';
+import { DbModule } from './db/db.module';
 
 @Module({
-  imports: [UserModule, DoctorModule, SpecialitiesModule, AppointmentsModule, ServicesModule, BlogPostsModule],
-  controllers: [AppController],
+  imports: [UserModule, DoctorModule, SpecialitiesModule, AppointmentsModule, ServicesModule, BlogPostsModule, DbModule],
+  controllers: [AppController,],
   providers: [AppService],
 })
 export class AppModule {}

@@ -69,7 +69,7 @@ enum AppointmentStatus {
 
 model Service {
   id           Int           @id @default(autoincrement())
-  name         String
+  name         String        @unique
   imgUrl       String
   doctors      Doctor[]
   appointments Appointment[]
