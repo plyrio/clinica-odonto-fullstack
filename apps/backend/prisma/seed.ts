@@ -18,15 +18,22 @@ async function main() {
     );
 
     const services = await Promise.all(
-        ['Limpeza', 'Consulta', 'Canal', 'Clareamento', 'Extração', 'Restauração', 'Aparelho Dentário', 'Facetas'].map(
-            async (serviceName) => {
-                return prisma.service.upsert({
-                    where: { name: serviceName },
-                    update: {},
-                    create: { name: serviceName, imgUrl: faker.image.avatar() },
-                });
-            }
-        )
+        [
+            { name: 'Limpeza', slots: 5 },
+            { name: 'Consulta', slots: 3 },
+            { name: 'Canal', slots: 2 },
+            { name: 'Clareamento', slots: 4 },
+            { name: 'Extração', slots: 2 },
+            { name: 'Restauração', slots: 3 },
+            { name: 'Aparelho Dentário', slots: 1 },
+            { name: 'Facetas', slots: 2 },
+        ].map(async ({ name, slots }) => {
+            return prisma.service.upsert({
+                where: { name: name },
+                update: {},
+                create: { name: name, imgUrl: faker.image.avatar(), slots: slots }, // Adiciona a quantidade de slots
+            });
+        })
     );
 
     const doctors: any[] = [];

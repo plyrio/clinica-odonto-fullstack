@@ -71,6 +71,7 @@ model Service {
   id           Int           @id @default(autoincrement())
   name         String        @unique
   imgUrl       String
+  slots        Int 
   doctors      Doctor[]
   appointments Appointment[]
 }
