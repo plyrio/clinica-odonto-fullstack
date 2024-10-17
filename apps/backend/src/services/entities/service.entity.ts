@@ -5,6 +5,7 @@ export class Service {
     id: number;
     name: string;
     imgUrl: string;
+    slots: number;
     doctors: Doctor[];
     appointments: Appointment[];
 }

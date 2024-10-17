@@ -12,47 +12,58 @@ model User {
   email          String         @unique
   password       String
   name           String
+  phone          String?        // Campo de telefone
   birthday       DateTime?
   role           Role
   appointment    Appointment[]
   likedPosts     BlogPost[]     @relation("PostLikes")
   imgUrl         String?
+  refreshToken   String?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  doctor         Doctor?       
   BlogPostView   BlogPostView[]
+  employee       Employee?     
 }
 
-model Doctor {
-  id           Int           @id @default(autoincrement())
-  user         User          @relation(fields: [userId], references: [id])
-  userId       Int           @unique 
-  specialties  Speciality[]
+model Employee {
+  id           Int             @id @default(autoincrement())
+  user         User            @relation(fields: [userId], references: [id])
+  userId       Int             @unique 
+  role         EmployeeRole    // Role do funcionário
+  specialties  Speciality[]    @relation("DoctorSpecialties")
   services     Service[]
   appointments Appointment[]
   blogs        BlogPost[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
 }
 
 enum Role {
   USER
-  DOCTOR
+  PATIENT
+  EMPLOYEE
   ADMIN
 }
 
+enum EmployeeRole {
+  DOCTOR
+  NURSE
+  RECEPTIONIST
+  // Outros cargos de funcionários
+}
+
 model Speciality {
-  id      Int      @id @default(autoincrement())
-  name    String   @unique
-  doctors Doctor[]
+  id        Int           @id @default(autoincrement())
+  name      String        @unique
+  employees Employee[]    @relation("DoctorSpecialties")
 }
 
 model Appointment {
   id        Int               @id @default(autoincrement())
   user      User              @relation(fields: [userId], references: [id])
   userId    Int
-  doctor    Doctor            @relation(fields: [doctorId], references: [id])
-  doctorId  Int
+  employee  Employee          @relation(fields: [employeeId], references: [id])
+  employeeId Int
   service   Service?          @relation(fields: [serviceId], references: [id])
   serviceId Int?
   status    AppointmentStatus
@@ -72,7 +83,7 @@ model Service {
   name         String        @unique
   imgUrl       String
   slots        Int 
-  doctors      Doctor[]
+  employees    Employee[]
   appointments Appointment[]
 }
 
@@ -81,8 +92,8 @@ model BlogPost {
   title        String
   content      String
   imgUrl       String
-  doctorId     Int
-  doctor       Doctor         @relation(fields: [doctorId], references: [id])
+  employeeId   Int
+  employee     Employee       @relation(fields: [employeeId], references: [id])
   views        Int            @default(0)
   likes        Int            @default(0)
   likedBy      User[]         @relation("PostLikes")

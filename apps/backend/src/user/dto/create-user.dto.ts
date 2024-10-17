@@ -22,8 +22,8 @@ export class CreateUserDto {
     @IsString()
     name: string;
 
-    @ApiProperty({ example: '1970-07-12' })
-    @IsNotEmpty()
+    @ApiPropertyOptional({ example: '1970-07-12' })
+    @IsOptional()  // Tornando o campo opcional
     @IsDateString()
     birthday?: Date;
 
@@ -31,4 +31,14 @@ export class CreateUserDto {
     @IsOptional()
     @IsString()
     imgUrl?: string;
+
+    @ApiPropertyOptional({ example: '123-456-7890' })  // Exemplo para o campo de telefone
+    @IsOptional()
+    @IsString()
+    phone?: string;  // Novo campo para telefone
+
+    @ApiPropertyOptional({ example: 'some_refresh_token' })  // Exemplo para o campo de refresh token
+    @IsOptional()
+    @IsString()
+    refreshToken?: string;  // Novo campo para refresh token
 }
