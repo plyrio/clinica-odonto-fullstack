@@ -1,0 +1,2 @@
+###Listar todos
+GET http://localhost:3001/user

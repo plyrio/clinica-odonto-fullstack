@@ -36,9 +36,4 @@ export class CreateUserDto {
     @IsOptional()
     @IsString()
     phone?: string;  // Novo campo para telefone
-
-    @ApiPropertyOptional({ example: 'some_refresh_token' })  // Exemplo para o campo de refresh token
-    @IsOptional()
-    @IsString()
-    refreshToken?: string;  // Novo campo para refresh token
 }

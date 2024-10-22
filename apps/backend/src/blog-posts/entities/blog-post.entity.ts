@@ -1,4 +1,4 @@
-import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { Employee } from 'src/employee/entities/employee.entity';
 import { User } from 'src/user/entities/user.entity';
 import { BlogPostView } from './blog-post-view.entity';
 
@@ -7,7 +7,7 @@ export class BlogPost {
     title: string;
     content: string;
     imgUrl: string;
-    doctor: Doctor;
+    employee: Employee;
     views: number;
     likes: number;
     likedBy: User[];

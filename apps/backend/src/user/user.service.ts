@@ -45,6 +45,7 @@ export class UserService {
         email: true,
         name: true,
         birthday: true,
+        phone: true,
         role: true,
         imgUrl: true,
         createdAt: true,

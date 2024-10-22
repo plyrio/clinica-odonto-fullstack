@@ -47,6 +47,8 @@ async function main() {
                 email: faker.internet.email(),
                 password: faker.internet.password(),
                 name: faker.person.fullName(),
+                phone: faker.phone.number({ style: 'international' }),
+                birthday: faker.date.birthdate(),
                 role: 'USER',
                 imgUrl: faker.image.avatar(),
                 employee: isEmployee

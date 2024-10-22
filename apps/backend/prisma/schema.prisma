@@ -13,7 +13,7 @@ model User {
   password       String
   name           String
   phone          String?        // Campo de telefone
-  birthday       DateTime?
+  birthday       DateTime?      @db.Date
   role           Role
   appointment    Appointment[]
   likedPosts     BlogPost[]     @relation("PostLikes")

@@ -1,4 +1,4 @@
-import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { Employee } from "src/employee/entities/employee.entity";
 import { Appointment } from 'src/appointments/entities/appointment.entity';
 
 export class Service {
@@ -6,6 +6,6 @@ export class Service {
     name: string;
     imgUrl: string;
     slots: number;
-    doctors: Doctor[];
+    employees: Employee[];
     appointments: Appointment[];
 }

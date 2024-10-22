@@ -1,7 +1,7 @@
-import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { Employee } from "src/employee/entities/employee.entity";
 
 export class Speciality {
     id: number;
     name: string;
-    doctors: Doctor[];
+    employees: Employee[];
 }
