@@ -1,8 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, MaxFileSizeValidator } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { createUserSchema, updateUserSchema, CreateUserDto, UpdateUserDto } from '@odonto/core';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { createZodDto } from 'nestjs-zod';
+
+const CreateUserZodDto = createZodDto(createUserSchema);
+const UpdateUserZodDto = createZodDto(updateUserSchema);
+class CreateUserDtoZod extends createZodDto(createUserSchema){}
 
 @ApiTags('users')
 @Controller('user')
@@ -13,32 +17,54 @@ export class UserController {
   @ApiOperation({ summary: 'Cria um novo usuário' })
   @ApiResponse({ status: 201, description: 'Usuário criado com sucesso.' })
   @ApiResponse({ status: 400, description: 'Dados inválidos.' })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @ApiBody({
+    type: CreateUserDtoZod,
+    examples: {
+      exemploCriacao: {
+        summary: 'Exemplo de criação de usuário',
+        description: 'Um exemplo válido de criação de usuário',
+        value: {
+          email: 'usuario@exemplo.com',
+          password: 'senhaSegura123',
+          name: 'João Silva',
+          birthday: '1990-05-21',
+          imgUrl: 'https://example.com/img.jpg',
+          phone: '+5511999999999',
+          role: 'USER'
+        },
+    }
   }
+  })
+create(@Body() createUserDto: CreateUserDtoZod) {
+  return this.userService.create(createUserDto);
+}
 
-  @Get()
-  @ApiOperation({ summary: 'Lista todos os usuários' })
-    @ApiResponse({ status: 200, description: 'Usuários listados com sucesso.' })
-  findAll() {
-    return this.userService.findAll();
-  }
+@Get()
+@ApiOperation({ summary: 'Lista todos os usuários' })
+@ApiResponse({ status: 200, description: 'Usuários listados com sucesso.' })
+findAll() {
+  return this.userService.findAll();
+}
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Obtém um usuário por ID' })
-    @ApiResponse({ status: 200, description: 'Usuário encontrado.' })
-      @ApiResponse({ status: 404, description: 'Usuário não encontrado.' })
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
+@Get(':id')
+@ApiOperation({ summary: 'Obtém um usuário por ID' })
+@ApiResponse({ status: 200, description: 'Usuário encontrado.' })
+@ApiResponse({ status: 404, description: 'Usuário não encontrado.' })
+findOne(@Param('id') id: string) {
+  return this.userService.findOne(+id);
+}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
+@Patch(':id')
+@ApiOperation({ summary: 'Atualiza dados de um usuário pelo ID.' })
+@ApiResponse({ status: 200, description: 'Usuário atualizado com sucesso.' })
+@ApiResponse({ status: 404, description: 'Falha ap atualizar usuário.' })
+@ApiBody({ type: UpdateUserZodDto })
+update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  return this.userService.update(+id, updateUserDto);
+}
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  }
+@Delete(':id')
+remove(@Param('id') id: string) {
+  return this.userService.remove(+id);
+}
 }

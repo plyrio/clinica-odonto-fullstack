@@ -1,23 +1,35 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto, createUserSchema, updateUserSchema } from '@odonto/core';
 import { PrismaService } from 'src/db/prisma.service';
-import { Role } from '@prisma/client';
-import { InternalServerErrorException } from '@nestjs/common';
-
 
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) { }
 
   async create(createUserDto: CreateUserDto) {
-    const birthdayDate = new Date(createUserDto.birthday);
+    // Validando os dados de entrada
+    const validatedData = createUserSchema.safeParse(createUserDto);
+    if (!validatedData.success) {
+      throw new BadRequestException(validatedData.error.errors);
+    }
+     
+    console.log(validatedData.data)
+
+
+
+    // Convertendo a data de aniversário se estiver presente
+    const birthdayDate = validatedData.data.birthday ? new Date(validatedData.data.birthday) : null;
+
     try {
       return await this.prismaService.user.create({
         data: {
-          ...createUserDto,
+          email: validatedData.data.email,
+          password: validatedData.data.password,
+          name: validatedData.data.name,
+          phone: validatedData.data.phone ?? null,  // Garantir que o Prisma receba null, e não undefined
+          imgUrl: validatedData.data.imgUrl ?? null,
           birthday: birthdayDate,
-          role: Role.USER,
+          role: validatedData.data.role,
         },
       });
     } catch (error) {
@@ -63,18 +75,6 @@ export class UserService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.prismaService.user.update({
-      where: { id },
-      data: updateUserDto,
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-
-    return user;
-  }
 
   async remove(id: number) {
     const user = await this.prismaService.user.delete({
@@ -86,5 +86,33 @@ export class UserService {
     }
 
     return { message: `User with ID ${id} removed successfully` };
+  }
+
+
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    // Validando os dados de entrada
+    const validatedData = updateUserSchema.safeParse(updateUserDto);
+    if (!validatedData.success) {
+      throw new BadRequestException(validatedData.error.errors);
+    }
+
+    // Convertendo a data de aniversário se estiver presente
+    const updatedData = {
+      ...validatedData.data,
+      birthday: validatedData.data.birthday ? new Date(validatedData.data.birthday) : undefined,
+    };
+
+    try {
+      const user = await this.prismaService.user.update({
+        where: { id },
+        data: updatedData,
+      });
+
+      return user;
+    } catch (error) {
+      console.error('Erro ao tentar atualizar usuário:', error);
+      throw new InternalServerErrorException(`Falha ao atualizar usuário com ID ${id}`);
+    }
   }
 }
