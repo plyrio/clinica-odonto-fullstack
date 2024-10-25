@@ -1,23 +1,11 @@
-import { IsString } from 'class-validator';
+import { z } from 'zod';
 
-export class CreateServiceDto {
-    @IsString()
-    name: string;
+export const createServiceSchema = z.object({
+    name: z.string(),
+    imgUrl: z.string().optional(),
+    slots: z.number(),
+});
 
-    @IsString()
-    imgUrl: string;
-}
-
-export class UpdateServiceDto {
-    @IsString()
-    name?: string;
-
-    @IsString()
-    imgUrl?: string;
-}
-
-export class ServiceResponseDto {
-    id: number;
-    name: string;
-    imgUrl: string;
-}
+export const updateServiceSchema = createServiceSchema.partial().extend({
+    name: z.string(),
+});

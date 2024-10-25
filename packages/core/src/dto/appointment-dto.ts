@@ -1,17 +1,19 @@
-import { AppointmentStatus } from '@prisma/client';
-import { User } from 'src/user/entities/user.entity';
-import { Employee } from 'src/employee/entities/employee.entity'; // Corrigido para Employee
-import { Service } from 'src/services/entities/service.entity';
+import { z } from 'zod';
+import { dateRegex } from '../utils';
 
-export class Appointment {
-    id: number;
-    user: User;
-    userId: number; // Adicionando userId para referência
-    employee: Employee; // Mudado de Doctor para Employee
-    employeeId: number; // Adicionando employeeId para referência
-    service?: Service; // Service pode ser opcional
-    serviceId?: number; // Adicionando serviceId para referência
-    status: AppointmentStatus;
-    date: Date;
-    createdAt: Date;
-}
+export const createAppointmentSchema = z.object({
+    userId: z.number(),
+    employeeId: z.number(),
+    status: z.enum(['DOCTOR', 'NURSE', 'RECEPTIONIST']),
+    date: z.string().regex(dateRegex),
+    serviceId: z.array(z.number()),
+});
+
+export const updateAppointmentSchema = createAppointmentSchema.partial().extend({
+    id: z.number(),
+
+})
+
+export type CreateAppointmentDto = z.infer<typeof createAppointmentSchema>;
+export type UpdateAppointmentDto = z.infer<typeof updateAppointmentSchema>;
+

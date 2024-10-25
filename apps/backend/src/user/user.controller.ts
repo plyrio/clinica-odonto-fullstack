@@ -2,11 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, MaxFileSizeValidator
 import { UserService } from './user.service';
 import { createUserSchema, updateUserSchema, CreateUserDto, UpdateUserDto } from '@odonto/core';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto } from '@anatine/zod-nestjs';
 
-const CreateUserZodDto = createZodDto(createUserSchema);
-const UpdateUserZodDto = createZodDto(updateUserSchema);
-class CreateUserDtoZod extends createZodDto(createUserSchema){}
+//const CreateUserZodDto = createZodDto(createUserSchema);
+//const UpdateUserZodDto = createZodDto(updateUserSchema);
+
+class UpdateUserZodDto extends createZodDto(updateUserSchema){}
+class CreateUserZodDto extends createZodDto(createUserSchema){}
 
 @ApiTags('users')
 @Controller('user')
@@ -18,7 +20,7 @@ export class UserController {
   @ApiResponse({ status: 201, description: 'Usuário criado com sucesso.' })
   @ApiResponse({ status: 400, description: 'Dados inválidos.' })
   @ApiBody({
-    type: CreateUserDtoZod,
+    type: CreateUserZodDto,
     examples: {
       exemploCriacao: {
         summary: 'Exemplo de criação de usuário',
@@ -35,7 +37,7 @@ export class UserController {
     }
   }
   })
-create(@Body() createUserDto: CreateUserDtoZod) {
+create(@Body() createUserDto: CreateUserDto) {
   return this.userService.create(createUserDto);
 }
 

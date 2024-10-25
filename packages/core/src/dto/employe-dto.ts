@@ -1,29 +1,15 @@
-import { ApiProperty } from '@nestjs/swagger';
-import {
-    IsInt,
-    IsNotEmpty,
-    IsOptional,
-    IsString,
-    IsEnum,
-} from 'class-validator';
-import { EmployeeRole } from '@prisma/client'; // Importe sua enumeração EmployeeRole
+import { z } from 'zod';
 
-export class CreateEmployeeDto {
-    @ApiProperty({ example: 1, description: 'ID do usuário associado ao funcionário' })
-    @IsInt()
-    userId: number; // ID do usuário associado
+const createEmployeeSchema = z.object({
+    userId: z.number(),
+    role: z.enum(['DOCTOR', 'RECEPTIONIST', 'NURSE']),
+    specialties: z.array(z.number()),
+    services: z.array(z.number()),
+});
 
-    @ApiProperty({ example: 'DOCTOR', description: 'Papel do funcionário' })
-    @IsEnum(EmployeeRole) // Validação para verificar se o valor é uma das opções da enumeração EmployeeRole
-    role: EmployeeRole;
+const updateEmployeeSchema = z.object({
+    id: z.number(),
+});
 
-    @ApiProperty({ example: ['Dentistry', 'Surgery'], required: false, description: 'Especialidades do funcionário' })
-    @IsOptional()
-    specialties?: string[]; // Campo opcional para especialidades
-
-    @ApiProperty({ example: ['Consultation', 'Surgery'], required: false, description: 'Serviços oferecidos pelo funcionário' })
-    @IsOptional()
-    services?: string[]; // Campo opcional para serviços
-
-    // Se necessário, você pode adicionar outros campos ou validações conforme o modelo de Employee
-}
+export type CreateEmployeeDto = z.infer<typeof createEmployeeSchema>;
+export type UpdateEmployeeDto = z.infer<typeof updateEmployeeSchema>;

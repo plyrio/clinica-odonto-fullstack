@@ -1,9 +1,6 @@
 
 import { z } from 'zod';
-
-// Regex para validar uma data no formato 'YYYY-MM-DD'
-const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-const phoneRegex = /^\+?(\d{1,3})?[-.\s]?(\(?\d{1,4}\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{0,9}$/;
+import { dateRegex, phoneRegex } from '../utils';
 
 
 // Schema para criação de usuário
@@ -18,7 +15,7 @@ export const createUserSchema = z.object({
 });
 
 // Schema para atualização de usuário
-export const updateUserSchema = createUserSchema.partial().extend({
+export const updateUserSchema = createUserSchema.omit({ password: true }).partial().extend({
     id: z.number(),
 });
 

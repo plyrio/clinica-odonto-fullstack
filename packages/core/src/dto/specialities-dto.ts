@@ -1,16 +1,16 @@
-import { IsString } from 'class-validator';
+import { z } from "zod";
+import { createZodDto } from '@anatine/zod-nestjs';
 
-export class CreateSpecialityDto {
-    @IsString()
-    name: string;
-}
+export const createSpecialitySchema = z.object({
+    name: z.string(),
+})
 
-export class UpdateSpecialityDto {
-    @IsString()
-    name?: string;
-}
+export const updateSpecialitySchema = createSpecialitySchema.partial().extend({
+    id: z.number(),
+});
 
-export class SpecialityResponseDto {
-    id: number;
-    name: string;
-}
+export type CreateSpecialityDto = z.infer<typeof createSpecialitySchema>;
+export type UpdateSpecialityDto = z.infer<typeof updateSpecialitySchema>;
+
+export class CreateSpecialityZodDto extends createZodDto(createSpecialitySchema){};
+export class UpdateSpecialityZodDto extends createZodDto(updateSpecialitySchema){};

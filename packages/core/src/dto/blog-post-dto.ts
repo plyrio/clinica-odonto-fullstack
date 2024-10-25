@@ -1,36 +1,15 @@
-import { IsInt, IsString } from 'class-validator';
+import { z } from "zod";
 
-export class CreateBlogPostDto {
-    @IsString()
-    title: string;
+export const createBlogPostDtoSchema = z.object({
+    title: z.string(),
+    content: z.string(),
+    imgUrl: z.string(),
+    employeeId: z.number(),
+});
 
-    @IsString()
-    content: string;
+export const updateBlogPostDtoSchema = createBlogPostDtoSchema.partial().extend({
+    id: z.number(),
+});
 
-    @IsString()
-    imgUrl: string;
-
-    @IsInt()
-    doctorId: number;
-}
-
-export class UpdateBlogPostDto {
-    @IsString()
-    title?: string;
-
-    @IsString()
-    content?: string;
-
-    @IsString()
-    imgUrl?: string;
-}
-
-export class BlogPostResponseDto {
-    id: number;
-    title: string;
-    content: string;
-    imgUrl: string;
-    doctorId: number;
-    createdAt: Date;
-    updatedAt: Date;
-}
+export type CreateBlogPostDto = z.infer<typeof createBlogPostDtoSchema>;
+export type UpdateBlogPostDto = z.infer<typeof updateBlogPostDtoSchema>;

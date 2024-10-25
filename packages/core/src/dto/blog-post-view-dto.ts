@@ -1,17 +1,8 @@
-import { IsInt, IsOptional } from 'class-validator';
+import { z } from "zod";
 
-export class CreateBlogPostViewDto {
-    @IsInt()
-    blogPostId: number;
+export const createBlogPostViewSchema = z.object({
+    blogpostId: z.number(),
+    viewerId: z.number(),
+});
 
-    @IsOptional()
-    @IsInt()
-    viewerId?: number;
-}
-
-export class BlogPostViewResponseDto {
-    id: number;
-    blogPostId: number;
-    viewerId?: number;
-    viewedAt: Date;
-}
+export type CreateBlogPostViewDto = z.infer<typeof createBlogPostViewSchema>;
