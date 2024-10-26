@@ -1,10 +1,25 @@
-import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException, Logger } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, createUserSchema, updateUserSchema } from '@odonto/core';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
+
   constructor(private readonly prismaService: PrismaService) { }
+
+  private validateDto(schema: any, dto: any): void {
+    const validateData = schema.safeParse(dto);
+    if (!validateData.sucess){
+      throw new BadRequestException(validateData.error.errors);
+    }
+  }
+
+  private handleError(error: any, message: string): never {
+    this.logger.error(error, message);
+    throw new InternalServerErrorException(message);
+  }
 
   async create(createUserDto: CreateUserDto) {
     // Validando os dados de entrada
