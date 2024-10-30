@@ -6,7 +6,7 @@ export const createAppointmentSchema = z.object({
     employeeId: z.number(),
     status: z.enum(["PENDING", "CONFIRMED", "COMPLETED", "CANCELED"]),
     date: z.date(),
-    service: z.array(z.number()),
+    service: z.number(),
 });
 
 export const updateAppointmentSchema = createAppointmentSchema.partial().extend({

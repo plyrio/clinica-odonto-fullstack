@@ -35,7 +35,7 @@ export class AppointmentsService {
         employee: { connect: { id: createAppointmentDto.employeeId } },
         status: createAppointmentDto.status,
         date: createAppointmentDto.date,
-        service:createAppointmentDto.service ?? { connect: { id: createAppointmentDto.service } }
+        service:{ connect: { id: createAppointmentDto.service } }
       },
     });
   }
