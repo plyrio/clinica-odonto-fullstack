@@ -11,7 +11,7 @@ async function main() {
                 return prisma.speciality.upsert({
                     where: { name: specialityName },
                     update: {},
-                    create: { name: specialityName },
+                    create: { name: specialityName, description: faker.lorem.paragraph(2), },
                 });
             }
         )
@@ -31,7 +31,7 @@ async function main() {
             return prisma.service.upsert({
                 where: { name: name },
                 update: {},
-                create: { name: name, imgUrl: faker.image.avatar(), slots: slots },
+                create: { name: name, imgUrl: faker.image.avatar(), slots: slots, description: faker.lorem.paragraph(2) },
             });
         })
     );
@@ -47,6 +47,7 @@ async function main() {
                 email: faker.internet.email(),
                 password: faker.internet.password(),
                 name: faker.person.fullName(),
+                bio: faker.lorem.paragraph(2),
                 phone: faker.phone.number({ style: 'international' }),
                 birthday: faker.date.birthdate(),
                 role: 'USER',

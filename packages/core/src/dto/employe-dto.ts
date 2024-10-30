@@ -3,8 +3,8 @@ import { z } from 'zod';
 const createEmployeeSchema = z.object({
     userId: z.number(),
     role: z.enum(['DOCTOR', 'RECEPTIONIST', 'NURSE']),
-    specialties: z.array(z.number()),
-    services: z.array(z.number()),
+    specialties: z.array(z.number()).optional(),
+    services: z.array(z.number()).optional(),
 });
 
 const updateEmployeeSchema = z.object({

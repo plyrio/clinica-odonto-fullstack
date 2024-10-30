@@ -8,9 +8,10 @@ export const createUserSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
     name: z.string().min(1),
+    bio: z.string().optional(),
+    phone: z.string().regex(phoneRegex),
     birthday:z.string().regex(dateRegex).optional(), // Adicione regex para validação
     imgUrl: z.string().url().optional(),
-    phone: z.string().regex(phoneRegex),
     role: z.enum(['USER', 'PATIENT', 'EMPLOYEE', 'ADMIN']).default('USER'), // Adicionar role com valor padrão
 });
 

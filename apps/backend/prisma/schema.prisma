@@ -12,17 +12,17 @@ model User {
   email          String         @unique
   password       String
   name           String
-  phone          String?        // Campo de telefone
+  phone          String?        
   birthday       DateTime?      @db.Date
+  bio            String?
   role           Role
   appointment    Appointment[]
-  likedPosts     BlogPost[]     @relation("PostLikes")
   imgUrl         String?
   refreshToken   String?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  BlogPostView   BlogPostView[]
-  employee       Employee?     
+  employee       Employee?
+  likedPosts     BlogPost[]     @relation("UserLikes")     
 }
 
 model Employee {
@@ -53,9 +53,10 @@ enum EmployeeRole {
 }
 
 model Speciality {
-  id        Int           @id @default(autoincrement())
-  name      String        @unique
-  employees Employee[]    @relation("DoctorSpecialties")
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  description String?
+  employees   Employee[]    @relation("DoctorSpecialties")
 }
 
 model Appointment {
@@ -81,6 +82,7 @@ enum AppointmentStatus {
 model Service {
   id           Int           @id @default(autoincrement())
   name         String        @unique
+  description  String?
   imgUrl       String
   slots        Int 
   employees    Employee[]
@@ -96,17 +98,7 @@ model BlogPost {
   employee     Employee       @relation(fields: [employeeId], references: [id])
   views        Int            @default(0)
   likes        Int            @default(0)
-  likedBy      User[]         @relation("PostLikes")
+  likedBy      User[]         @relation("UserLikes")
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  BlogPostView BlogPostView[]
-}
-
-model BlogPostView {
-  id         Int      @id @default(autoincrement())
-  blogPostId Int
-  blogPost   BlogPost @relation(fields: [blogPostId], references: [id])
-  viewerId   Int?
-  viewer     User?    @relation(fields: [viewerId], references: [id])
-  viewedAt   DateTime @default(now())
 }

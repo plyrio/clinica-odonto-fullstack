@@ -3,6 +3,7 @@ import { createZodDto } from '@anatine/zod-nestjs';
 
 export const createSpecialitySchema = z.object({
     name: z.string(),
+    description: z.string().optional(),
 })
 
 export const updateSpecialitySchema = createSpecialitySchema.partial().extend({

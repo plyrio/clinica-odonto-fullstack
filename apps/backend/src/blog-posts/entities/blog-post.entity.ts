@@ -1,6 +1,5 @@
 import { Employee } from 'src/employee/entities/employee.entity';
 import { User } from 'src/user/entities/user.entity';
-import { BlogPostView } from './blog-post-view.entity';
 
 export class BlogPost {
     id: number;
@@ -11,7 +10,6 @@ export class BlogPost {
     views: number;
     likes: number;
     likedBy: User[];
-    BlogPostView: BlogPostView[];
     createdAt: Date;
     updatedAt: Date;
 }
