@@ -1,6 +1,6 @@
 
 import { z } from 'zod';
-import { dateRegex, phoneRegex } from '../utils';
+import { phoneRegex } from '../utils';
 
 
 // Schema para criação de usuário
@@ -10,7 +10,7 @@ export const createUserSchema = z.object({
     name: z.string().min(1),
     bio: z.string().optional(),
     phone: z.string().regex(phoneRegex),
-    birthday:z.string().regex(dateRegex).optional(), // Adicione regex para validação
+    birthday:z.date().optional(), // Adicione regex para validação
     imgUrl: z.string().url().optional(),
     role: z.enum(['USER', 'PATIENT', 'EMPLOYEE', 'ADMIN']).default('USER'), // Adicionar role com valor padrão
 });

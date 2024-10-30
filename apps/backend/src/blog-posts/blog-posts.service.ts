@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBlogPostDto } from './dto/create-blog-post.dto';
-import { UpdateBlogPostDto } from './dto/update-blog-post.dto';
+import { createBlogPostSchema, updateBlogPostSchema, CreateBlogPostDto, UpdateBlogPostDto } from '@odonto/core';
 
 @Injectable()
 export class BlogPostsService {

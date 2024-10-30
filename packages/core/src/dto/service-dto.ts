@@ -10,3 +10,7 @@ export const createServiceSchema = z.object({
 export const updateServiceSchema = createServiceSchema.partial().extend({
     name: z.string(),
 });
+
+
+export type CreateServiceDto = z.infer<typeof createServiceSchema>;
+export type UpdateServiceDto = z.infer<typeof updateServiceSchema>;

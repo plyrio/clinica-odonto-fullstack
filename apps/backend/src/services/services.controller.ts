@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { CreateServiceDto } from './dto/create-service.dto';
-import { UpdateServiceDto } from './dto/update-service.dto';
+import { createServiceSchema, updateServiceSchema, CreateServiceDto, UpdateServiceDto } from '@odonto/core';
 
 @Controller('services')
 export class ServicesController {

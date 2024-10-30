@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { createEmployeeSchema, updateEmployeeSchema, CreateEmployeeDto, UpdateEmployeeDto } from '@odonto/core';
 
 @Controller('employee')
 export class EmployeeController {

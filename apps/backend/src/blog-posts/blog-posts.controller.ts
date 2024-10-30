@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BlogPostsService } from './blog-posts.service';
-import { CreateBlogPostDto } from './dto/create-blog-post.dto';
-import { UpdateBlogPostDto } from './dto/update-blog-post.dto';
+import { createBlogPostSchema, updateBlogPostSchema, CreateBlogPostDto, UpdateBlogPostDto } from '@odonto/core';
+
 
 @Controller('blog-posts')
 export class BlogPostsController {

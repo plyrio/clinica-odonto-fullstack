@@ -4,9 +4,9 @@ import { dateRegex } from '../utils';
 export const createAppointmentSchema = z.object({
     userId: z.number(),
     employeeId: z.number(),
-    status: z.enum(['DOCTOR', 'NURSE', 'RECEPTIONIST']),
-    date: z.string().regex(dateRegex),
-    serviceId: z.array(z.number()),
+    status: z.enum(["PENDING", "CONFIRMED", "COMPLETED", "CANCELED"]),
+    date: z.date(),
+    service: z.array(z.number()),
 });
 
 export const updateAppointmentSchema = createAppointmentSchema.partial().extend({

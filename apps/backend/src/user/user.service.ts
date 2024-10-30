@@ -11,7 +11,7 @@ export class UserService {
 
   private validateDto(schema: any, dto: any): void {
     const validateData = schema.safeParse(dto);
-    if (!validateData.sucess){
+    if (!validateData.sucess) {
       throw new BadRequestException(validateData.error.errors);
     }
   }
@@ -22,86 +22,93 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    // Validando os dados de entrada
-    const validatedData = createUserSchema.safeParse(createUserDto);
-    if (!validatedData.success) {
-      throw new BadRequestException(validatedData.error.errors);
-    }
-     
-    console.log(validatedData.data)
-
-
-
-    // Convertendo a data de aniversário se estiver presente
-    const birthdayDate = validatedData.data.birthday ? new Date(validatedData.data.birthday) : null;
-
+    this.validateDto(createUserSchema, createUserDto)
     try {
       return await this.prismaService.user.create({
         data: {
-          email: validatedData.data.email,
-          password: validatedData.data.password,
-          name: validatedData.data.name,
-          phone: validatedData.data.phone ?? null,  // Garantir que o Prisma receba null, e não undefined
-          imgUrl: validatedData.data.imgUrl ?? null,
-          birthday: birthdayDate,
-          role: validatedData.data.role,
+          email: createUserDto.email,
+          password: createUserDto.password,
+          bio: createUserDto.bio,
+          name: createUserDto.name,
+          phone: createUserDto.phone ?? null,
+          imgUrl: createUserDto.imgUrl ?? null,
+          birthday: createUserDto.birthday ?? null,
+          role: createUserDto.role,
         },
       });
     } catch (error) {
-      console.error('Erro ao tentar criar usuário:', error);
-      throw new InternalServerErrorException('Falha ao criar usuário');
+      this.handleError(error, 'Failed to create user')
     }
   }
 
   async findAll() {
-    return await this.prismaService.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        birthday: true,
-        phone: true,
-        role: true,
-        imgUrl: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
+    try {
+      return await this.prismaService.user.findMany({
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          bio: true,
+          birthday: true,
+          phone: true,
+          role: true,
+          imgUrl: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+    } catch (error) {
+      this.handleError(error, 'Failed to return all users')
+    }
+
   }
 
   async findOne(id: number) {
-    const user = await this.prismaService.user.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        birthday: true,
-        role: true,
-        imgUrl: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
+    try {
+      const user = await this.prismaService.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          bio: true,
+          birthday: true,
+          role: true,
+          imgUrl: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
 
-    if (!user) {
-      throw new NotFoundException(`Usuário com ID ${id} não encontrado`);
+      if (!user) {
+        throw new NotFoundException(`Not found user of ID ${id}`);
+      }
+
+      return user;
+    } catch (error) {
+      this.handleError(error, 'An error occurred while fetching the speciality')
     }
 
-    return user;
   }
 
 
   async remove(id: number) {
-    const user = await this.prismaService.user.delete({
-      where: { id },
-    });
+    try {
+      const user = await this.prismaService.user.findUnique({
+        where: { id },
+      });
 
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+
+      return await this.prismaService.user.delete({ 
+        where: {id},
+      });
+    } catch (error) {
+      this.handleError(error, `Failed to delete user of ID #${id}`);
     }
-
-    return { message: `User with ID ${id} removed successfully` };
+    
   }
 
 

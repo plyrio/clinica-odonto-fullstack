@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateServiceDto } from './dto/create-service.dto';
-import { UpdateServiceDto } from './dto/update-service.dto';
+import { createServiceSchema, updateServiceSchema, CreateServiceDto, UpdateServiceDto } from '@odonto/core';
 
 @Injectable()
 export class ServicesService {

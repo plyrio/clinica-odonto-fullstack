@@ -1,24 +1,41 @@
 import { PrismaService } from 'src/db/prisma.service';
-import { Injectable } from '@nestjs/common';
-import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
-import { Appointment } from '@prisma/client'; // Importando Appointment para o tipo de retorno
+import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { createAppointmentSchema, updateAppointmentSchema, CreateAppointmentDto, UpdateAppointmentDto } from '@odonto/core';
+import { Appointment } from '@prisma/client';
 
 @Injectable()
 export class AppointmentsService {
+  private readonly logger = new Logger(AppointmentsService.name);
+
   constructor(private readonly prismaService: PrismaService) { }
+
+  private validateDto(schema: any, dto: any): void {
+    const validatedData = schema.safeParse(dto);
+    if(!validatedData){
+      throw new BadRequestException(validatedData.error.errors);
+    }
+  }
+
+  private handleError(error: any, message: string): never {
+    this.logger.error(message, error);
+    throw new InternalServerErrorException(message);
+  }
+
+
 
   // Método para criar um novo agendamento
   async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
-    const { userId, employeeId, status, date, service } = createAppointmentDto;
+    this.validateDto(createAppointmentSchema, createAppointmentDto)
+
+    
 
     return this.prismaService.appointment.create({
       data: {
-        user: { connect: { id: userId } }, // Conectando o usuário
-        employee: { connect: { id: employeeId } }, // Conectando o funcionário
-        status,
-        date,
-        service: service ? { connect: { id: service.id } } : undefined, // Conectando o serviço, se fornecido
+        user: { connect: { id: createAppointmentDto.userId } },
+        employee: { connect: { id: createAppointmentDto.employeeId } },
+        status: createAppointmentDto.status,
+        date: createAppointmentDto.date,
+        service:createAppointmentDto.service ?? { connect: { id: createAppointmentDto.service } }
       },
     });
   }

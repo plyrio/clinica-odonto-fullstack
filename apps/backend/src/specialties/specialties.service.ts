@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, Logger } from '@nestjs/common';
 import { CreateSpecialityDto, createSpecialitySchema, UpdateSpecialityDto, updateSpecialitySchema } from '@odonto/core';
+import { Speciality } from '@prisma/client';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
@@ -20,7 +21,7 @@ export class SpecialitiesService {
     throw new InternalServerErrorException(message);
   }
 
-  async create(createSpecialityDto: CreateSpecialityDto) {
+  async create(createSpecialityDto: CreateSpecialityDto): Promise<Speciality> {
     this.validateDto(createSpecialitySchema, createSpecialityDto);
 
     try {
@@ -34,27 +35,29 @@ export class SpecialitiesService {
     }
   }
 
-  async findAll(skip: number = 0, take: number = 10) {
+  async findAll() {
     try {
-      return await this.prismaService.speciality.findMany({
-        skip,
-        take,
-      });
+      return await this.prismaService.speciality.findMany();
     } catch (error) {
       this.handleError(error, 'Failed to return all specialties');
     }
   }
 
   async findOne(id: number) {
-    const speciality = await this.prismaService.speciality.findUnique({
-      where: { id },
-    });
+    try {
+      const speciality = await this.prismaService.speciality.findUnique({
+        where: { id },
+      });
 
-    if (!speciality) {
-      throw new NotFoundException(`Not found speciality of ID #${id}`);
+      if (!speciality) {
+        throw new NotFoundException(`Not found speciality of ID #${id}`);
+      }
+
+      return speciality
+
+    } catch (error) {
+      this.handleError(error, 'An error occurred while fetching the speciality')
     }
-
-    return speciality;
   }
 
   async update(id: number, updateSpecialityDto: UpdateSpecialityDto) {
@@ -71,15 +74,14 @@ export class SpecialitiesService {
   }
 
   async remove(id: number) {
-    const speciality = await this.prismaService.speciality.findUnique({
-      where: { id },
-    });
-
-    if (!speciality) {
-      throw new NotFoundException(`Not found speciality of ID #${id}`);
-    }
-
     try {
+      const speciality = await this.prismaService.speciality.findUnique({
+        where: { id },
+      });
+
+      if (!speciality) {
+        throw new NotFoundException(`Not found speciality of ID #${id}`);
+      }
       return await this.prismaService.speciality.delete({
         where: { id },
       });
