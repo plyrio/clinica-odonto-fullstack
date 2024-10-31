@@ -1,5 +1,5 @@
-
 import { z } from 'zod';
+import { createZodDto} from '@anatine/zod-nestjs';
 import { phoneRegex } from '../utils';
 
 
@@ -23,3 +23,6 @@ export const updateUserSchema = createUserSchema.omit({ password: true }).partia
 // Tipos inferidos dos schemas Zod
 export type CreateUserDto = z.infer<typeof createUserSchema>;
 export type UpdateUserDto = z.infer<typeof updateUserSchema>;
+
+export class CreateUserZodDto extends createZodDto(createUserSchema){};
+export class UpdateUserZodDto extends createZodDto(updateUserSchema){};

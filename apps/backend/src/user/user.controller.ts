@@ -1,14 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, MaxFileSizeValidator } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
-import { createUserSchema, updateUserSchema, CreateUserDto, UpdateUserDto } from '@odonto/core';
+import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto } from '@odonto/core';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { createZodDto } from '@anatine/zod-nestjs';
 
-//const CreateUserZodDto = createZodDto(createUserSchema);
-//const UpdateUserZodDto = createZodDto(updateUserSchema);
-
-class UpdateUserZodDto extends createZodDto(updateUserSchema){}
-class CreateUserZodDto extends createZodDto(createUserSchema){}
 
 @ApiTags('users')
 @Controller('user')
@@ -16,9 +10,9 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @Post()
-  @ApiOperation({ summary: 'Cria um novo usuário' })
-  @ApiResponse({ status: 201, description: 'Usuário criado com sucesso.' })
-  @ApiResponse({ status: 400, description: 'Dados inválidos.' })
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({ status: 201, description: 'User successfully created.' })
+  @ApiResponse({ status: 400, description: 'Invalid data.' })
   @ApiBody({
     type: CreateUserZodDto,
     examples: {
@@ -29,6 +23,7 @@ export class UserController {
           email: 'usuario@exemplo.com',
           password: 'senhaSegura123',
           name: 'João Silva',
+          bio: 'uma bio qualquer',
           birthday: '1990-05-21',
           imgUrl: 'https://example.com/img.jpg',
           phone: '+5511999999999',

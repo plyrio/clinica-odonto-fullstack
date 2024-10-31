@@ -1,3 +1,4 @@
+import { createZodDto } from '@anatine/zod-nestjs';
 import { z } from 'zod';
 
 export const createEmployeeSchema = z.object({
@@ -13,3 +14,6 @@ export const updateEmployeeSchema = z.object({
 
 export type CreateEmployeeDto = z.infer<typeof createEmployeeSchema>;
 export type UpdateEmployeeDto = z.infer<typeof updateEmployeeSchema>;
+
+export class CreateEmployeeZodDto extends createZodDto(createEmployeeSchema){};
+export class UpdateEmployeeZodDto extends createZodDto(updateEmployeeSchema){};

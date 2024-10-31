@@ -6,7 +6,6 @@ import { PrismaService } from 'src/db/prisma.service';
 export class UserService {
   private readonly logger = new Logger(UserService.name);
 
-
   constructor(private readonly prismaService: PrismaService) { }
 
   private validateDto(schema: any, dto: any): void {
