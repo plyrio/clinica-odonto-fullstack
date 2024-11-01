@@ -1,10 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { createEmployeeSchema, updateEmployeeSchema, CreateEmployeeDto, UpdateEmployeeDto } from '@odonto/core';
+import { CommonService } from 'src/common/common.service';
+import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class EmployeeService {
-  create(createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new employee';
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly commonService: CommonService
+  ){}
+
+
+
+  async create(createEmployeeDto: CreateEmployeeDto) {
+    this.commonService.validateDto(createEmployeeSchema, createEmployeeDto)
+
+    try {
+      return await this.prismaService.employee.create({
+        data: {
+          userId: createEmployeeDto.userId,
+          role: createEmployeeDto.role,
+          specialties:{ 
+            connect: createEmployeeDto.specialties?.map((specialtyId) => ({id: specialtyId}))
+        },
+          services: createEmployeeDto.services?.map((serviceId) => {
+            connect:{id: serviceId }
+          }),
+        }
+      })
+    } catch (error) {
+      this.commonService.handleError(error, 'Failed create new employee')
+    }
   }
 
   findAll() {

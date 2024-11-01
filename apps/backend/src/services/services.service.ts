@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { createServiceSchema, updateServiceSchema, CreateServiceDto, UpdateServiceDto } from '@odonto/core';
 import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
@@ -28,22 +28,55 @@ export class ServicesService {
 
   async findAll() {
     try {
-      
+      return await this.prismaService.service.findMany({})
     } catch (error) {
       this.commonService.handleError(error, 'Failed to return all services')
     }
-    return `This action returns all services`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} service`;
+  async findOne(id: number) {
+    try {
+      const service = await this.prismaService.service.findUnique({
+        where: {id}
+      });
+
+      if(!service) {
+        throw new NotFoundException(`Not found service of ID #${id}`)
+      }
+      return service;
+    } catch (error) {
+      this.commonService.handleError(error, `An error occured while fetching the service`)
+    }
   }
 
-  update(id: number, updateServiceDto: UpdateServiceDto) {
-    return `This action updates a #${id} service`;
+  async update(id: number, updateServiceDto: UpdateServiceDto) {
+    this.commonService.validateDto(updateServiceSchema, updateServiceDto);
+    try {
+      const service = await this.prismaService.service.update({
+        where:{id},
+        data: updateServiceDto,
+      })
+      return service
+    } catch (error) {
+      this.commonService.handleError(error, `Failed to update service of ID #${id}`)
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} service`;
+  async remove(id: number) {
+    try {
+      const service = await this.prismaService.service.findUnique({
+        where:{id}
+      });
+      if (!service){
+        throw new NotFoundException(`Not found service of ID #${id}`)
+      }
+
+      return await this.prismaService.service.delete({
+        where: {id}
+      });
+      
+    } catch (error) {
+      this.commonService.handleError(error, `Failed to delete service of ID #${id}`)
+    }
   }
 }
