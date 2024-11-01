@@ -23,11 +23,10 @@ export class EmployeeService {
           specialties:{ 
             connect: createEmployeeDto.specialties?.map((specialtyId) => ({id: specialtyId}))
         },
-          services: createEmployeeDto.services?.map((serviceId) => {
-            connect:{id: serviceId }
-          }),
-        }
-      })
+          services:{connect: createEmployeeDto.services?.map((serviceId) => ({id: serviceId }))
+        },
+      }
+    })
     } catch (error) {
       this.commonService.handleError(error, 'Failed create new employee')
     }
