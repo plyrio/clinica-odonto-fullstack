@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BlogPostsService } from './blog-posts.service';
-import { createBlogPostSchema, updateBlogPostSchema, CreateBlogPostDto, UpdateBlogPostDto } from '@odonto/core';
+import { CreateBlogPostDto, CreateBlogPostZodDto, UpdateBlogPostDto, UpdateBlogPostZodDto } from '@odonto/core';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('blog-posts')
 @Controller('blog-posts')
 export class BlogPostsController {
   constructor(private readonly blogPostsService: BlogPostsService) {}
 
+  @ApiBody({ type: CreateBlogPostZodDto})
   @Post()
   create(@Body() createBlogPostDto: CreateBlogPostDto) {
     return this.blogPostsService.create(createBlogPostDto);
@@ -22,6 +24,7 @@ export class BlogPostsController {
     return this.blogPostsService.findOne(+id);
   }
 
+  @ApiBody({ type: UpdateBlogPostZodDto })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBlogPostDto: UpdateBlogPostDto) {
     return this.blogPostsService.update(+id, updateBlogPostDto);
