@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { createBlogPostSchema, updateBlogPostSchema, CreateBlogPostDto, UpdateBlogPostDto } from '@odonto/core';
+import { createBlogPostSchema, updateBlogPostSchema, CreateBlogPostDto, UpdateBlogPostDto, likePostSchema, LikePostDto } from '@odonto/core';
 import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
 
@@ -91,11 +91,9 @@ export class BlogPostsService {
   }
 }
 
-  async incrementView(id: number) {
-
-}
-
-  async likePost(id: number, userId: number) {
+  async likePost(id: number, userId: number, likePostDto: LikePostDto) {
+    this.commonService.validateDto(likePostSchema, likePostDto)
+    
   try {
     const post = await this.prismaService.blogPost.findUnique({
       where: { id },
@@ -116,6 +114,7 @@ export class BlogPostsService {
       },
     });
   } catch (error) {
+    console.log(error)
     this.commonService.handleError(error, `Failed to like or unlike blogpost of ID`)
   }
 }

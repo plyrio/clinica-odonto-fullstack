@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BlogPostsService } from './blog-posts.service';
-import { CreateBlogPostDto, CreateBlogPostZodDto, UpdateBlogPostDto, UpdateBlogPostZodDto } from '@odonto/core';
+import { CreateBlogPostDto, CreateBlogPostZodDto, UpdateBlogPostDto, UpdateBlogPostZodDto, LikePostDto, LikePostZodDto } from '@odonto/core';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('blog-posts')
@@ -34,4 +34,14 @@ export class BlogPostsController {
   remove(@Param('id') id: string) {
     return this.blogPostsService.remove(+id);
   }
+
+  @ApiBody({ type: LikePostZodDto })
+  @Patch(':id/like')
+  likePost(@Param('id') id: string, @Body() likePostDto: LikePostDto) {
+    const {userId} = likePostDto;
+    console.log(userId)
+    console.log(likePostDto)
+    return this.blogPostsService.likePost(+id, userId, likePostDto);
+  }
+  
 }
