@@ -37,11 +37,11 @@ export class BlogPostsController {
 
   @ApiBody({ type: LikePostZodDto })
   @Patch(':id/like')
-  likePost(@Param('id') id: string, @Body() likePostDto: LikePostDto) {
-    const {userId} = likePostDto;
-    console.log(userId)
-    console.log(likePostDto)
-    return this.blogPostsService.likePost(+id, userId, likePostDto);
-  }
+  likePost(@Param('id') id: string, @Body('userId') userId: number) {
+
+  console.log("UserId recebido no likePost:", userId);
+
+  return this.blogPostsService.likePost(+id, userId);
+}
   
 }

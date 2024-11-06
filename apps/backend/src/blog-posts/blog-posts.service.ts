@@ -91,20 +91,20 @@ export class BlogPostsService {
   }
 }
 
-  async likePost(id: number, userId: number, likePostDto: LikePostDto) {
-    this.commonService.validateDto(likePostSchema, likePostDto)
-    
+async likePost(id: number, userId: number) {
+  
   try {
     const post = await this.prismaService.blogPost.findUnique({
       where: { id },
-      include: { likedBy: { where: { id: userId } } },
+      include: { likedBy: true },
     });
 
     if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
     const alreadyLiked = post.likedBy.some(user => user.id === userId);
 
-    return this.prismaService.blogPost.update({
+    // Atualiza o post com base na condição de like/deslike
+    return await this.prismaService.blogPost.update({
       where: { id },
       data: {
         likes: { increment: alreadyLiked ? -1 : 1 },
@@ -114,8 +114,8 @@ export class BlogPostsService {
       },
     });
   } catch (error) {
-    console.log(error)
-    this.commonService.handleError(error, `Failed to like or unlike blogpost of ID`)
+    console.error("Erro no likePost:", error);
+    this.commonService.handleError(error, `Failed to like or unlike blogpost of ID ${id}`);
   }
 }
 }
