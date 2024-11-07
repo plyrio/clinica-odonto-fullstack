@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, UserResponseDto, createUserSchema, updateUserSchema, userResponseSchema } from '@odonto/core';
 import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
@@ -59,7 +59,7 @@ export class UserService {
 
       return userResponseSchema.parse(user);
     } catch (error) {
-      this.commonService.handleError(error, 'An error occurred while fetching the User')
+      this.commonService.handleError(error, 'An error occurred while fetching the user')
     }
 
   }
@@ -100,8 +100,7 @@ export class UserService {
 
       return userResponseSchema.parse(user);
     } catch (error) {
-      console.error('Erro ao tentar atualizar usuário:', error);
-      throw new InternalServerErrorException(`Falha ao atualizar usuário com ID ${id}`);
+      throw new InternalServerErrorException(`Failed to update user of ID ${id}`);
     }
   }
 }

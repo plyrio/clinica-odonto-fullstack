@@ -17,7 +17,10 @@ export const createUserSchema = z.object({
 
 export const updateUserSchema = z.object({
     id: z.number(),
-}).merge(createUserSchema.omit({ password: true })).partial()
+}).merge(createUserSchema.omit({ password: true })).partial().extend({
+    id: z.number()
+})
+
 export const userResponseSchema = z.object({
     id: z.number(),
 }).merge(createUserSchema.omit({ password: true })).extend({
