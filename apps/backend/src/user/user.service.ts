@@ -1,11 +1,10 @@
-import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException, Logger } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, UserResponseDto, createUserSchema, updateUserSchema, userResponseSchema } from '@odonto/core';
 import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class UserService {
-  private readonly logger = new Logger(UserService.name);
 
   constructor(
     private readonly prismaService: PrismaService,
@@ -16,13 +15,20 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     this.commonService.validateDto(createUserSchema, createUserDto)
 
-    const userData = {
-      ...createUserDto,
-      birthday: new Date(createUserDto.birthday).toISOString()
-    }
+    
     try {
       const user =  await this.prismaService.user.create({
-        data: userData
+        data: {
+        
+          email: createUserDto.email,
+    password: createUserDto.password,
+    name: createUserDto.name,
+    bio: createUserDto.bio || '',
+    phone: createUserDto.phone || '',
+    birthday: new Date(createUserDto.birthday),
+    imgUrl: createUserDto.imgUrl || '',
+    role: createUserDto.role,
+        }
       });
       return userResponseSchema.parse(user)
     } catch (error) {
@@ -53,13 +59,13 @@ export class UserService {
 
       return userResponseSchema.parse(user);
     } catch (error) {
-      this.commonService.handleError(error, 'An error occurred while fetching the speciality')
+      this.commonService.handleError(error, 'An error occurred while fetching the User')
     }
 
   }
 
 
-  async remove(id: number) {
+  async remove(id: number): Promise<UserResponseDto>{
     try {
       const user = await this.prismaService.user.findUnique({
         where: { id },
@@ -69,9 +75,11 @@ export class UserService {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
 
-      return await this.prismaService.user.delete({ 
+      await this.prismaService.user.delete({ 
         where: {id},
       });
+
+      return userResponseSchema.parse(user);
     } catch (error) {
       this.commonService.handleError(error, `Failed to delete user of ID #${id}`);
     }
@@ -87,7 +95,7 @@ export class UserService {
     try {
       const user = await this.prismaService.user.update({
         where: { id },
-        data: {...updateUserDto}
+        data: {...updateUserDto, birthday: new Date(updateUserDto.birthday)}
       });
 
       return userResponseSchema.parse(user);

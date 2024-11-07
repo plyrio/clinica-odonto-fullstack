@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto } from '@odonto/core';
+import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto, UserResponseZodDto } from '@odonto/core';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
 
@@ -38,14 +38,14 @@ create(@Body() createUserDto: CreateUserDto) {
 
 @Get()
 @ApiOperation({ summary: 'Lista todos os usuários' })
-@ApiResponse({ status: 200, description: 'Usuários listados com sucesso.' })
+@ApiResponse({ status: 200, description: 'Usuários listados com sucesso.', type: [UserResponseZodDto] })
 findAll() {
   return this.userService.findAll();
 }
 
 @Get(':id')
 @ApiOperation({ summary: 'Obtém um usuário por ID' })
-@ApiResponse({ status: 200, description: 'Usuário encontrado.' })
+@ApiResponse({ status: 200, description: 'Usuário encontrado.', type: UserResponseZodDto })
 @ApiResponse({ status: 404, description: 'Usuário não encontrado.' })
 findOne(@Param('id') id: string) {
   return this.userService.findOne(+id);
