@@ -13,7 +13,7 @@ model User {
   password       String
   name           String
   phone          String?        
-  birthday       DateTime?      @db.Date
+  birthday       DateTime?      
   bio            String?
   role           Role
   appointment    Appointment[]

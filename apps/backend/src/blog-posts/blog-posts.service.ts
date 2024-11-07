@@ -31,7 +31,24 @@ export class BlogPostsService {
   async findAll() {
     try {
       return await this.prismaService.blogPost.findMany({
-        include: { employee: true, likedBy: true },
+        include: { 
+          employee: { 
+            select: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                }
+              }}}, 
+          likedBy: { 
+            select: { 
+              id: true, 
+              name: true, 
+              email: true,
+            }
+          } 
+        },
       });
     } catch (error) {
       this.commonService.handleError(error, 'Failed to return all blog posts')
@@ -42,7 +59,8 @@ export class BlogPostsService {
     try {
       const blogpost = this.prismaService.blogPost.findUnique({
         where: { id },
-        include: { employee: true, likedBy: true },
+        include: { 
+          employee: {select: {user: {select: {id: true, name: true, email: true}}, role: true}}, likedBy: { select: { id: true, name: true, email: true}}},
       });
 
       if (!blogpost) {
@@ -55,67 +73,67 @@ export class BlogPostsService {
       });
 
       return blogpost
-  } catch(error) {
-    this.commonService.handleError(error, `An error occurred while fetching blog post of ID #${id}`)
+    } catch (error) {
+      this.commonService.handleError(error, `An error occurred while fetching blog post of ID #${id}`)
+    }
   }
-}
 
   async update(id: number, updateBlogPostDto: UpdateBlogPostDto) {
-  this.commonService.validateDto(updateBlogPostSchema, updateBlogPostDto);
+    this.commonService.validateDto(updateBlogPostSchema, updateBlogPostDto);
 
-  try {
-    return await this.prismaService.blogPost.update({
-      where: { id },
-      data: updateBlogPostDto,
-    })
-  } catch (error) {
-    this.commonService.handleError(error, `Failed to update blog post of ID #${id}`)
+    try {
+      return await this.prismaService.blogPost.update({
+        where: { id },
+        data: updateBlogPostDto,
+      })
+    } catch (error) {
+      this.commonService.handleError(error, `Failed to update blog post of ID #${id}`)
+    }
   }
-}
 
   async remove(id: number) {
-  try {
-    const blogpost = this.prismaService.blogPost.findUnique({
-      where: { id }
-    });
+    try {
+      const blogpost = this.prismaService.blogPost.findUnique({
+        where: { id }
+      });
 
-    if (!blogpost) {
-      throw new NotFoundException(`Not found blog post of ID #${id}`)
+      if (!blogpost) {
+        throw new NotFoundException(`Not found blog post of ID #${id}`)
+      }
+
+      return await this.prismaService.blogPost.delete({
+        where: { id }
+      })
+    } catch (error) {
+      this.commonService.handleError(error, `Failed to delete blog post of ID #${id}`)
     }
-
-    return await this.prismaService.blogPost.delete({
-      where: { id }
-    })
-  } catch (error) {
-    this.commonService.handleError(error, `Failed to delete blog post of ID #${id}`)
   }
-}
 
-async likePost(id: number, userId: number) {
-  
-  try {
-    const post = await this.prismaService.blogPost.findUnique({
-      where: { id },
-      include: { likedBy: true },
-    });
+  async likePost(id: number, userId: number) {
 
-    if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
+    try {
+      const post = await this.prismaService.blogPost.findUnique({
+        where: { id },
+        include: { likedBy: { select: { id: true, name: true, email: true } } },
+      });
 
-    const alreadyLiked = post.likedBy.some(user => user.id === userId);
+      if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
 
-    // Atualiza o post com base na condição de like/deslike
-    return await this.prismaService.blogPost.update({
-      where: { id },
-      data: {
-        likes: { increment: alreadyLiked ? -1 : 1 },
-        likedBy: alreadyLiked
-          ? { disconnect: { id: userId } }
-          : { connect: { id: userId } },
-      },
-    });
-  } catch (error) {
-    console.error("Erro no likePost:", error);
-    this.commonService.handleError(error, `Failed to like or unlike blogpost of ID ${id}`);
+      const alreadyLiked = post.likedBy.some(user => user.id === userId);
+
+      // Atualiza o post com base na condição de like/deslike
+      return await this.prismaService.blogPost.update({
+        where: { id },
+        data: {
+          likes: { increment: alreadyLiked ? -1 : 1 },
+          likedBy: alreadyLiked
+            ? { disconnect: { id: userId } }
+            : { connect: { id: userId } },
+        },
+      });
+    } catch (error) {
+      console.error("Erro no likePost:", error);
+      this.commonService.handleError(error, `Failed to like or unlike blogpost of ID ${id}`);
+    }
   }
-}
 }

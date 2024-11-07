@@ -1,91 +1,59 @@
 import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException, Logger } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto, createUserSchema, updateUserSchema } from '@odonto/core';
+import { CreateUserDto, UpdateUserDto, UserResponseDto, createUserSchema, updateUserSchema, userResponseSchema } from '@odonto/core';
+import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
 
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly commonService: CommonService
+  ) { }
 
-  private validateDto(schema: any, dto: any): void {
-    const validateData = schema.safeParse(dto);
-    if (!validateData.sucess) {
-      throw new BadRequestException(validateData.error.errors);
+
+  async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
+    this.commonService.validateDto(createUserSchema, createUserDto)
+
+    const userData = {
+      ...createUserDto,
+      birthday: new Date(createUserDto.birthday).toISOString()
     }
-  }
-
-  private handleError(error: any, message: string): never {
-    this.logger.error(error, message);
-    throw new InternalServerErrorException(message);
-  }
-
-  async create(createUserDto: CreateUserDto) {
-    this.validateDto(createUserSchema, createUserDto)
     try {
-      return await this.prismaService.user.create({
-        data: {
-          email: createUserDto.email,
-          password: createUserDto.password,
-          bio: createUserDto.bio,
-          name: createUserDto.name,
-          phone: createUserDto.phone ?? null,
-          imgUrl: createUserDto.imgUrl ?? null,
-          birthday: createUserDto.birthday ?? null,
-          role: createUserDto.role,
-        },
+      const user =  await this.prismaService.user.create({
+        data: userData
       });
+      return userResponseSchema.parse(user)
     } catch (error) {
-      this.handleError(error, 'Failed to create user')
+      this.commonService.handleError(error, 'Failed to create user')
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<UserResponseDto[]> {
     try {
-      return await this.prismaService.user.findMany({
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          bio: true,
-          birthday: true,
-          phone: true,
-          role: true,
-          imgUrl: true,
-          createdAt: true,
-          updatedAt: true,
-        },
+      const users = await this.prismaService.user.findMany({
       });
+      return users.map(user =>userResponseSchema.parse(user))
     } catch (error) {
-      this.handleError(error, 'Failed to return all users')
+      this.commonService.handleError(error, 'Failed to return all users')
     }
 
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<UserResponseDto> {
     try {
       const user = await this.prismaService.user.findUnique({
         where: { id },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          bio: true,
-          birthday: true,
-          role: true,
-          imgUrl: true,
-          createdAt: true,
-          updatedAt: true,
-        },
       });
 
       if (!user) {
         throw new NotFoundException(`Not found user of ID ${id}`);
       }
 
-      return user;
+      return userResponseSchema.parse(user);
     } catch (error) {
-      this.handleError(error, 'An error occurred while fetching the speciality')
+      this.commonService.handleError(error, 'An error occurred while fetching the speciality')
     }
 
   }
@@ -105,33 +73,24 @@ export class UserService {
         where: {id},
       });
     } catch (error) {
-      this.handleError(error, `Failed to delete user of ID #${id}`);
+      this.commonService.handleError(error, `Failed to delete user of ID #${id}`);
     }
     
   }
 
 
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    // Validando os dados de entrada
-    const validatedData = updateUserSchema.safeParse(updateUserDto);
-    if (!validatedData.success) {
-      throw new BadRequestException(validatedData.error.errors);
-    }
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<UserResponseDto> {
+    this.commonService.validateDto(updateUserSchema, updateUserDto)
 
-    // Convertendo a data de aniversário se estiver presente
-    const updatedData = {
-      ...validatedData.data,
-      birthday: validatedData.data.birthday ? new Date(validatedData.data.birthday) : undefined,
-    };
 
     try {
       const user = await this.prismaService.user.update({
         where: { id },
-        data: updatedData,
+        data: {...updateUserDto}
       });
 
-      return user;
+      return userResponseSchema.parse(user);
     } catch (error) {
       console.error('Erro ao tentar atualizar usuário:', error);
       throw new InternalServerErrorException(`Falha ao atualizar usuário com ID ${id}`);
