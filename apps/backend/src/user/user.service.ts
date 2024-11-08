@@ -8,6 +8,7 @@ import {
   CreateUserDto,
   UpdateUserDto,
   UserResponseDto,
+  UserResponsePasswordDto,
   createUserSchema,
   updateUserSchema,
   userResponseSchema,
@@ -17,7 +18,6 @@ import {
 import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { UserResponsePasswordDto } from '../../../../packages/core/src/dto/user-dto';
 
 @Injectable()
 export class UserService {
