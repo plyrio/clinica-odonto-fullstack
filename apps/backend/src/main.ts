@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { patchNestjsSwagger } from '@anatine/zod-nestjs';
 
+
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors()

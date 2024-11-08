@@ -26,10 +26,20 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
-    this.commonService.validateDto(createUserSchema, createUserDto);
-    console.log('createUserDto:', createUserDto);
+    try {
+      const birthdayAsDate = new Date(createUserDto.birthday);
+      const userDtoWithDate = {
+        ...createUserDto,
+        birthday: birthdayAsDate,
+      }
+    this.commonService.validateDto(createUserSchema, userDtoWithDate);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+    
     const { password } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
+    
 
     try {
       const user = await this.prismaService.user.create({
@@ -37,13 +47,14 @@ export class UserService {
           email: createUserDto.email,
           password: hashedPassword,
           name: createUserDto.name,
-          bio: createUserDto.bio || '',
-          phone: createUserDto.phone || '',
-          birthday: new Date(createUserDto.birthday),
-          imgUrl: createUserDto.imgUrl || '',
+          bio: createUserDto.bio ? createUserDto.bio : '',
+          phone: createUserDto.phone ? createUserDto.phone : '',
+          birthday: createUserDto.birthday,
+          imgUrl: createUserDto.imgUrl ? createUserDto.imgUrl : '',
           role: createUserDto.role,
         },
       });
+      delete user.password
       return userResponseSchema.parse(user);
     } catch (error) {
       this.commonService.handleError(error, 'Failed to create user');
@@ -52,8 +63,9 @@ export class UserService {
 
   async findAll(): Promise<UserResponseDto[]> {
     try {
-      const users = await this.prismaService.user.findMany({});
-      return users.map((user) => userResponseSchema.parse(user));
+      const users = await this.prismaService.user.findMany({ });
+      console.log(users);
+       return users.map(user => userResponseSchema.parse(user));
     } catch (error) {
       this.commonService.handleError(error, 'Failed to return all users');
     }
@@ -142,6 +154,7 @@ export class UserService {
 
       const hashedNewPassword = await bcrypt.hash(newpassword, 10);
 
+    console.log(hashedNewPassword);
       try {
         const updatedUserPassword = await this.prismaService.user.update({
           where: { id },
