@@ -17,13 +17,14 @@ import {
 import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { UserResponsePasswordDto } from '../../../../packages/core/src/dto/user-dto';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly commonService: CommonService,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     try {
@@ -32,14 +33,14 @@ export class UserService {
         ...createUserDto,
         birthday: birthdayAsDate,
       }
-    this.commonService.validateDto(createUserSchema, userDtoWithDate);
+      this.commonService.validateDto(createUserSchema, userDtoWithDate);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
-    
+
     const { password } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
 
     try {
       const user = await this.prismaService.user.create({
@@ -63,9 +64,9 @@ export class UserService {
 
   async findAll(): Promise<UserResponseDto[]> {
     try {
-      const users = await this.prismaService.user.findMany({ });
+      const users = await this.prismaService.user.findMany({});
       console.log(users);
-       return users.map(user => userResponseSchema.parse(user));
+      return users.map(user => userResponseSchema.parse(user));
     } catch (error) {
       this.commonService.handleError(error, 'Failed to return all users');
     }
@@ -74,19 +75,33 @@ export class UserService {
   async findOne(id: number): Promise<UserResponseDto> {
     try {
       const user = await this.prismaService.user.findUnique({
-        where: { id },
+        where: {id}
       });
 
       if (!user) {
         throw new NotFoundException(`Not found user of ID ${id}`);
       }
 
-      return userResponseSchema.parse(user);
+      return userResponseSchema.parse(user)
     } catch (error) {
       this.commonService.handleError(
         error,
         'An error occurred while fetching the user',
       );
+    }
+  }
+
+  async findByEmail(email: string): Promise<UserResponsePasswordDto> {
+    try {
+      const user = await this.prismaService.user.findUnique({where: {email}});
+
+      if (!user) {
+        throw new NotFoundException(`Not found user with Email ${email}`)
+      }
+
+      return user
+    } catch (error) {
+      this.commonService.handleError(error, `An error occurred  while fetching user with Email ${email} `)
     }
   }
 
@@ -138,33 +153,33 @@ export class UserService {
 
     const { newpassword, oldpassword } = updatePasswordDto;
 
-       const user = await this.prismaService.user.findUnique({
-        where: { id },
-      })
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    })
 
-      if (!user) {
-        throw new NotFoundException(`User with ID ${id} not found`);
-      }
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
 
-      const isOldPassworsValid = await bcrypt.compare(oldpassword, user.password);
+    const isOldPassworsValid = await bcrypt.compare(oldpassword, user.password);
 
-      if (!isOldPassworsValid) {
-        throw new BadRequestException('Old password is incorrect');
-      }
+    if (!isOldPassworsValid) {
+      throw new BadRequestException('Old password is incorrect');
+    }
 
-      const hashedNewPassword = await bcrypt.hash(newpassword, 10);
+    const hashedNewPassword = await bcrypt.hash(newpassword, 10);
 
     console.log(hashedNewPassword);
-      try {
-        const updatedUserPassword = await this.prismaService.user.update({
-          where: { id },
-          data: { password: hashedNewPassword },
-        })
-       return userResponseSchema.parse(updatedUserPassword);
+    try {
+      const updatedUserPassword = await this.prismaService.user.update({
+        where: { id },
+        data: { password: hashedNewPassword },
+      })
+      return userResponseSchema.parse(updatedUserPassword);
     } catch (error) {
-       this.commonService.handleError(error, 'Failed to update user password');
+      this.commonService.handleError(error, 'Failed to update user password');
     }
-    
-    
+
+
   }
 }

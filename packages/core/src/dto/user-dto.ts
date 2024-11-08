@@ -30,10 +30,14 @@ export const userResponseSchema = z.object({
     updatedAt: z.date(),
 });
 
+export const userResponsePasswordSchema = z.object({
+    id: z.number(),
+}).merge(createUserSchema)
 
 export type CreateUserDto = z.infer<typeof createUserSchema>;
 export type UpdateUserDto = z.infer<typeof updateUserSchema>;
 export type UserResponseDto = z.infer<typeof userResponseSchema>;
+export type UserResponsePasswordDto = z.infer<typeof userResponsePasswordSchema>;
 
 export class CreateUserZodDto extends createZodDto(createUserSchema) { };
 export class UpdateUserZodDto extends createZodDto(updateUserSchema) { };
