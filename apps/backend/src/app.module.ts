@@ -9,9 +9,10 @@ import { BlogPostsModule } from './blog-posts/blog-posts.module';
 import { DbModule } from './db/db.module';
 import { EmployeeModule } from './employee/employee.module';
 import { CommonService } from './common/common.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule, SpecialitiesModule, AppointmentsModule, ServicesModule, BlogPostsModule, DbModule, EmployeeModule],
+  imports: [UserModule, SpecialitiesModule, AppointmentsModule, ServicesModule, BlogPostsModule, DbModule, EmployeeModule, AuthModule],
   controllers: [AppController,],
   providers: [AppService, CommonService],
 })
