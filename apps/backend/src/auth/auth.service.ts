@@ -1,3 +1,4 @@
+import { signInResponseSchema } from '@odonto/core';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
@@ -15,7 +16,7 @@ export class AuthService {
     async signIn(email: string, pass: string):Promise<{access_token: string}> {
         try {
             const user = await this.userService.findByEmail(email)
-            console.log(user)
+            console.log(signInResponseSchema.parse(user))
             const passwordMatch = await bcrypt.compare(pass, user.password)
 
             if(!passwordMatch){
