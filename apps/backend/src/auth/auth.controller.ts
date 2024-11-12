@@ -1,7 +1,7 @@
 import { UseGuards, Get, Request,  Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
-import { SignInZodDto } from '@odonto/core';
+import { SignInZodDto, RefreshTokenZodDto } from '@odonto/core';
 import { AuthGuard } from './auth.guard';
 
 @ApiTags('auth')
@@ -23,4 +23,14 @@ export class AuthController {
     getProfile(@Request() req) {
         return req.user;
     }
+
+
+    @ApiBearerAuth('refresh-token')
+    @ApiBody({ type: RefreshTokenZodDto })
+    @Post('refresh')
+  async refreshAccessToken(@Body() body: { refresh_token: string }) {
+    const { refresh_token } = body;
+      return await this.authService.refreshAccessToken(refresh_token);
+    
+  }
 }

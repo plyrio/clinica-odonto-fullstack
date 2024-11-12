@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto, UserResponseZodDto, UpdatePasswordDto, UpdatePasswordZodDto, RefreshTokenResponseZodDto, UpdateRefreshTokenDto, UpdateRefreshTokenZodDto} from '@odonto/core';
+import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto, UserResponseZodDto, UpdatePasswordDto, UpdatePasswordZodDto, RefreshTokenResponseZodDto, RefreshTokenDto, RefreshTokenZodDto} from '@odonto/core';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 
 @ApiTags('users')
@@ -56,8 +56,8 @@ export class UserController {
   @ApiResponse({ status: 400, description: 'Invalid data provided.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
-  @ApiBody({ type: UpdateRefreshTokenZodDto })
-  update(@Param('id') id: string, @Body() updateRefreshTokenDto: UpdateRefreshTokenDto) {
+  @ApiBody({ type: RefreshTokenZodDto })
+  update(@Param('id') id: string, @Body() updateRefreshTokenDto: RefreshTokenDto) {
     return this.userService.updateRefreshToken(+id, updateRefreshTokenDto);
   }
 

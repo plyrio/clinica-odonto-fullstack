@@ -14,9 +14,10 @@ import {
   userResponseSchema,
   updatePasswordSchema,
   UpdatePasswordDto,
-  updateRefreshTokenSchema,
+  refreshTokenSchema,
   RefreshTokenResponseDto,
-  UpdateRefreshTokenDto,
+  RefreshTokenResponseFullDto,
+  RefreshTokenDto,
   refreshTokenResponseSchema,
 } from '@odonto/core';
 import { CommonService } from 'src/common/common.service';
@@ -94,6 +95,25 @@ export class UserService {
     }
   }
 
+  async findByIdRefreshToken(id: number): Promise<RefreshTokenResponseFullDto> {
+    try {
+      const user = await this.prismaService.user.findUnique({
+        where: { id },
+      });
+
+      if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+
+      return user;
+    } catch (error) {
+      this.commonService.handleError(
+        error,
+        'An error occurred while fetching the user',
+      );
+    }
+  }
+
   async findByEmail(email: string): Promise<UserResponsePasswordDto> {
     try {
       const user = await this.prismaService.user.findUnique({
@@ -158,14 +178,14 @@ export class UserService {
 
   async updateRefreshToken(
     id: number,
-    updateRefreshTokenDto: UpdateRefreshTokenDto,
+    refreshTokenDto: RefreshTokenDto,
   ): Promise<RefreshTokenResponseDto> {
-    this.commonService.validateDto(updateRefreshTokenSchema, updateRefreshTokenDto);
+    this.commonService.validateDto(refreshTokenSchema, refreshTokenDto);
 
     try {
        const user = await this.prismaService.user.update({
          where: { id },
-         data: { refreshToken: updateRefreshTokenDto.refreshToken, },
+         data: { refreshToken: refreshTokenDto.refreshToken, },
        });
       return refreshTokenResponseSchema.parse(user);
     } catch (error) {
