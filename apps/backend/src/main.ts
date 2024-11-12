@@ -29,6 +29,13 @@ async function bootstrap() {
       },
       'access-token',
     )
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    },
+     'refresh-token',
+  )
     .build();
   patchNestjsSwagger();
   const document = SwaggerModule.createDocument(app, config);

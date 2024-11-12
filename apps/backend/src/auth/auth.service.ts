@@ -45,16 +45,17 @@ export class AuthService {
 
   async refreshAccessToken(refreshToken: string): Promise<{ access_token: string }> {
     try {
-      // Verifique se o refresh token é válido
+      
       const decoded = await this.jwtService.verifyAsync(refreshToken);
 
-      // Verifique se o refresh token existe no banco de dados
       const user = await this.userService.findByIdRefreshToken(decoded.sub);
+
+      
       if (!user || user.refreshToken !== refreshToken) {
         throw new UnauthorizedException('Invalid refresh token');
       }
 
-      // Se o refresh token for válido, gere um novo access token
+    
       const payload = { sub: user.id, email: user.email };
       const access_token = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
 

@@ -212,9 +212,9 @@ export class UserService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    const isOldPassworsValid = await bcrypt.compare(oldpassword, user.password);
+    const isOldPasswordValid = await bcrypt.compare(oldpassword, user.password);
 
-    if (!isOldPassworsValid) {
+    if (!isOldPasswordValid) {
       throw new BadRequestException('Old password is incorrect');
     }
 

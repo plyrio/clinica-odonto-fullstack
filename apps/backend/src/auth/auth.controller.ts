@@ -1,7 +1,7 @@
-import { UseGuards, Get, Request,  Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import { UseGuards, Get, Request,  Body, Controller, Post, HttpCode, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
-import { SignInZodDto, RefreshTokenZodDto } from '@odonto/core';
+import { SignInZodDto, RefreshTokenZodDto, RefreshTokenDto} from '@odonto/core';
 import { AuthGuard } from './auth.guard';
 
 @ApiTags('auth')
@@ -25,12 +25,18 @@ export class AuthController {
     }
 
 
-    @ApiBearerAuth('refresh-token')
-    @ApiBody({ type: RefreshTokenZodDto })
+
     @Post('refresh')
-  async refreshAccessToken(@Body() body: { refresh_token: string }) {
-    const { refresh_token } = body;
-      return await this.authService.refreshAccessToken(refresh_token);
-    
-  }
-}
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth('refresh-token')
+    async refreshAccessToken( @Request() req) {
+        const refreshToken  = req.headers['authorization']?.split(' ')[1];
+
+        
+        if (!refreshToken) {
+            throw new UnauthorizedException('Refresh token is required');
+        }
+
+        return await this.authService.refreshAccessToken(refreshToken)
+    }
+    }
