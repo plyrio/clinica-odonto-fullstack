@@ -14,18 +14,19 @@ export const createUserSchema = z.object({
   }),
     imgUrl: z.string().url().optional().or(z.literal('')).default(''),
     role: z.enum(['USER', 'PATIENT', 'EMPLOYEE', 'ADMIN']).default('USER'), 
+    refreshToken: z.string().optional().or(z.literal('')),
 });
 
 
 export const updateUserSchema = z.object({
     id: z.number(),
-}).merge(createUserSchema.omit({ password: true })).partial().extend({
-    id: z.number()
-})
+}).merge(createUserSchema.omit({ password: true, refreshToken: true })).partial().extend({
+    id: z.number(),
+});
 
 export const userResponseSchema = z.object({
     id: z.number(),
-}).merge(createUserSchema.omit({ password: true })).extend({
+}).merge(createUserSchema.omit({ password: true, refreshToken: true })).extend({
     createdAt: z.date(),
     updatedAt: z.date(),
 });
@@ -33,6 +34,7 @@ export const userResponseSchema = z.object({
 export const userResponsePasswordSchema = z.object({
     id: z.number(),
 }).merge(createUserSchema)
+
 
 export type CreateUserDto = z.infer<typeof createUserSchema>;
 export type UpdateUserDto = z.infer<typeof updateUserSchema>;

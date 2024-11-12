@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto, UserResponseZodDto, UpdatePasswordDto, UpdatePasswordZodDto } from '@odonto/core';
+import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto, UserResponseZodDto, UpdatePasswordDto, UpdatePasswordZodDto, RefreshTokenResponseZodDto, UpdateRefreshTokenDto, UpdateRefreshTokenZodDto} from '@odonto/core';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 
 @ApiTags('users')
@@ -45,9 +45,23 @@ export class UserController {
   @ApiResponse({ status: 404, description: 'User not found.' })
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   @ApiBody({ type: UpdateUserZodDto })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  updateRefreshToken(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
+
+  @Patch(':id/refreshToken')
+  @ApiOperation({ summary: 'Update  refresh_token of a user by ID' })
+  @ApiParam({ name: 'id', description: 'ID of the user to update', type: String })
+  @ApiResponse({ status: 200, description: 'User updated successfully.', type: RefreshTokenResponseZodDto })
+  @ApiResponse({ status: 400, description: 'Invalid data provided.' })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  @ApiResponse({ status: 500, description: 'Internal server error.' })
+  @ApiBody({ type: UpdateRefreshTokenZodDto })
+  update(@Param('id') id: string, @Body() updateRefreshTokenDto: UpdateRefreshTokenDto) {
+    return this.userService.updateRefreshToken(+id, updateRefreshTokenDto);
+  }
+
+  
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user by ID' })

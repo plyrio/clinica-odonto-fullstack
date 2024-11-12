@@ -10,7 +10,6 @@ import { CommonModule } from '../common/common.module';
   imports: [UserModule, JwtModule.register({
     global: true,
     secret: jwtConstants.secret,
-    signOptions: { expiresIn: '300s' },
   }), CommonModule
   ],
   controllers: [AuthController],

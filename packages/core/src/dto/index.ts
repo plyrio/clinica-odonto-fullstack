@@ -6,4 +6,5 @@ export * from './specialities-dto';
 export * from './user-dto';
 export * from './like-post-dto';
 export * from './user-password-dto';
-export * from './signin-dto'
+export * from './signin-dto';
+export * from './refreshToken-dto';

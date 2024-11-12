@@ -14,6 +14,10 @@ import {
   userResponseSchema,
   updatePasswordSchema,
   UpdatePasswordDto,
+  updateRefreshTokenSchema,
+  RefreshTokenResponseDto,
+  UpdateRefreshTokenDto,
+  refreshTokenResponseSchema,
 } from '@odonto/core';
 import { CommonService } from 'src/common/common.service';
 import { PrismaService } from 'src/db/prisma.service';
@@ -24,7 +28,7 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly commonService: CommonService,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     try {
@@ -32,7 +36,7 @@ export class UserService {
       const userDtoWithDate = {
         ...createUserDto,
         birthday: birthdayAsDate,
-      }
+      };
       this.commonService.validateDto(createUserSchema, userDtoWithDate);
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -40,7 +44,6 @@ export class UserService {
 
     const { password } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
-
 
     try {
       const user = await this.prismaService.user.create({
@@ -55,7 +58,7 @@ export class UserService {
           role: createUserDto.role,
         },
       });
-      delete user.password
+      delete user.password;
       return userResponseSchema.parse(user);
     } catch (error) {
       this.commonService.handleError(error, 'Failed to create user');
@@ -66,7 +69,7 @@ export class UserService {
     try {
       const users = await this.prismaService.user.findMany({});
       console.log(users);
-      return users.map(user => userResponseSchema.parse(user));
+      return users.map((user) => userResponseSchema.parse(user));
     } catch (error) {
       this.commonService.handleError(error, 'Failed to return all users');
     }
@@ -75,14 +78,14 @@ export class UserService {
   async findOne(id: number): Promise<UserResponseDto> {
     try {
       const user = await this.prismaService.user.findUnique({
-        where: {id}
+        where: { id },
       });
 
       if (!user) {
         throw new NotFoundException(`Not found user of ID ${id}`);
       }
 
-      return userResponseSchema.parse(user)
+      return userResponseSchema.parse(user);
     } catch (error) {
       this.commonService.handleError(
         error,
@@ -93,15 +96,20 @@ export class UserService {
 
   async findByEmail(email: string): Promise<UserResponsePasswordDto> {
     try {
-      const user = await this.prismaService.user.findUnique({where: {email}});
+      const user = await this.prismaService.user.findUnique({
+        where: { email },
+      });
 
       if (!user) {
-        throw new NotFoundException(`Not found user with Email ${email}`)
+        throw new NotFoundException(`Not found user with Email ${email}`);
       }
 
-      return user
+      return user;
     } catch (error) {
-      this.commonService.handleError(error, `An error occurred  while fetching user with Email ${email} `)
+      this.commonService.handleError(
+        error,
+        `An error occurred  while fetching user with Email ${email} `,
+      );
     }
   }
 
@@ -148,14 +156,37 @@ export class UserService {
     }
   }
 
-  async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto): Promise<UserResponseDto> {
-    this.commonService.validateDto(updatePasswordSchema, updatePasswordDto)
+  async updateRefreshToken(
+    id: number,
+    updateRefreshTokenDto: UpdateRefreshTokenDto,
+  ): Promise<RefreshTokenResponseDto> {
+    this.commonService.validateDto(updateRefreshTokenSchema, updateRefreshTokenDto);
+
+    try {
+       const user = await this.prismaService.user.update({
+         where: { id },
+         data: { refreshToken: updateRefreshTokenDto.refreshToken, },
+       });
+      return refreshTokenResponseSchema.parse(user);
+    } catch (error) {
+       throw new InternalServerErrorException(
+        `Failed to update refreToken form user of ID ${id}`)
+    }
+    
+    
+  }
+
+  async updatePassword(
+    id: number,
+    updatePasswordDto: UpdatePasswordDto,
+  ): Promise<UserResponseDto> {
+    this.commonService.validateDto(updatePasswordSchema, updatePasswordDto);
 
     const { newpassword, oldpassword } = updatePasswordDto;
 
     const user = await this.prismaService.user.findUnique({
       where: { id },
-    })
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -174,12 +205,10 @@ export class UserService {
       const updatedUserPassword = await this.prismaService.user.update({
         where: { id },
         data: { password: hashedNewPassword },
-      })
+      });
       return userResponseSchema.parse(updatedUserPassword);
     } catch (error) {
       this.commonService.handleError(error, 'Failed to update user password');
     }
-
-
   }
 }
