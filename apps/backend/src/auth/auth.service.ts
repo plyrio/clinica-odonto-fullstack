@@ -16,7 +16,6 @@ export class AuthService {
     async signIn(email: string, pass: string):Promise<{access_token: string}> {
         try {
             const user = await this.userService.findByEmail(email)
-            console.log(signInResponseSchema.parse(user))
             const passwordMatch = await bcrypt.compare(pass, user.password)
 
             if(!passwordMatch){
@@ -24,6 +23,7 @@ export class AuthService {
             }
 
             const payload = {sub: user.id, email: user.email }
+            
 
             return {
                 access_token: await this.jwtService.signAsync(payload)

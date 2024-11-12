@@ -11,7 +11,7 @@ async function bootstrap() {
   app.enableCors()
   app.useGlobalPipes(
     new ValidationPipe({
-      transform:true,
+      transform: true,
       whitelist: true,
     })
   )
@@ -21,8 +21,16 @@ async function bootstrap() {
     .setDescription('Esta API faz a gestão dos dados da clinica')
     .setVersion('1.0')
     .addTag('odontologia')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'access-token',
+    )
     .build();
-    patchNestjsSwagger();
+  patchNestjsSwagger();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
