@@ -3,6 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { patchNestjsSwagger } from '@anatine/zod-nestjs';
+import * as cookieParser from 'cookie-parser'
 
 
 
@@ -15,6 +16,7 @@ async function bootstrap() {
       whitelist: true,
     })
   )
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('Clinica Odontológica API')

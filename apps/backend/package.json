@@ -33,6 +33,7 @@
     "@prisma/client": "^5.20.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
+    "cookie-parser": "^1.4.7",
     "nestjs-zod": "^4.1.0",
     "openapi3-ts": "^4.4.0",
     "reflect-metadata": "^0.2.0",
