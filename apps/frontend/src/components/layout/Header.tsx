@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { LOGO, CLINIC_INFO} from '@/data/Data';
-import ButtonDefault from '@/components/utils/ButtonDefault';
+import { ProfileBtn } from '@/components/utils/ProfileBtn';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 export function Header() {
   const pathname = usePathname();
   const [show, setShow] = useState(false);
+  const handleOpen = () => setShow((cur) => !cur)
 
   return (
     <nav className="sticky bg-white w-full top-0 start-0  mx-auto z-50">
@@ -21,9 +22,9 @@ export function Header() {
 
       
         <div className="flex md:order-2 space-x-3 md:space-x-0">
-          <ButtonDefault text="Agendamento" variant="white-blue" />
+          <ProfileBtn />    
           <button
-            onClick={() => setShow(!show)}
+            onClick={handleOpen}
             type="button"
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
             aria-controls="navbar-sticky"
