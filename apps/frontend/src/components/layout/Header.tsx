@@ -19,10 +19,9 @@ export function Header() {
           <Image src={LOGO} height={32} width={32} alt="Clinica Logo Alt" />
           <span className="self-center text-base md:font-semibold  whitespace-nowrap">{CLINIC_INFO.name}</span>
         </Link>
-
-      
+        <ProfileBtn />
         <div className="flex md:order-2 space-x-3 md:space-x-0">
-          <ProfileBtn />    
+             
           <button
             onClick={handleOpen}
             type="button"
