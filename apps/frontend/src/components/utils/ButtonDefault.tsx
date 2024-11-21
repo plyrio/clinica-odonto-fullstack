@@ -4,11 +4,13 @@ import { twMerge } from 'tailwind-merge';
 type ButtonDefaultProps = {
   text: string;
   variant?: 'blue-white' | 'white-blue'; // Define as variações
+  className?: string;
 };
 
 export default function ButtonDefault({
   text,
   variant = 'blue-white',
+  className,
 }: ButtonDefaultProps) {
   const buttonClass =
     variant === 'blue-white'
@@ -18,7 +20,7 @@ export default function ButtonDefault({
   return (
     <button
       type="button"
-      className={twMerge(`border-none relative inline-block text-center overflow-hidden transition duration-400 rounded-full font-semibold text-[15px] px-[35px] py-[12px]  shadow-lg ${buttonClass}`)}
+      className={twMerge(`border-none relative inline-block text-center overflow-hidden transition duration-400 rounded-full font-semibold text-[15px] px-[35px] py-[12px]  shadow-lg ${buttonClass}`, className)}
     >
       {text}
     </button>

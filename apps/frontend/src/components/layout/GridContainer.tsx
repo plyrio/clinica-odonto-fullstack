@@ -1,10 +1,10 @@
 import React from 'react';
-import { twMerge } from 'tailwind-merge'; // Importa o twMerge
+import { twMerge } from 'tailwind-merge'; 
 
 type GridContainerProps = {
     children: React.ReactNode;
-    className?: string; // Classes adicionais opcionais
-    gridClassName?: string; // Classes específicas para o grid
+    className?: string; 
+    gridClassName?: string; 
 };
 
 export default function GridContainer({ children, className, gridClassName }: GridContainerProps) {
