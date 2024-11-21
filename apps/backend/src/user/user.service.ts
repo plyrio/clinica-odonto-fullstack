@@ -29,7 +29,7 @@ export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly commonService: CommonService,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     try {
@@ -69,7 +69,6 @@ export class UserService {
   async findAll(): Promise<UserResponseDto[]> {
     try {
       const users = await this.prismaService.user.findMany({});
-      console.log(users);
       return users.map((user) => userResponseSchema.parse(user));
     } catch (error) {
       this.commonService.handleError(error, 'Failed to return all users');
@@ -183,17 +182,17 @@ export class UserService {
     this.commonService.validateDto(refreshTokenSchema, refreshTokenDto);
 
     try {
-       const user = await this.prismaService.user.update({
-         where: { id },
-         data: { refreshToken: refreshTokenDto.refreshToken, },
-       });
+      const user = await this.prismaService.user.update({
+        where: { id },
+        data: { refreshToken: refreshTokenDto.refreshToken, },
+      });
       return refreshTokenResponseSchema.parse(user);
     } catch (error) {
-       throw new InternalServerErrorException(
+      throw new InternalServerErrorException(
         `Failed to update refreToken form user of ID ${id}`)
     }
-    
-    
+
+
   }
 
   async updatePassword(

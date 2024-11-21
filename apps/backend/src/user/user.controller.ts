@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto, UserResponseZodDto, UpdatePasswordDto, UpdatePasswordZodDto, RefreshTokenResponseZodDto, RefreshTokenDto, RefreshTokenZodDto} from '@odonto/core';
+import { CreateUserDto, UpdateUserDto, CreateUserZodDto, UpdateUserZodDto, UserResponseZodDto, UpdatePasswordDto, UpdatePasswordZodDto, RefreshTokenResponseZodDto, RefreshTokenDto, RefreshTokenZodDto } from '@odonto/core';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 
-@ApiTags('users')
+@ApiTags('Users')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
@@ -61,7 +61,7 @@ export class UserController {
     return this.userService.updateRefreshToken(+id, updateRefreshTokenDto);
   }
 
-  
+
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user by ID' })
@@ -76,10 +76,10 @@ export class UserController {
 
   @Patch(':id/password')
   @ApiOperation({ summary: 'Update user password' })
-  @ApiResponse({ status: 200, description: 'Password successfully updated.'})
+  @ApiResponse({ status: 200, description: 'Password successfully updated.' })
   @ApiResponse({ status: 400, description: 'Invalid data or old password.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiBody({ type: UpdatePasswordZodDto})
+  @ApiBody({ type: UpdatePasswordZodDto })
   async updatePassword(
     @Param('id') id: string,
     @Body() updatePasswordDto: UpdatePasswordDto

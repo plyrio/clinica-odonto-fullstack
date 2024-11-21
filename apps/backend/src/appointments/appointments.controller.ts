@@ -1,12 +1,15 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { createAppointmentSchema, updateAppointmentSchema, CreateAppointmentDto, UpdateAppointmentDto } from '@odonto/core';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Appointments')
 @Controller('appointments')
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Post()
+  
   create(@Body() createAppointmentDto: CreateAppointmentDto) {
     return this.appointmentsService.create(createAppointmentDto);
   }
