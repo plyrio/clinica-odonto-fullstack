@@ -1,19 +1,15 @@
-// src/app/blog/[id]/page.tsx
 import Hero from "@/components/sections/Hero";
 import { blogArticles } from "@/data/blogData";
 import { notFound } from 'next/navigation';
 
-interface ArticlePageProps {
-    params: {
-        id: number;
-    };
-}
-
-const ArticlePage = ({ params }: ArticlePageProps) => {
-    const article = blogArticles.find((article) => article.id);
+export default async function ArticlePage ({params}: {params: Promise<{id: string}>}) {
+    
+    const id = (await params).id;
+    
+    const article = blogArticles.find((article) => article.id === Number(id));
 
     if (!article) {
-        notFound(); // Redireciona para uma página 404 se o artigo não existir
+      return  notFound();
     }
 
     return (
@@ -29,5 +25,3 @@ const ArticlePage = ({ params }: ArticlePageProps) => {
         </>
     );
 };
-
-export default ArticlePage;
