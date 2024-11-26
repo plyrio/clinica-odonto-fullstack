@@ -70,7 +70,7 @@ export function Header() {
 
           {/*Mobile Menu open: "block", Menu closed: "hidden" */}
           <div
-            className={`${open ? `translate-x-0 opacity-100` : `opacity-0 -translate-x-full`} absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center`}
+            className={`${open ? `translate-x-0 opacity-100` : `opacity-0 -translate-x-full`} flex inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center`}
           >
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:space-x-8  md:flex-row md:mt-0 md:border-0 md:items-center">
               <li className="transition-colors duration-300 transform rounded-md md:mt-0 hover:bg-gray-100 p-3">
@@ -129,18 +129,17 @@ export function Header() {
                   Contatos
                 </Link>
               </li>
-            </ul>
-
-            <div className="flex items-center mt-4 md:mt-0 md:ms-12">
-              <ButtonDefault
+              <li className="md:mt-0 p-3">
+                <ButtonDefault
                 text="Agendamento"
                 variant="white-blue"
-                className="me-2"
+                className="block py-2"
               />
-
+              </li>
+              <li className="md:mt-0 p-3">
               <button
                 type="button"
-                className="flex items-center focus:outline-none"
+                className="flex py-2 items-center focus:outline-none"
                 aria-label="toggle profile dropdown"
               >
                 <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
@@ -152,8 +151,9 @@ export function Header() {
                 </div>
 
                 <h3 className="mx-2 text-gray-700 md:hidden">Khatab wedaa</h3>
-              </button>
-            </div>
+              </button></li>
+            </ul>
+            
           </div>
         </div>
       </div>
