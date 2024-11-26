@@ -11,7 +11,7 @@ const navLinks = [
         href: "/",
     },
     {
-        name: "Sobre Nós",
+        name: "Sobre",
         href: "/sobre",
     },
     {
