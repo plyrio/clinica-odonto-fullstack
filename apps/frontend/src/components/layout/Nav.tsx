@@ -49,7 +49,7 @@ export const Nav = () => {
 
     return (
         <nav className="sticky bg-white shadow w-full top-0 start-0  mx-auto z-50">
-            <div className="container mx-auto">
+            <div className="container mx-auto px-6 py-4 md:py-0 md:px-0">
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="flex items-center justify-between">
                         <Link href="#" className="flex items-center">
@@ -117,14 +117,14 @@ export const Nav = () => {
                     >
                         <ul className="flex flex-col -mx-6 md:flex-row md:items-center md:mx-8">
                             {navLinks.map((link) => (
-                                <li key={link.name} className={` transition-colors duration-300 tranform rounded-md hover:md:bg-gray-100  ${pathname === link.href ? " md:text-brand-primary" : " text-gray-700"}`}
-                                    aria-current={pathname === link.href ? "page" : undefined} >
-
-                                     
+                                <li key={link.name} onClick={link.name === "Mais" ? handleDrop : undefined}
+                                      
+                                    className={`px-3 py-2 mx-3 md:mx-0 my-1 transition-colors duration-300 tranform rounded-md hover:md:bg-gray-100  ${pathname === link.href ? " md:text-brand-primary" : " text-gray-700"}`}
+                                    aria-current={pathname === link.href ? "page" : undefined} > 
                                     <Link
-                                        onClick={link.name === "Mais" ? handleDrop : undefined}
+        
                                         href={link.href}
-                                        className={`px-3 py-2 mx-3 md:mx-0 my-1 transition-colors duration-300 tranform rounded-md md:mt-0 hover:bg-gray-100  ${pathname === link.href ? " md:text-brand-primary" : " text-gray-700"}`}
+                                        className={`flex inline-flex px-3 py-2 mx-3 md:mx-0 my-1 transition-colors duration-300 tranform rounded-md hover:bg-gray-100  ${pathname === link.href ? " md:text-brand-primary" : " text-gray-700"}`}
                                         aria-current={pathname === link.href ? "page" : undefined}
                                     >
                                         {link.name}
@@ -142,7 +142,7 @@ export const Nav = () => {
                                                     <Link
                                                         key={subLink.name}
                                                         href={subLink.href}
-                                                        className={`px-3 py-2 mx-3 md:mx-0 my-1 transition-colors duration-300 tranform rounded-md md:mt-0 hover:bg-gray-100  ${pathname === subLink.href ? " md:text-brand-primary" : " text-gray-700"}`}
+                                                        className={`px-3 py-2 mx-3 ms-2 md:ms-0 md:mx-0 my-1 transition-colors duration-300 tranform rounded-md hover:bg-gray-100  ${pathname === subLink.href ? " md:text-brand-primary" : " text-gray-700"}`}
                                                     >
                                                         {subLink.name}
                                                     </Link>
