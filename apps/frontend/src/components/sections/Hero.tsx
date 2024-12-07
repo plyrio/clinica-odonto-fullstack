@@ -26,7 +26,7 @@ export default function Hero({ title,
   
   return (
 
-    <div className={twMerge(` bg-cover bg-no-repeat bg-center ${isHome ? 'h-[700px]' : 'h-[19rem]'} bg-${backgroundClass}`, className)}>
+    <div className={twMerge(` bg-cover bg-no-repeat bg-center ${isHome ? 'h-[565px]' : 'h-[19rem]'} bg-${backgroundClass}`, className)}>
       <div className="flex items-center justify-center h-full relative"  >
         <div className="absolute inset-0 bg-gray-600/40"></div>
         <div className="text-center max-w-screen-sm relative">

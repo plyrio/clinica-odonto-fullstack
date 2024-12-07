@@ -119,7 +119,7 @@ export const Nav = () => {
                   onClick={link.name === "Mais" ? handleDrop : undefined}>
                   <Link
                     href={link.href}
-                    className={`flex inline-flex px-6 md:px-3 py-4 items-start w-full shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shadow-gray-400 ${
+                    className={`flex inline-flex px-6 md:px-3 py-4 items-start w-full shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shad1w-blue-400 ${
                       pathname === link.href
                         ? " md:text-brand-primary"
                         : " text-gray-700"
@@ -131,9 +131,15 @@ export const Nav = () => {
                         className='w-5 h-5'
                         fill='none'
                         xmlns='http://www.w3.org/2000/svg'>
-                        <path
-                          d='M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 8.28799L5.98999 9.70199L12 15.713Z'
-                          fill='currentColor'></path>
+                        {!drop ? (
+                          <path
+                            d='M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 8.28799L5.98999 9.70199L12 15.713Z'
+                            fill='currentColor'></path>
+                        ) : (
+                          <path
+    d='M12 8.287L5.99 14.297L7.404 15.712L12 11.112L16.596 15.712L18.01 14.298L12 8.287Z'
+    fill='currentColor'></path>
+                        )}
                       </svg>
                     ) : null}
                   </Link>
