@@ -1,66 +1,104 @@
 "use client";
-import React, { useState } from "react";
-import ButtonDefault from "../utils/ButtonDefault";
+import React, {useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { LOGO, CLINIC_INFO } from "@/data/Data";
+import {LOGO, CLINIC_INFO} from "@/data/Data";
+import {usePathname} from "next/navigation";
 
-export function Header() {
+const navLinks = [
+  {
+    name: "Início",
+    href: "/"
+  },
+  {
+    name: "Serviços",
+    href: "/servicos"
+  },
+  {
+    name: "Mais",
+    href: "",
+    dropDown: [
+      {
+        name: "Sobre Nós",
+        href: "/sobre"
+      },
+      {
+        name: "Profissionais",
+        href: "/profissionais"
+      },
+      {
+        name: "Blog",
+        href: "/blog"
+      }
+    ]
+  },
+  {
+    name: "Contato",
+    href: "/contatos"
+  }
+];
+
+export const Header = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
+  const [drop, setDrop] = useState(false);
+  const handleDrop = () => setDrop((cur) => !cur);
+
   return (
-    <nav className="sticky bg-white shadow w-full top-0 start-0  mx-auto z-50">
-      <div className="container px-6 py-4 mx-auto">
-        <div className="md:flex md:items-center md:justify-between">
-          <div className="flex items-center justify-between">
-            <Link href="#" className="flex items-center space-x-3">
-              <Image src={LOGO} height={32} width={32} alt="Clinica Logo Alt" />
-              <span className="self-center text-base md:font-semibold  whitespace-nowrap">
+    <nav className='sticky bg-white shadow w-full top-0 start-0  mx-auto z-50'>
+      <div className='container mx-auto px-6 py-4 md:py-0 md:px-0'>
+        <div className='md:flex md:items-center md:justify-between'>
+          <div className='flex items-center justify-between'>
+            <Link href='#' className='flex items-center'>
+              <Image
+                src={LOGO}
+                height={32}
+                width={32}
+                className='me-1'
+                alt='Clinica Logo Alt'
+              />
+              <span className='self-center text-base md:font-semibold  whitespace-nowrap'>
                 {CLINIC_INFO.name}
               </span>
             </Link>
 
-            {/*Mobile menu button */}
-            <div className="flex md:hidden">
+            {/* Mobile menu button */}
+            <div className='flex md:hidden'>
               <button
+                type='button'
                 onClick={handleOpen}
-                type="button"
-                className="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
                 aria-expanded={open}
-                aria-controls="menu-open"
-                aria-label="toggle menu"
-              >
+                aria-controls='toggle-menu'
+                className='text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600'
+                aria-label='toggle menu'>
                 {!open ? (
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className=" w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='w-6 h-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    strokeWidth='2'>
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 8h16M4 16h16"
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M4 8h16M4 16h16'
                     />
                   </svg>
                 ) : (
                   <svg
-                    x-xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='w-6 h-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    strokeWidth='2'>
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M6 18L18 6M6 6l12 12'
                     />
                   </svg>
                 )}
@@ -68,95 +106,108 @@ export function Header() {
             </div>
           </div>
 
-          {/*Mobile Menu open: "block", Menu closed: "hidden" */}
+          {/* Mobile Menu open: "block", Menu closed: "hidden" */}
           <div
-            className={`${open ? `translate-x-0 opacity-100` : `opacity-0 -translate-x-full`} flex inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center`}
-          >
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:space-x-8  md:flex-row md:mt-0 md:border-0 md:items-center">
-              <li className="transition-colors duration-300 transform rounded-md md:mt-0 hover:bg-gray-100 p-3">
-                <Link
-                  href="/"
-                  className={`block py-2    rounded md:bg-transparent  ${pathname === "/" ? " md:text-brand-primary" : " text-gray-900"} md:p-0`}
-                  aria-current={pathname === "/" ? "page" : undefined}
-                >
-                  Início
-                </Link>
-              </li>
-              <li className="transition-colors duration-300 transform rounded-md md:mt-0 hover:bg-gray-100 p-3">
-                <Link
-                  href="/sobre"
-                  className={`block py-2    rounded md:bg-transparent ${pathname === "/sobre" ? " md:text-brand-primary" : " text-gray-900"} md:p-0`}
-                  aria-current={pathname === "/sobre" ? "page" : undefined}
-                >
-                  Sobre
-                </Link>
-              </li>
-              <li className="transition-colors duration-300 transform rounded-md md:mt-0 hover:bg-gray-100 p-3">
-                <Link
-                  href="/servicos"
-                  className={`block py-2    rounded md:bg-transparent ${pathname === "/servicos" ? " md:text-brand-primary" : " text-gray-900"} md:p-0`}
-                  aria-current={pathname === "/servicos" ? "page" : undefined}
-                >
-                  Serviços
-                </Link>
-              </li>
-              <li className="transition-colors duration-300 transform rounded-md md:mt-0 hover:bg-gray-100 p-3">
-                <Link
-                  href="/profissionais"
-                  className={`block py-2   rounded md:bg-transparent ${pathname === "/profissionais" ? " md:text-brand-primary" : " text-gray-900"} md:p-0`}
-                  aria-current={
-                    pathname === "/profissionais" ? "page" : undefined
-                  }
-                >
-                  Profissionais
-                </Link>
-              </li>
-              <li className="transition-colors duration-300 transform rounded-md md:mt-0 hover:bg-gray-100 p-3">
-                <Link
-                  href="/blog"
-                  className={`block py-2    rounded md:bg-transparent ${pathname === "/blog" ? " md:text-brand-primary" : " text-gray-900"} md:p-0`}
-                  aria-current={pathname === "/blog" ? "page" : undefined}
-                >
-                  Blog
-                </Link>
-              </li>
-              <li className="transition-colors duration-300 transform rounded-md md:mt-0 hover:bg-gray-100 p-3">
-                <Link
-                  href="/contatos"
-                  className={`block py-2   rounded md:bg-transparent ${pathname === "/contatos" ? " md:text-brand-primary" : " text-gray-900"} md:p-0`}
-                  aria-current={pathname === "/contatos" ? "page" : undefined}
-                >
-                  Contatos
-                </Link>
-              </li>
-              <li className="md:mt-0 p-3">
-                <ButtonDefault
-                text="Agendamento"
-                variant="white-blue"
-                className="block py-2"
-              />
-              </li>
-              <li className="md:mt-0 p-3">
+            className={`${
+              open ? `translate-x-0 opacity-100` : `opacity-0 -translate-x-full`
+            } absolute inset-x-0 z-20 w-full py-4 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center shadow-sm`}
+            id='toggle-menu'>
+            <ul className='flex flex-col md:flex-row md:items-center md:mx-0'>
+              {navLinks.map((link) => (
+                <li
+                  key={link.name}
+                  onClick={link.name === "Mais" ? handleDrop : undefined}>
+                  <Link
+                    href={link.href}
+                    className={`flex inline-flex px-6 md:px-3 py-4 items-start w-full shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shad1w-blue-400 ${
+                      pathname === link.href
+                        ? " md:text-brand-primary"
+                        : " text-gray-700"
+                    }`}
+                    aria-current={pathname === link.href ? "page" : undefined}>
+                    {link.name}
+                    {link.name === "Mais" ? (
+                      <svg
+                        className='w-5 h-5'
+                        fill='none'
+                        xmlns='http://www.w3.org/2000/svg'>
+                        {!drop ? (
+                          <path
+                            d='M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 8.28799L5.98999 9.70199L12 15.713Z'
+                            fill='currentColor'></path>
+                        ) : (
+                          <path
+                            d='M12 8.287L5.99 14.297L7.404 15.712L12 11.112L16.596 15.712L18.01 14.298L12 8.287Z'
+                            fill='currentColor'></path>
+                        )}
+                      </svg>
+                    ) : null}
+                  </Link>
+                  {link.dropDown ? (
+                    <ul
+                      id='dropDownMenu'
+                      className={`${
+                        drop
+                          ? `translate-x-0 opacity-100`
+                          : `opacity-0 -translate-x-full hidden`
+                      } flex flex-col md:absolute md:bg-white rounded md:shadow`}>
+                      {link.dropDown.map((subLink) => (
+                        <li key={subLink.name}>
+                          <Link
+                            href={subLink.href}
+                            className={`flex flex-col items-start px-10 md:px-4 py-4 md:py-2  md:mx-0 shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shadow-gray-400  ${
+                              pathname === subLink.href
+                                ? " md:text-brand-primary"
+                                : " text-gray-700"
+                            }`}>
+                            {subLink.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+
+            <hr className='my-1 md:hidden'></hr>
+            <div className='flex items-center mt-md:mt-0'>
               <button
-                type="button"
-                className="flex py-2 items-center focus:outline-none"
-                aria-label="toggle profile dropdown"
-              >
-                <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
+                className='hidden mx-4 text-gray-600 transition-colors duration-300 transform md:block hover:text-gray-700 focus:text-gray-700 focus:outline-none'
+                aria-label='show notifications'>
+                <svg
+                  className='w-6 h-6'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    d='M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
+              </button>
+
+              <button
+                type='button'
+                className='flex items-center focus:outline-none px-6 md:px-3 py-4 items-start '
+                aria-label='toggle profile dropdown'>
+                <div className='w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full'>
                   <img
-                    src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                    className="object-cover w-full h-full"
-                    alt="avatar"
+                    src='https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80'
+                    className='object-cover w-full h-full'
+                    alt='avatar'
                   />
                 </div>
 
-                <h3 className="mx-2 text-gray-700 md:hidden">Khatab wedaa</h3>
-              </button></li>
-            </ul>
-            
+                <h3 className='mx-2 text-gray-700 md:hidden'>Khatab wedaa</h3>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </nav>
   );
-}
+};
