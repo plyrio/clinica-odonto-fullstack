@@ -18,9 +18,7 @@ export const createUserSchema = z.object({
 });
 
 
-export const updateUserSchema = z.object({
-    id: z.number(),
-}).merge(createUserSchema.omit({ password: true, refreshToken: true })).partial().extend({
+export const updateUserSchema = createUserSchema.omit({ password: true, refreshToken: true }).partial().extend({
     id: z.number(),
 });
 
