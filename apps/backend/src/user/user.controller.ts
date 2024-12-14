@@ -95,26 +95,23 @@ export class UserController {
   @ApiResponse({status: 404, description: "User not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiBody({type: UpdateUserZodDto})
-  updateRefreshToken(
-    @Param("id") id: string,
-    @Body() updateUserDto: UpdateUserDto
-  ) {
+  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
   @Patch(":id/refreshToken")
   @ApiOperation({summary: "Update  refresh_token of a user by ID"})
-  @ApiParam({name: "id", description: "ID of the user to update", type: String})
+  @ApiParam({name: "id", description: "ID of the user to update refresh_token", type: String})
   @ApiResponse({
     status: 200,
-    description: "User updated successfully.",
+    description: "User refresh_token updated successfully.",
     type: RefreshTokenResponseZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 404, description: "User not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiBody({type: RefreshTokenZodDto})
-  update(
+  updateRefreshToken(
     @Param("id") id: string,
     @Body() updateRefreshTokenDto: RefreshTokenDto
   ) {

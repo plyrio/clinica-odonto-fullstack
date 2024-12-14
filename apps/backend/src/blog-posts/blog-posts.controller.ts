@@ -17,10 +17,10 @@ import {
   BlogPostResponseZodDto
 } from "@odonto/core";
 import {
-  ApiBody,
   ApiTags,
   ApiOperation,
   ApiResponse,
+  ApiBody,
   ApiParam
 } from "@nestjs/swagger";
 
@@ -30,10 +30,10 @@ export class BlogPostsController {
   constructor(private readonly blogPostsService: BlogPostsService) {}
 
   @Post()
-  @ApiOperation({summary: "Create a new blog-post"})
+  @ApiOperation({summary: "Create a new post"})
   @ApiResponse({
     status: 201,
-    description: "Blog-post created successfully.",
+    description: "Post created successfully.",
     type: CreateBlogPostZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
@@ -44,10 +44,10 @@ export class BlogPostsController {
   }
 
   @Get()
-  @ApiOperation({summary: "Retrieve a list of blog-posts"})
+  @ApiOperation({summary: "Retrieve a list of posts"})
   @ApiResponse({
     status: 200,
-    description: "Blog-posts retrieved successfully.",
+    description: "Posts retrieved successfully.",
     type: [BlogPostResponseZodDto]
   })
   @ApiResponse({status: 500, description: "Internal server error."})
@@ -57,37 +57,37 @@ export class BlogPostsController {
   }
 
   @Get(":id")
-  @ApiOperation({summary: "Retrieve a blog-post by ID"})
+  @ApiOperation({summary: "Retrieve a post by ID"})
   @ApiParam({
     name: "id",
-    description: "ID of the blog-post to retrieve",
+    description: "ID of the post to retrieve",
     type: String
   })
   @ApiResponse({
     status: 200,
-    description: "Blog-post found successfully.",
+    description: "Post found successfully.",
     type: BlogPostResponseZodDto
   })
-  @ApiResponse({status: 404, description: "Blog-post not found."})
+  @ApiResponse({status: 404, description: "Post not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   findOne(@Param("id") id: string) {
     return this.blogPostsService.findOne(+id);
   }
 
   @Patch(":id")
-  @ApiOperation({summary: "Update a blog-post by ID"})
+  @ApiOperation({summary: "Update a post by ID"})
   @ApiParam({
     name: "id",
-    description: "ID of the blog-post to update",
+    description: "ID of the post to update",
     type: String
   })
   @ApiResponse({
     status: 200,
-    description: "Blog-post updated successfully.",
+    description: "Post updated successfully.",
     type: BlogPostResponseZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
-  @ApiResponse({status: 404, description: "Blog-post not found."})
+  @ApiResponse({status: 404, description: "Post not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiBody({type: UpdateBlogPostZodDto})
   update(
@@ -98,14 +98,14 @@ export class BlogPostsController {
   }
 
   @Delete(":id")
-  @ApiOperation({summary: "Delete a blog-post by ID"})
+  @ApiOperation({summary: "Delete a post by ID"})
   @ApiParam({
     name: "id",
-    description: "ID of the blog-post to delete",
+    description: "ID of the post to delete",
     type: String
   })
-  @ApiResponse({status: 200, description: "Blog-post deleted successfully."})
-  @ApiResponse({status: 404, description: "Blog-post not found."})
+  @ApiResponse({status: 200, description: "Post deleted successfully."})
+  @ApiResponse({status: 404, description: "Post not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
   remove(@Param("id") id: string) {
@@ -113,14 +113,14 @@ export class BlogPostsController {
   }
 
   @Patch(":id/like")
-  @ApiOperation({summary: "Give a like to blog-post by ID"})
+  @ApiOperation({summary: "Give a like or unlike to post by ID"})
   @ApiParam({
     name: "id",
-    description: "ID of the blog-post to like",
+    description: "ID of the post to like",
     type: String
   })
-  @ApiResponse({status: 200, description: "Blog-post liked successfully."})
-  @ApiResponse({status: 404, description: "Blog-post not found."})
+  @ApiResponse({status: 200, description: "Post liked or unliked successfully."})
+  @ApiResponse({status: 404, description: "Post not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
   @ApiBody({type: LikePostZodDto})

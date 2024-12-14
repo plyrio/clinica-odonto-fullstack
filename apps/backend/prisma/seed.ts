@@ -4,19 +4,20 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 async function main() {
-    // Criação das especialidades e serviços
+    // Criação das especialidades
     const specialties = await Promise.all(
         ['Ortodontia', 'Implantodontia', 'Endodontia', 'Periodontia', 'Prótese', 'Odontopediatria', 'Estética'].map(
             async (specialityName) => {
                 return prisma.speciality.upsert({
                     where: { name: specialityName },
                     update: {},
-                    create: { name: specialityName, description: faker.lorem.paragraph(2), },
+                    create: { name: specialityName, description: faker.lorem.paragraph(2) },
                 });
             }
         )
     );
 
+    // Criação dos serviços
     const services = await Promise.all(
         [
             { name: 'Limpeza', slots: 5 },
@@ -29,19 +30,24 @@ async function main() {
             { name: 'Facetas', slots: 2 },
         ].map(async ({ name, slots }) => {
             return prisma.service.upsert({
-                where: { name: name },
+                where: { name },
                 update: {},
-                create: { name: name, imgUrl: faker.image.avatar(), slots: slots, description: faker.lorem.paragraph(2) },
+                create: { name, imgUrl: faker.image.avatar(), slots, description: faker.lorem.paragraph(2) },
             });
         })
     );
 
     const employees: any[] = [];
+    const doctors: any[] = [];
 
-    for (let i = 0; i < 20; i++) {
-        const isEmployee = i < 8;
+    // Criar 40 usuários
+    for (let i = 0; i < 40; i++) {
+        const isEmployee = i < 12; // Apenas 12 primeiros são funcionários
+        const role = isEmployee
+            ? faker.helpers.arrayElement(['DOCTOR', 'NURSE', 'RECEPTIONIST'])
+            : 'PATIENT';
 
-        // Criação do usuário (funcionário ou paciente)
+        // Criação do usuário
         const user = await prisma.user.create({
             data: {
                 email: faker.internet.email(),
@@ -50,73 +56,80 @@ async function main() {
                 bio: faker.lorem.paragraph(2),
                 phone: faker.phone.number({ style: 'international' }),
                 birthday: faker.date.birthdate(),
-                role: 'USER',
+                role,
                 imgUrl: faker.image.avatar(),
-                employee: isEmployee
-                    ? {
-                        create: {
-                            role: faker.helpers.arrayElement(['DOCTOR', 'NURSE', 'RECEPTIONIST']),
-                            specialties: {
-                                connect: specialties
-                                    .sort(() => 0.5 - Math.random())
-                                    .slice(0, Math.floor(Math.random() * specialties.length) + 1)
-                                    .map((speciality) => ({ id: speciality.id })),
-                            },
-                            services: {
-                                connect: services
-                                    .sort(() => 0.5 - Math.random())
-                                    .slice(0, Math.floor(Math.random() * services.length) + 1)
-                                    .map((service) => ({ id: service.id })),
-                            },
-                        },
-                    }
-                    : undefined,
             },
         });
 
         if (isEmployee) {
-            employees.push(user);
-            console.log(`Funcionário criado: ${user.id} - ${user.name}`);
+            console.log(`Funcionário criado: ${user.id} - ${user.name} (${role})`);
 
-            // Criar postagem de blog com uma chance de 70%
-            if (Math.random() < 0.7) {
-                const employee = await prisma.employee.findUnique({ where: { userId: user.id } });
-                if (employee) {
+            if (role === 'DOCTOR') {
+                // Associar especialidades e serviços
+                const assignedSpecialties = specialties
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, Math.floor(Math.random() * specialties.length) + 1);
+
+                const assignedServices = services
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, Math.floor(Math.random() * services.length) + 1);
+
+                // Atualizar funcionário com especialidades e serviços
+                await prisma.user.update({
+                    where: { id: user.id },
+                    data: {
+                        specialties: {
+                            connect: assignedSpecialties.map((specialty) => ({ id: specialty.id })),
+                        },
+                        services: {
+                            connect: assignedServices.map((service) => ({ id: service.id })),
+                        },
+                    },
+                });
+
+                // Criar postagem de blog com chance de 70%
+                if (Math.random() < 0.7) {
                     await prisma.blogPost.create({
                         data: {
                             title: faker.lorem.sentence(),
                             content: faker.lorem.paragraphs(2),
-                            employeeId: employee.id,
+                            authorId: user.id,
                             imgUrl: faker.image.avatar(),
                         },
                     });
-                    console.log(`Post criado para o funcionário: ${employee.id}`);
+                    console.log(`Post criado para o médico: ${user.id}`);
                 }
+
+                doctors.push(user);
+            } else {
+                employees.push(user);
             }
         } else {
             console.log(`Usuário criado: ${user.id} - ${user.name}`);
+        }
+    }
 
-            // Criar agendamentos com chance de 50%
-            if (Math.random() < 0.5) {
-                const randomAppointments = Math.floor(Math.random() * 5) + 1;
-                for (let j = 0; j < randomAppointments; j++) {
-                    const employeeId = employees[Math.floor(Math.random() * employees.length)].id;
+    // Criar agendamentos para pacientes com médicos
+    for (let i = 0; i < 28; i++) {
+        const patient = await prisma.user.findFirst({ where: { role: 'PATIENT' } });
 
-                    console.log(`Criando consulta para usuário ${user.id} com funcionário ${employeeId}`);
+        if (patient) {
+            const doctor = doctors[Math.floor(Math.random() * doctors.length)];
+            const service = services[Math.floor(Math.random() * services.length)];
 
-                    await prisma.appointment.create({
-                        data: {
-                            userId: user.id,
-                            employeeId: employeeId,
-                            serviceId: services[Math.floor(Math.random() * services.length)].id,
-                            date: faker.date.soon({ days: 30 }),
-                            status: 'PENDING',
-                        },
-                    });
-                }
-            } else {
-                console.log(`Usuário ${user.id} não tem agendamentos`);
-            }
+            await prisma.appointment.create({
+                data: {
+                    userId: patient.id,
+                    employeeId: doctor.id,
+                    serviceId: service.id,
+                    date: faker.date.soon({ days: 30 }),
+                    status: faker.helpers.arrayElement(['PENDING', 'CONFIRMED']),
+                },
+            });
+
+            console.log(
+                `Consulta criada: Paciente ${patient.id} com Médico ${doctor.id} para o serviço ${service.name}`
+            );
         }
     }
 }

@@ -9,63 +9,50 @@ datasource db {
 
 model User {
   id             Int            @id @default(autoincrement())
+  googleId       String?        @unique
   email          String         @unique
-  password       String
+  password       String?
   name           String
   phone          String?        
   birthday       DateTime?      
   bio            String?
-  role           Role
-  appointment    Appointment[]
+  role           Role[]        
+  specialties    Speciality[]  @relation("EmployeeSpecialties")
+  services       Service[]     @relation("EmployeeServices")
+  blogs          BlogPost[]        @relation("EmployeeBlogs")
+  employeeAppointments  Appointment[] @relation("EmployeeAppointment")
+  patientAppointments   Appointment[] @relation("UserAppointment")
   imgUrl         String?
   refreshToken   String?
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  employee       Employee?
   likedPosts     BlogPost[]     @relation("UserLikes")     
-}
-
-model Employee {
-  id           Int             @id @default(autoincrement())
-  user         User            @relation(fields: [userId], references: [id])
-  userId       Int             @unique 
-  role         EmployeeRole    // Role do funcionário
-  specialties  Speciality[]    @relation("DoctorSpecialties")
-  services     Service[]
-  appointments Appointment[]
-  blogs        BlogPost[]
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
 }
 
 enum Role {
   USER
   PATIENT
-  EMPLOYEE
   ADMIN
-}
-
-enum EmployeeRole {
   DOCTOR
   NURSE
   RECEPTIONIST
-  // Outros cargos de funcionários
+  MANAGER
 }
 
 model Speciality {
   id          Int           @id @default(autoincrement())
   name        String        @unique
   description String?
-  employees   Employee[]    @relation("DoctorSpecialties")
+  employees   User[]    @relation("EmployeeSpecialties")
 }
 
 model Appointment {
   id        Int               @id @default(autoincrement())
-  user      User              @relation(fields: [userId], references: [id])
+  user      User              @relation("UserAppointment", fields: [userId], references: [id])
   userId    Int
-  employee  Employee          @relation(fields: [employeeId], references: [id])
+  employee  User              @relation("EmployeeAppointment", fields: [employeeId], references: [id])
   employeeId Int
-  service   Service?          @relation(fields: [serviceId], references: [id])
+  service    Service?          @relation("AppointmentService", fields: [serviceId], references: [id])
   serviceId Int?
   status    AppointmentStatus
   date      DateTime
@@ -83,10 +70,10 @@ model Service {
   id           Int           @id @default(autoincrement())
   name         String        @unique
   description  String?
-  imgUrl       String
+  imgUrl       String?
   slots        Int 
-  employees    Employee[]
-  appointments Appointment[]
+  employees    User[]        @relation("EmployeeServices")
+  appointments Appointment[] @relation("AppointmentService")
 }
 
 model BlogPost {
@@ -94,8 +81,8 @@ model BlogPost {
   title        String
   content      String
   imgUrl       String
-  employeeId   Int
-  employee     Employee       @relation(fields: [employeeId], references: [id])
+  authorId     Int
+  author       User           @relation("EmployeeBlogs", fields: [authorId], references: [id])
   views        Int            @default(0)
   likes        Int            @default(0)
   likedBy      User[]         @relation("UserLikes")

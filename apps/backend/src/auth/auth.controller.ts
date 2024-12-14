@@ -11,7 +11,14 @@ import {
   UseGuards
 } from "@nestjs/common";
 import {AuthService} from "./auth.service";
-import {ApiBearerAuth, ApiBody, ApiTags} from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiParam
+} from "@nestjs/swagger";
 import {SignInZodDto} from "@odonto/core";
 import {AuthGuard} from "./auth.guard";
 
@@ -21,8 +28,18 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @ApiBody({type: SignInZodDto})
   @Post("login")
+  @ApiOperation({
+    summary: "Validate credentials and create JWT"
+  })
+  @ApiResponse({
+    status: 201,
+    description: "User validated and login successful.",
+    type: UserResponseZodDto
+  })
+  @ApiResponse({status: 400, description: "Invalid data provided."})
+  @ApiResponse({status: 500, description: "Internal server error."})
+  @ApiBody({type: SignInZodDto})
   async signIn(
     @Body() signInDto: Record<string, any>,
     @Response({passthrough: true}) res
@@ -46,13 +63,13 @@ export class AuthController {
     return {message: "Login successful"};
   }
 
-  @UseGuards(AuthGuard)
+ /* @UseGuards(AuthGuard)
   @ApiBearerAuth("access-token")
   @Get("profile")
   async getProfile(@Request() req) {
     // console.log("Request User:", req.user);
     return {profile: req.user};
-  }
+  }*/
 
   @Post("refresh")
   async refreshAccessToken(@Request() req, @Response({passthrough: true}) res) {
