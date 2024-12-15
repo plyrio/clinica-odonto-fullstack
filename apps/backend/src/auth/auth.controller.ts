@@ -35,7 +35,6 @@ export class AuthController {
   @ApiResponse({
     status: 201,
     description: "User validated and login successful.",
-    type: UserResponseZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 500, description: "Internal server error."})

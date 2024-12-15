@@ -7,12 +7,12 @@ import {
   Param,
   Delete
 } from "@nestjs/common";
-import {SpecialitiesService} from "./specialties.service";
+import {SpecialtiesService} from "./specialties.service";
 import {
-  UpdateSpecialityDto,
-  CreateSpecialityDto,
-  UpdateSpecialityZodDto,
-  CreateSpecialityZodDto
+  UpdateSpecialtyDto,
+  CreateSpecialtyDto,
+  UpdateSpecialtyZodDto,
+  CreateSpecialtyZodDto
 } from "@odonto/core";
 import {
   ApiTags,
@@ -25,15 +25,15 @@ import {
 @ApiTags("specialities")
 @Controller("specialities")
 export class SpecialitiesController {
-  constructor(private readonly specialitiesService: SpecialitiesService) {}
+  constructor(private readonly specialitiesService: SpecialtiesService) {}
 
   @ApiOperation({summary: "Create a new specialty."})
   @ApiResponse({status: 201, description: "Specialty successfully created"})
   @ApiResponse({status: 400, description: "Invalid data."})
-  @ApiBody({type: CreateSpecialityZodDto})
+  @ApiBody({type: CreateSpecialtyZodDto})
   @Post()
-  create(@Body() createSpecialityDto: CreateSpecialityDto) {
-    return this.specialitiesService.create(createSpecialityDto);
+  create(@Body() createSpecialtyDto: CreateSpecialtyDto) {
+    return this.specialitiesService.create(createSpecialtyDto);
   }
 
   @Get()
@@ -41,7 +41,7 @@ export class SpecialitiesController {
   @ApiResponse({
     status: 200,
     description: "Specialties retrieved successfully.",
-    type: [UserResponseZodDto]
+    type: [CreateSpecialtyZodDto]
   })
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
@@ -59,7 +59,7 @@ export class SpecialitiesController {
   @ApiResponse({
     status: 200,
     description: "Specialties found successfully.",
-    type: UserResponseZodDto
+    type: CreateSpecialtyZodDto
   })
   @ApiResponse({status: 404, description: "Specialties not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
@@ -67,13 +67,13 @@ export class SpecialitiesController {
     return this.specialitiesService.findOne(+id);
   }
 
-  @ApiBody({type: UpdateSpecialityZodDto})
+  @ApiBody({type: UpdateSpecialtyZodDto})
   @Patch(":id")
   update(
     @Param("id") id: string,
-    @Body() updateSpecialityDto: UpdateSpecialityDto
+    @Body() updateSpecialtyDto: UpdateSpecialtyDto
   ) {
-    return this.specialitiesService.update(+id, updateSpecialityDto);
+    return this.specialitiesService.update(+id, updateSpecialtyDto);
   }
 
   @Delete(":id")

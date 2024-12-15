@@ -9,11 +9,11 @@ import {
 } from "@nestjs/common";
 import {AppointmentsService} from "./appointments.service";
 import {
-  createAppointmentSchema,
-  updateAppointmentSchema,
   CreateAppointmentDto,
   UpdateAppointmentDto,
-  CreateAppointmentZodDto
+  CreateAppointmentZodDto,
+  ResponseAppointmentZodDto,
+  UpdateAppointmentZodDto
 } from "@odonto/core";
 import {
   ApiTags,
@@ -33,7 +33,7 @@ export class AppointmentsController {
   @ApiResponse({
     status: 201,
     description: "Appointment created successfully.",
-    type: UserResponseZodDto
+    type: ResponseAppointmentZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 500, description: "Internal server error."})
@@ -47,7 +47,7 @@ export class AppointmentsController {
   @ApiResponse({
     status: 200,
     description: "Appointments retrieved successfully.",
-    type: [UserResponseZodDto]
+    type: [ResponseAppointmentZodDto]
   })
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
@@ -65,7 +65,7 @@ export class AppointmentsController {
   @ApiResponse({
     status: 200,
     description: "Appointmenrt found successfully.",
-    type: UserResponseZodDto
+    type: ResponseAppointmentZodDto
   })
   @ApiResponse({status: 404, description: "Appointment not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
@@ -79,12 +79,12 @@ export class AppointmentsController {
   @ApiResponse({
     status: 200,
     description: "Appointmenr updated successfully.",
-    type: UserResponseZodDto
+    type: ResponseAppointmentZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 404, description: "Appointment not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
-  @ApiBody({type: UpdateUserZodDto})
+  @ApiBody({type: UpdateAppointmentZodDto})
   update(
     @Param("id") id: string,
     @Body() updateAppointmentDto: UpdateAppointmentDto

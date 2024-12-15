@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import {
   createEmployeeSchema,
   updateEmployeeSchema,
@@ -8,9 +8,10 @@ import {
   ResponseEmployeeDto,
   CreateUserDto
 } from "@odonto/core";
-import {UserService} from "src/user/user.service";
-import {CommonService} from "src/common/common.service";
-import {PrismaService} from "src/db/prisma.service";
+import { UserService } from "src/user/user.service";
+import { CommonService } from "src/common/common.service";
+import { PrismaService } from "src/db/prisma.service";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class EmployeeService {
@@ -18,26 +19,28 @@ export class EmployeeService {
     private readonly prismaService: PrismaService,
     private readonly commonService: CommonService,
     private readonly userService: UserService
-  ) {}
+  ) { }
 
   async create(
     createEmployeeDto: CreateEmployeeDto,
     createUserDto: CreateUserDto
   ) {
     this.commonService.validateDto(createEmployeeSchema, createEmployeeDto);
-
+    const { password } = createUserDto;
+    const hashedPassword = await bcrypt.hash(password, 10);
     try {
-      let user = await this.userService.findOne(
-      createEmployeeDto.userId
-      );
-      if (!user) {
-        user = await this.userService.create(createUserDto);
-      }
 
-      return await this.prismaService.employee.create({
+
+      return await this.prismaService.user.create({
         data: {
-          userId: user.id,
-          role: createEmployeeDto.role,
+          email: createUserDto.email,
+          password: hashedPassword,
+          name: createUserDto.name,
+          bio: createUserDto.bio ? createUserDto.bio : "",
+          phone: createUserDto.phone ? createUserDto.phone : "",
+          birthday: createUserDto.birthday,
+          imgUrl: createUserDto.imgUrl ? createUserDto.imgUrl : "",
+          role: [],
           specialties: {
             connect: createEmployeeDto.specialties?.map((specialtyId) => ({
               id: specialtyId
@@ -47,7 +50,7 @@ export class EmployeeService {
             connect: createEmployeeDto.services?.map((serviceId) => ({
               id: serviceId
             }))
-          }
+          },
         }
       });
     } catch (error) {
@@ -57,12 +60,16 @@ export class EmployeeService {
 
   async findAll(): Promise<ResponseEmployeeDto[]> {
     try {
-      const employees = await this.prismaService.employee.findMany({
-        include: {
-          user: true,
+      const employees = await this.prismaService.user.findMany({
+        where: {
+          role: {
+            hasSome: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST', 'MANAGER', 'EMPLOYEE']
+          },
+        },
+       include: {
+          blogs: true,
           specialties: true,
-          services: true,
-          blogs: true
+          services: true
         }
       });
       this.commonService.validateDto(responseEmployeeSchema.array(), employees);
@@ -74,16 +81,15 @@ export class EmployeeService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ResponseEmployeeDto> {
     try {
-      const employee = await this.prismaService.employee.findUnique({
-        where: {id},
-        include: {
-          user: true,
-          specialties: true,
-          services: true,
-          blogs: true
-        }
+      const employee = await this.prismaService.user.findUnique({
+        where: {
+          id, role: {
+            hasSome: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST', 'MANAGER', 'EMPLOYEE']
+          },
+        },
+      
       });
 
       if (!employee) {
@@ -103,18 +109,18 @@ export class EmployeeService {
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
     this.commonService.validateDto(updateEmployeeSchema, updateEmployeeDto);
 
-    const {specialties, services, ...rest} = updateEmployeeDto;
+    const { specialties, services, ...rest } = updateEmployeeDto;
 
     try {
-      return await this.prismaService.employee.update({
-        where: {id},
+      const employee = await this.prismaService.user.update({
+        where: { id },
         data: {
           ...rest,
           specialties: specialties
-            ? {set: specialties.map((specialtyId) => ({id: specialtyId}))}
+            ? { set: specialties.map((specialtyId) => ({ id: specialtyId })) }
             : undefined,
           services: services
-            ? {set: services.map((serviceId) => ({id: serviceId}))}
+            ? { set: services.map((serviceId) => ({ id: serviceId })) }
             : undefined
         }
       });
@@ -128,14 +134,14 @@ export class EmployeeService {
 
   async remove(id: number) {
     try {
-      const employee = await this.prismaService.employee.findUnique({
-        where: {id}
+      const employee = await this.prismaService.user.findUnique({
+        where: { id }
       });
       if (!employee) {
         throw new NotFoundException(`Not found employee of ID #${id}`);
       }
-      return await this.prismaService.employee.delete({
-        where: {id}
+      return await this.prismaService.user.delete({
+        where: { id }
       });
     } catch (error) {
       this.commonService.handleError(

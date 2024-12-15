@@ -14,7 +14,7 @@ import {
   UpdateUserDto,
   CreateUserZodDto,
   UpdateUserZodDto,
-  UserResponseZodDto,
+  ResponseUserZodDto,
   UpdatePasswordDto,
   UpdatePasswordZodDto,
   RefreshTokenResponseZodDto,
@@ -41,7 +41,7 @@ export class UserController {
   @ApiResponse({
     status: 201,
     description: "User created successfully.",
-    type: UserResponseZodDto
+    type: ResponseUserZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 500, description: "Internal server error."})
@@ -50,14 +50,14 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @UseGuards(AuthGuard)
-  @Roles("ADMIN")
+  // @UseGuards(AuthGuard)
+  // @Roles("ADMIN")
   @Get()
   @ApiOperation({summary: "Retrieve a list of users"})
   @ApiResponse({
     status: 200,
     description: "Users retrieved successfully.",
-    type: [UserResponseZodDto]
+    type: [ResponseUserZodDto]
   })
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
@@ -75,7 +75,7 @@ export class UserController {
   @ApiResponse({
     status: 200,
     description: "User found successfully.",
-    type: UserResponseZodDto
+    type: ResponseUserZodDto
   })
   @ApiResponse({status: 404, description: "User not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
@@ -89,7 +89,7 @@ export class UserController {
   @ApiResponse({
     status: 200,
     description: "User updated successfully.",
-    type: UserResponseZodDto
+    type: ResponseUserZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 404, description: "User not found."})

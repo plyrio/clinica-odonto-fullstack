@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, Logger } from '@nestjs/common';
-import { CreateSpecialityDto, createSpecialitySchema, UpdateSpecialityDto, updateSpecialitySchema } from '@odonto/core';
-import { Speciality } from '@prisma/client';
+import { CreateSpecialtyDto, createSpecialtySchema, UpdateSpecialtyDto, updateSpecialtySchema } from '@odonto/core';
+import { Specialty } from '@prisma/client';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
-export class SpecialitiesService {
-  private readonly logger = new Logger(SpecialitiesService.name);
+export class SpecialtiesService {
+  private readonly logger = new Logger(SpecialtiesService.name);
 
   constructor(private readonly prismaService: PrismaService) { }
 
@@ -21,13 +21,13 @@ export class SpecialitiesService {
     throw new InternalServerErrorException(message);
   }
 
-  async create(createSpecialityDto: CreateSpecialityDto): Promise<Speciality> {
-    this.validateDto(createSpecialitySchema, createSpecialityDto);
+  async create(createSpecialtyDto: CreateSpecialtyDto): Promise<Specialty> {
+    this.validateDto(createSpecialtySchema, createSpecialtyDto);
 
     try {
-      return await this.prismaService.speciality.create({
+      return await this.prismaService.specialty.create({
         data: {
-          name: createSpecialityDto.name,
+          name: createSpecialtyDto.name,
         },
       });
     } catch (error) {
@@ -37,7 +37,7 @@ export class SpecialitiesService {
 
   async findAll() {
     try {
-      return await this.prismaService.speciality.findMany();
+      return await this.prismaService.specialty.findMany();
     } catch (error) {
       this.handleError(error, 'Failed to return all specialties');
     }
@@ -45,7 +45,7 @@ export class SpecialitiesService {
 
   async findOne(id: number) {
     try {
-      const speciality = await this.prismaService.speciality.findUnique({
+      const speciality = await this.prismaService.specialty.findUnique({
         where: { id },
       });
 
@@ -60,13 +60,13 @@ export class SpecialitiesService {
     }
   }
 
-  async update(id: number, updateSpecialityDto: UpdateSpecialityDto) {
-    this.validateDto(updateSpecialitySchema, updateSpecialityDto);
+  async update(id: number, updateSpecialtyDto: UpdateSpecialtyDto) {
+    this.validateDto(updateSpecialtySchema, updateSpecialtyDto);
 
     try {
-      return await this.prismaService.speciality.update({
+      return await this.prismaService.specialty.update({
         where: { id },
-        data: updateSpecialityDto,
+        data: updateSpecialtyDto,
       });
     } catch (error) {
       this.handleError(error, `Failed to update speciality of ID #${id}`);
@@ -75,14 +75,14 @@ export class SpecialitiesService {
 
   async remove(id: number) {
     try {
-      const speciality = await this.prismaService.speciality.findUnique({
+      const speciality = await this.prismaService.specialty.findUnique({
         where: { id },
       });
 
       if (!speciality) {
         throw new NotFoundException(`Not found speciality of ID #${id}`);
       }
-      return await this.prismaService.speciality.delete({
+      return await this.prismaService.specialty.delete({
         where: { id },
       });
     } catch (error) {

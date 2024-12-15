@@ -11,7 +11,7 @@ export class User {
   bio?: string;
   phone?: string; 
   birthday?: Date;
-  role: Role;
+  role: Role[];
   appointment?: Appointment[];
   imgUrl?: string;
   refreshToken?: string;

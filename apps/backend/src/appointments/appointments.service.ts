@@ -72,11 +72,7 @@ export class AppointmentsService {
         employee: {
           select: {
             id: true,
-            user: {
-              select: {
-                name: true
-              }
-            }
+            name: true
           }
         }
       }

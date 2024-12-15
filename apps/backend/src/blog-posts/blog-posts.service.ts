@@ -1,23 +1,21 @@
-import {Injectable, NotFoundException} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import {
   createBlogPostSchema,
   updateBlogPostSchema,
   CreateBlogPostDto,
   UpdateBlogPostDto,
-  likePostSchema,
-  LikePostDto,
-  BlogPostResponseDto,
-  blogPostResponseSchema
+  ResponseBlogPostDto,
+  responseBlogPostSchema
 } from "@odonto/core";
-import {CommonService} from "src/common/common.service";
-import {PrismaService} from "src/db/prisma.service";
+import { CommonService } from "src/common/common.service";
+import { PrismaService } from "src/db/prisma.service";
 
 @Injectable()
 export class BlogPostsService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly commonService: CommonService
-  ) {}
+  ) { }
 
   async create(createBlogPostDto: CreateBlogPostDto) {
     this.commonService.validateDto(createBlogPostSchema, createBlogPostDto);
@@ -28,7 +26,7 @@ export class BlogPostsService {
           title: createBlogPostDto.title,
           content: createBlogPostDto.content,
           imgUrl: createBlogPostDto.imgUrl,
-          employee: {connect: {id: createBlogPostDto.employeeId}}
+          author: { connect: { id: createBlogPostDto.authorId } }
         }
       });
     } catch (error) {
@@ -36,38 +34,33 @@ export class BlogPostsService {
     }
   }
 
-  async findAll(): Promise<BlogPostResponseDto[]> {
+  async findAll(): Promise<ResponseBlogPostDto[]> {
     try {
       const blogPosts = await this.prismaService.blogPost.findMany({
         include: {
-          employee: {
+          author: {
             select: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  imgUrl: true
-                }
-              }
+              id: true,
+              name: true,
+              email: true,
+              imgUrl: true,
+              role: true,
             }
           },
           likedBy: {
             select: {
-              
-                
-                  id: true,
-                  name: true,
-                  email: true,
-                  imgUrl: true
-                
+              id: true,
+              name: true,
+              email: true,
+              imgUrl: true
+
             }
           }
         }
       });
-      this.commonService.validateDto(blogPostResponseSchema.array(), blogPosts);
+      this.commonService.validateDto(responseBlogPostSchema.array(), blogPosts);
       return blogPosts.map((blogPost) =>
-        blogPostResponseSchema.parse(blogPost)
+        responseBlogPostSchema.parse(blogPost)
       );
     } catch (error) {
       this.commonService.handleError(error, "Failed to return all blog posts");
@@ -77,15 +70,18 @@ export class BlogPostsService {
   async findOne(id: number) {
     try {
       const blogpost = this.prismaService.blogPost.findUnique({
-        where: {id},
+        where: { id },
         include: {
-          employee: {
+          author: {
             select: {
-              user: {select: {id: true, name: true, email: true, imgUrl: true}},
-              role: true
+              id: true, 
+              name: true, 
+              email: true, 
+              imgUrl: true,
+              role: true,
             }
           },
-          likedBy: {select: {id: true, name: true, email: true, imgUrl: true}}
+          likedBy: { select: { id: true, name: true, email: true, imgUrl: true } }
         }
       });
 
@@ -94,8 +90,8 @@ export class BlogPostsService {
       }
 
       await this.prismaService.blogPost.update({
-        where: {id},
-        data: {views: {increment: 1}}
+        where: { id },
+        data: { views: { increment: 1 } }
       });
 
       return blogpost;
@@ -112,7 +108,7 @@ export class BlogPostsService {
 
     try {
       return await this.prismaService.blogPost.update({
-        where: {id},
+        where: { id },
         data: updateBlogPostDto
       });
     } catch (error) {
@@ -126,7 +122,7 @@ export class BlogPostsService {
   async remove(id: number) {
     try {
       const blogpost = this.prismaService.blogPost.findUnique({
-        where: {id}
+        where: { id }
       });
 
       if (!blogpost) {
@@ -134,7 +130,7 @@ export class BlogPostsService {
       }
 
       return await this.prismaService.blogPost.delete({
-        where: {id}
+        where: { id }
       });
     } catch (error) {
       this.commonService.handleError(
@@ -147,8 +143,8 @@ export class BlogPostsService {
   async likePost(id: number, userId: number) {
     try {
       const post = await this.prismaService.blogPost.findUnique({
-        where: {id},
-        include: {likedBy: {select: {id: true, name: true, email: true}}}
+        where: { id },
+        include: { likedBy: { select: { id: true, name: true, email: true } } }
       });
 
       if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
@@ -157,12 +153,12 @@ export class BlogPostsService {
 
       // Atualiza o post com base na condição de like/deslike
       return await this.prismaService.blogPost.update({
-        where: {id},
+        where: { id },
         data: {
-          likes: {increment: alreadyLiked ? -1 : 1},
+          likes: { increment: alreadyLiked ? -1 : 1 },
           likedBy: alreadyLiked
-            ? {disconnect: {id: userId}}
-            : {connect: {id: userId}}
+            ? { disconnect: { id: userId } }
+            : { connect: { id: userId } }
         }
       });
     } catch (error) {

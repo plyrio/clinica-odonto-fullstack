@@ -5,20 +5,20 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 async function main() {
-    // Criação das especialidades
+
     const specialties = await Promise.all(
         ['Ortodontia', 'Implantodontia', 'Endodontia', 'Periodontia', 'Prótese', 'Odontopediatria', 'Estética'].map(
-            async (specialityName) => {
-                return prisma.speciality.upsert({
-                    where: { name: specialityName },
+            async (specialtyName) => {
+                return prisma.specialty.upsert({
+                    where: { name: specialtyName },
                     update: {},
-                    create: { name: specialityName, description: faker.lorem.paragraph(2) },
+                    create: { name: specialtyName, description: faker.lorem.paragraph(2) },
                 });
             }
         )
     );
 
-    // Criação dos serviços
+
     const services = await Promise.all(
         [
             { name: 'Limpeza', slots: 5 },
@@ -41,16 +41,17 @@ async function main() {
     const employees: any[] = [];
     const doctors: any[] = [];
 
-    // Criar 40 usuários
+
     for (let i = 0; i < 40; i++) {
-        const isEmployee = i < 12; // Apenas 12 primeiros são funcionários
+        const isEmployee = i < 12;
         const role = isEmployee
-            ? [faker.helpers.arrayElement(['DOCTOR', 'NURSE', 'RECEPTIONIST']) as Role] 
+            ? [faker.helpers.arrayElement(['DOCTOR', 'NURSE', 'RECEPTIONIST']) as Role]
             : ['PATIENT'] as Role[];
 
         const user = await prisma.user.create({
             data: {
                 email: faker.internet.email(),
+                googleId: faker.string.nanoid(10) || undefined,
                 password: faker.internet.password(),
                 name: faker.person.fullName(),
                 bio: faker.lorem.paragraph(2),
@@ -108,7 +109,10 @@ async function main() {
 
     // Criar agendamentos para pacientes com médicos
     for (let i = 0; i < 28; i++) {
-        const patient = await prisma.user.findFirst({ where: { role: { has: 'PATIENT' } } });
+        const patient = await prisma.user.findMany({
+            where: { role: { has: 'PATIENT' } },
+        }).then(patients => patients[Math.floor(Math.random() * patients.length)]);
+
 
         if (patient) {
             const doctor = doctors[Math.floor(Math.random() * doctors.length)];

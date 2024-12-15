@@ -12,7 +12,8 @@ import {
   CreateServiceDto,
   UpdateServiceDto,
   UpdateServiceZodDto,
-  CreateServiceZodDto
+  CreateServiceZodDto,
+  ResponseServiceZodDto
 } from "@odonto/core";
 import {
   ApiTags,
@@ -38,7 +39,7 @@ export class ServicesController {
   @ApiResponse({
     status: 200,
     description: "Services retrieved successfully.",
-    type: [UserResponseZodDto]
+    type: [ResponseServiceZodDto]
   })
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
@@ -56,7 +57,7 @@ export class ServicesController {
   @ApiResponse({
     status: 200,
     description: "Service found successfully.",
-    type: UserResponseZodDto
+    type: ResponseServiceZodDto
   })
   @ApiResponse({status: 404, description: "Service not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
