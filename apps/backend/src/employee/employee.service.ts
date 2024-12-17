@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {Injectable, NotFoundException} from "@nestjs/common";
 import {
   createEmployeeSchema,
   updateEmployeeSchema,
@@ -8,9 +8,9 @@ import {
   ResponseEmployeeDto,
   CreateUserDto
 } from "@odonto/core";
-import { UserService } from "src/user/user.service";
-import { CommonService } from "src/common/common.service";
-import { PrismaService } from "src/db/prisma.service";
+import {UserService} from "src/user/user.service";
+import {CommonService} from "src/common/common.service";
+import {PrismaService} from "src/db/prisma.service";
 import * as bcrypt from "bcrypt";
 
 @Injectable()
@@ -19,18 +19,16 @@ export class EmployeeService {
     private readonly prismaService: PrismaService,
     private readonly commonService: CommonService,
     private readonly userService: UserService
-  ) { }
+  ) {}
 
   async create(
     createEmployeeDto: CreateEmployeeDto,
     createUserDto: CreateUserDto
   ) {
     this.commonService.validateDto(createEmployeeSchema, createEmployeeDto);
-    const { password } = createUserDto;
+    const {password} = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
-
-
       return await this.prismaService.user.create({
         data: {
           email: createUserDto.email,
@@ -50,7 +48,7 @@ export class EmployeeService {
             connect: createEmployeeDto.services?.map((serviceId) => ({
               id: serviceId
             }))
-          },
+          }
         }
       });
     } catch (error) {
@@ -63,14 +61,22 @@ export class EmployeeService {
       const employees = await this.prismaService.user.findMany({
         where: {
           role: {
-            hasSome: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST', 'MANAGER', 'EMPLOYEE']
-          },
+            hasSome: [
+              "ADMIN",
+              "DOCTOR",
+              "NURSE",
+              "RECEPTIONIST",
+              "MANAGER",
+              "EMPLOYEE"
+            ]
+          }
         },
-       include: {
+        include: {
           blogs: true,
+          services: true,
           specialties: true,
-          services: true
-        }
+          }
+        
       });
       this.commonService.validateDto(responseEmployeeSchema.array(), employees);
       return employees.map((employee) =>
@@ -85,11 +91,18 @@ export class EmployeeService {
     try {
       const employee = await this.prismaService.user.findUnique({
         where: {
-          id, role: {
-            hasSome: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST', 'MANAGER', 'EMPLOYEE']
-          },
-        },
-      
+          id,
+          role: {
+            hasSome: [
+              "ADMIN",
+              "DOCTOR",
+              "NURSE",
+              "RECEPTIONIST",
+              "MANAGER",
+              "EMPLOYEE"
+            ]
+          }
+        }
       });
 
       if (!employee) {
@@ -109,18 +122,18 @@ export class EmployeeService {
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
     this.commonService.validateDto(updateEmployeeSchema, updateEmployeeDto);
 
-    const { specialties, services, ...rest } = updateEmployeeDto;
+    const {specialties, services, ...rest} = updateEmployeeDto;
 
     try {
       const employee = await this.prismaService.user.update({
-        where: { id },
+        where: {id},
         data: {
           ...rest,
           specialties: specialties
-            ? { set: specialties.map((specialtyId) => ({ id: specialtyId })) }
+            ? {set: specialties.map((specialtyId) => ({id: specialtyId}))}
             : undefined,
           services: services
-            ? { set: services.map((serviceId) => ({ id: serviceId })) }
+            ? {set: services.map((serviceId) => ({id: serviceId}))}
             : undefined
         }
       });
@@ -135,13 +148,13 @@ export class EmployeeService {
   async remove(id: number) {
     try {
       const employee = await this.prismaService.user.findUnique({
-        where: { id }
+        where: {id}
       });
       if (!employee) {
         throw new NotFoundException(`Not found employee of ID #${id}`);
       }
       return await this.prismaService.user.delete({
-        where: { id }
+        where: {id}
       });
     } catch (error) {
       this.commonService.handleError(
