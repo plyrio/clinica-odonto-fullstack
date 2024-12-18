@@ -8,6 +8,7 @@ import {
   Delete
 } from "@nestjs/common";
 import {AppointmentsService} from "./appointments.service";
+import {GetOccupiedHoursService} from "./get-occuped-hours.service";
 import {
   CreateAppointmentDto,
   UpdateAppointmentDto,
@@ -26,7 +27,10 @@ import {
 @ApiTags("Appointments")
 @Controller("appointments")
 export class AppointmentsController {
-  constructor(private readonly appointmentsService: AppointmentsService) {}
+  constructor(
+    private readonly appointmentsService: AppointmentsService,
+    private readonly getOccupiedHoursService: GetOccupiedHoursService
+  ) {}
 
   @Post()
   @ApiOperation({summary: "Create a new appointment"})
@@ -74,8 +78,12 @@ export class AppointmentsController {
   }
 
   @Patch(":id")
-    @ApiOperation({summary: "Update a appointment by ID"})
-  @ApiParam({name: "id", description: "ID of the appointment to update", type: String})
+  @ApiOperation({summary: "Update a appointment by ID"})
+  @ApiParam({
+    name: "id",
+    description: "ID of the appointment to update",
+    type: String
+  })
   @ApiResponse({
     status: 200,
     description: "Appointmenr updated successfully.",
@@ -93,13 +101,36 @@ export class AppointmentsController {
   }
 
   @Delete(":id")
-    @ApiOperation({summary: "Delete a appointment by ID"})
-  @ApiParam({name: "id", description: "ID of the appointment to delete", type: String})
+  @ApiOperation({summary: "Delete a appointment by ID"})
+  @ApiParam({
+    name: "id",
+    description: "ID of the appointment to delete",
+    type: String
+  })
   @ApiResponse({status: 200, description: "Appointment deleted successfully."})
   @ApiResponse({status: 404, description: "Appointment not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
   remove(@Param("id") id: string) {
     return this.appointmentsService.remove(+id);
+  }
+
+  @Get(":employee/:date")
+  findByEmployeeAndDate(
+    @Param("employee") employee: string,
+    @Param("date") dateParam: string
+  ) {
+    return this.appointmentsService.findByEmployeeAndDate(
+      +employee,
+      new Date(dateParam)
+    );
+  }
+
+  @Get("occupiedDate/:employee/:date")
+  occupiedDate(
+    @Param("employee") employee: string,
+    @Param("date") dateParam: string
+  ) {
+    return this.getOccupiedHoursService.execute(+employee, new Date(dateParam));
   }
 }
