@@ -1,12 +1,15 @@
-import {Injectable, NotFoundException} from "@nestjs/common";
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException
+} from "@nestjs/common";
 import {
   createEmployeeSchema,
   updateEmployeeSchema,
   CreateEmployeeDto,
   UpdateEmployeeDto,
   responseEmployeeSchema,
-  ResponseEmployeeDto,
-  CreateUserDto
+  ResponseEmployeeDto
 } from "@odonto/core";
 import {UserService} from "src/user/user.service";
 import {CommonService} from "src/common/common.service";
@@ -22,23 +25,28 @@ export class EmployeeService {
   ) {}
 
   async create(
-    createEmployeeDto: CreateEmployeeDto,
-    createUserDto: CreateUserDto
-  ) {
-    this.commonService.validateDto(createEmployeeSchema, createEmployeeDto);
-    const {password} = createUserDto;
+    createEmployeeDto: CreateEmployeeDto
+  ): Promise<ResponseEmployeeDto> {
+    const birthdayAsDate = new Date(createEmployeeDto.birthday);
+    const employeeDtoWithDate = {
+      ...createEmployeeDto,
+      birthday: birthdayAsDate
+    };
+    this.commonService.validateDto(createEmployeeSchema, employeeDtoWithDate);
+
+    const {password} = createEmployeeDto;
     const hashedPassword = await bcrypt.hash(password, 10);
     try {
-      return await this.prismaService.user.create({
+      const employee = await this.prismaService.user.create({
         data: {
-          email: createUserDto.email,
+          email: createEmployeeDto.email,
           password: hashedPassword,
-          name: createUserDto.name,
-          bio: createUserDto.bio ? createUserDto.bio : "",
-          phone: createUserDto.phone ? createUserDto.phone : "",
-          birthday: createUserDto.birthday,
-          imgUrl: createUserDto.imgUrl ? createUserDto.imgUrl : "",
-          role: [],
+          name: createEmployeeDto.name,
+          bio: createEmployeeDto.bio,
+          phone: createEmployeeDto.phone,
+          birthday: createEmployeeDto.birthday,
+          imgUrl: createEmployeeDto.imgUrl,
+          role: createEmployeeDto.role,
           specialties: {
             connect: createEmployeeDto.specialties?.map((specialtyId) => ({
               id: specialtyId
@@ -51,6 +59,7 @@ export class EmployeeService {
           }
         }
       });
+      return responseEmployeeSchema.parse(employee);
     } catch (error) {
       this.commonService.handleError(error, "Failed create new employee");
     }
@@ -74,9 +83,8 @@ export class EmployeeService {
         include: {
           blogs: true,
           services: true,
-          specialties: true,
-          }
-        
+          specialties: true
+        }
       });
       this.commonService.validateDto(responseEmployeeSchema.array(), employees);
       return employees.map((employee) =>

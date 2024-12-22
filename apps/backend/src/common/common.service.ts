@@ -19,6 +19,12 @@ export class CommonService {
   }
 
   handleError(error: any, message: string): void {
-    throw new BadRequestException(`${message}: ${error.message}`);
+  if (error instanceof ZodError) {
+    throw new BadRequestException({
+      message,
+      validationErrors: error.errors.map((err) => err.message),
+    });
   }
+  throw new BadRequestException(`${message}: ${error.message}`);
 }
+  }

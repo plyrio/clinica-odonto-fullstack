@@ -43,9 +43,9 @@ export class EmployeeController {
   @ApiBody({type: CreateEmployeeZodDto})
   create(
     @Body() createEmployeeDto: CreateEmployeeDto,
-    @Body() createUserDto: CreateUserDto
+
   ) {
-    return this.employeeService.create(createEmployeeDto, createUserDto);
+    return this.employeeService.create(createEmployeeDto);
   }
 
   @Get()

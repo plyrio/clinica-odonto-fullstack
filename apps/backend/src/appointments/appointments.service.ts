@@ -1,5 +1,10 @@
 import {PrismaService} from "src/db/prisma.service";
-import {BadRequestException, Injectable} from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException
+} from "@nestjs/common";
 import {
   createAppointmentSchema,
   updateAppointmentSchema,
@@ -22,7 +27,7 @@ export class AppointmentsService {
 
   async create(
     createAppointmentDto: CreateAppointmentDto
-  ): Promise<{message: string}> {
+  ): Promise<ResponseAppointmentDto> {
     try {
       const dateAsDate = new Date(createAppointmentDto.date);
       const appointmentDtoWithDate = {
@@ -41,9 +46,7 @@ export class AppointmentsService {
 
       const requestedTime = dateAsDate.toTimeString().slice(0, 5);
       if (occupiedHours.includes(requestedTime)) {
-        throw new BadRequestException(
-          "Este horário já está ocupado. Por favor, escolha outro horário."
-        );
+        throw new BadRequestException("This time slot is already taken.");
       }
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -59,7 +62,7 @@ export class AppointmentsService {
           service: {connect: {id: createAppointmentDto.service}}
         }
       });
-      return {message: "Appointment created successfully."};
+      return responseAppointmentSchema.parse(appointment);
     } catch (error) {
       this.commonService.handleError(error, "Failed create new appointment");
     }
@@ -86,36 +89,82 @@ export class AppointmentsService {
     this.commonService.handleError(Error, "Failed to create appointment");
   }
 
-  async findOne(id: number): Promise<Appointment | null> {
-    return this.prismaService.appointment.findUnique({
-      where: {id},
-      include: {
-        user: true,
-        employee: true,
-        service: true
-      }
-    });
+  async findOne(id: number): Promise<ResponseAppointmentDto> {
+    try {
+      const appointment = await this.prismaService.appointment.findUnique({
+        where: {id},
+        include: {
+          user: true,
+          employee: {include: {specialties: true}},
+          service: true
+        }
+      });
+      return responseAppointmentSchema.parse(appointment);
+    } catch (error) {
+      this.commonService.handleError(
+        error,
+        "An error occurred while fetching the appointment"
+      );
+    }
   }
 
   async update(
     id: number,
     updateAppointmentDto: UpdateAppointmentDto
-  ): Promise<Appointment> {
-    return this.prismaService.appointment.update({
-      where: {id},
-      data: {
-        status: updateAppointmentDto.status
+  ): Promise<ResponseAppointmentDto> {
+    const dateAsDate = new Date(updateAppointmentDto.date);
+    const appointmentDtoWithDate = {
+      ...updateAppointmentDto,
+      date: dateAsDate
+    };
+    this.commonService.validateDto(
+      updateAppointmentSchema,
+      appointmentDtoWithDate
+    );
+    try {
+      const appointment = await this.prismaService.appointment.update({
+        where: {id},
+        data: {status: updateAppointmentDto.status},
+        include: {
+          user: true,
+          employee: {include: {specialties: true}},
+          service: true
+        }
+      });
+
+      return responseAppointmentSchema.parse(appointment);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        error,
+        `Failed to update appointment of ID ${id}`
+      );
+    }
+  }
+
+  async remove(id: number): Promise<ResponseAppointmentDto> {
+    try {
+      const appointment = await this.prismaService.appointment.findUnique({
+        where: {id}
+      });
+      if (!appointment) {
+        throw new NotFoundException(`Appointment with ID ${id} not found`);
       }
-    });
+      await this.prismaService.appointment.delete({
+        where: {id}
+      });
+      return responseAppointmentSchema.parse(appointment);
+    } catch (error) {
+      this.commonService.handleError(
+        error,
+        `Failed to delete appointment of ID #${id}`
+      );
+    }
   }
 
-  async remove(id: number): Promise<Appointment> {
-    return this.prismaService.appointment.delete({
-      where: {id}
-    });
-  }
-
-  async findByEmployeeAndDate(employeeId: number, date: Date): Promise<any[]> {
+  async findByEmployeeAndDate(
+    employeeId: number,
+    date: Date
+  ): Promise<ResponseAppointmentDto[]> {
     const year = date.getFullYear();
     const month = date.getUTCMonth();
     const day = date.getUTCDate();
@@ -141,6 +190,11 @@ export class AppointmentsService {
       return appointments.map((appointment) =>
         responseAppointmentSchema.parse(appointment)
       );
-    } catch (error) {}
+    } catch (error) {
+      this.commonService.handleError(
+        error,
+        `Not found appointment to employee od #ID ${employeeId} om day ${date}`
+      );
+    }
   }
 }

@@ -53,10 +53,10 @@ export class UserService {
           email: createUserDto.email,
           password: hashedPassword,
           name: createUserDto.name,
-          bio: createUserDto.bio ? createUserDto.bio : "",
-          phone: createUserDto.phone ? createUserDto.phone : "",
+          bio: createUserDto.bio,
+          phone: createUserDto.phone,
           birthday: createUserDto.birthday,
-          imgUrl: createUserDto.imgUrl ? createUserDto.imgUrl : "",
+          imgUrl: createUserDto.imgUrl,
           role: ["USER"]
         }
       });
@@ -106,7 +106,7 @@ export class UserService {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
 
-      return user;
+      return refreshTokenResponseSchema.parse(user);
     } catch (error) {
       this.commonService.handleError(
         error,
@@ -164,7 +164,6 @@ export class UserService {
     this.commonService.validateDto(updateUserSchema, updateUserDto);
 
     try {
-      
       const user = await this.prismaService.user.update({
         where: {id},
         data: {...updateUserDto}
