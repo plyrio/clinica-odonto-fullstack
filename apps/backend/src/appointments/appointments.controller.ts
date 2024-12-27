@@ -5,7 +5,8 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  UseGuards
 } from "@nestjs/common";
 import {AppointmentsService} from "./appointments.service";
 import {GetOccupiedHoursService} from "./get-occuped-hours.service";
@@ -21,9 +22,15 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBody,
-  ApiParam
+  ApiParam,
+  ApiBearerAuth
 } from "@nestjs/swagger";
+import {AuthGuard} from "../auth/auth.guard";
+import {RolesGuard} from "../auth/roles.guard";
+import {Roles} from "../auth/roles.decorator";
 
+@UseGuards(AuthGuard)
+@ApiBearerAuth("access-token")
 @ApiTags("Appointments")
 @Controller("appointments")
 export class AppointmentsController {

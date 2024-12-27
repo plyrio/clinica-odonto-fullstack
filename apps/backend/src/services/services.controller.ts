@@ -5,7 +5,8 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  UseGuards
 } from "@nestjs/common";
 import {ServicesService} from "./services.service";
 import {
@@ -20,16 +21,23 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBody,
-  ApiParam
+  ApiParam,
+  ApiBearerAuth
 } from "@nestjs/swagger";
+import {AuthGuard} from "../auth/auth.guard";
+import {RolesGuard} from "../auth/roles.guard";
+import {Roles} from "../auth/roles.decorator";
 
 @ApiTags("services")
 @Controller("services")
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
-  @ApiBody({type: CreateServiceZodDto})
   @Post()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
+  @ApiBody({type: CreateServiceZodDto})
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);
   }
@@ -65,15 +73,25 @@ export class ServicesController {
     return this.servicesService.findOne(+id);
   }
 
-  @ApiBody({type: UpdateServiceZodDto})
   @Patch(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
+  @ApiBody({type: UpdateServiceZodDto})
   update(@Param("id") id: string, @Body() updateServiceDto: UpdateServiceDto) {
     return this.servicesService.update(+id, updateServiceDto);
   }
 
   @Delete(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Delete a service by ID"})
-  @ApiParam({name: "id", description: "ID of the service to delete", type: String})
+  @ApiParam({
+    name: "id",
+    description: "ID of the service to delete",
+    type: String
+  })
   @ApiResponse({status: 200, description: "Service deleted successfully."})
   @ApiResponse({status: 404, description: "Service not found."})
   @ApiResponse({status: 500, description: "Internal server error."})

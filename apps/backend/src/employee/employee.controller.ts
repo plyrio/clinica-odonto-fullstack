@@ -5,7 +5,8 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  UseGuards
 } from "@nestjs/common";
 import {EmployeeService} from "./employee.service";
 import {
@@ -22,9 +23,12 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBody,
-  ApiParam
+  ApiParam,
+  ApiBearerAuth
 } from "@nestjs/swagger";
-
+import {AuthGuard} from "../auth/auth.guard";
+import {RolesGuard} from "../auth/roles.guard";
+import {Roles} from "../auth/roles.decorator";
 
 @ApiTags("employee")
 @Controller("employee")
@@ -32,6 +36,9 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Post()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Create a new employee"})
   @ApiResponse({
     status: 201,
@@ -41,10 +48,7 @@ export class EmployeeController {
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiBody({type: CreateEmployeeZodDto})
-  create(
-    @Body() createEmployeeDto: CreateEmployeeDto,
-
-  ) {
+  create(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeeService.create(createEmployeeDto);
   }
 
@@ -80,6 +84,9 @@ export class EmployeeController {
   }
 
   @Patch(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("EMPLOYEE", "ADMIN", "MANAGER", "DOCTOR", "RECEPTIONIST", "NURSE")
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Update a employee by ID"})
   @ApiParam({
     name: "id",
@@ -103,6 +110,9 @@ export class EmployeeController {
   }
 
   @Delete(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Delete a employee by ID"})
   @ApiParam({
     name: "id",

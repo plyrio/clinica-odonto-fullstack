@@ -5,7 +5,8 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  UseGuards
 } from "@nestjs/common";
 import {SpecialtiesService} from "./specialties.service";
 import {
@@ -19,19 +20,26 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBody,
-  ApiParam
+  ApiParam,
+  ApiBearerAuth
 } from "@nestjs/swagger";
+import {AuthGuard} from "../auth/auth.guard";
+import {RolesGuard} from "../auth/roles.guard";
+import {Roles} from "../auth/roles.decorator";
 
 @ApiTags("specialities")
 @Controller("specialities")
 export class SpecialitiesController {
   constructor(private readonly specialitiesService: SpecialtiesService) {}
 
+  @Post()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Create a new specialty."})
   @ApiResponse({status: 201, description: "Specialty successfully created"})
   @ApiResponse({status: 400, description: "Invalid data."})
   @ApiBody({type: CreateSpecialtyZodDto})
-  @Post()
   create(@Body() createSpecialtyDto: CreateSpecialtyDto) {
     return this.specialitiesService.create(createSpecialtyDto);
   }
@@ -67,8 +75,11 @@ export class SpecialitiesController {
     return this.specialitiesService.findOne(+id);
   }
 
-  @ApiBody({type: UpdateSpecialtyZodDto})
   @Patch(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
+  @ApiBody({type: UpdateSpecialtyZodDto})
   update(
     @Param("id") id: string,
     @Body() updateSpecialtyDto: UpdateSpecialtyDto
@@ -77,6 +88,9 @@ export class SpecialitiesController {
   }
 
   @Delete(":id")
+    @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Delete a specialty by ID"})
   @ApiParam({
     name: "id",

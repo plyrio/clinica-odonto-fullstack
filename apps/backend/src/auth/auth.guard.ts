@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const roles = this.reflector.get<string[]>("roles", context.getHandler());
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractToken(request);
 
@@ -32,12 +31,6 @@ export class AuthGuard implements CanActivate {
       });
 
       request["user"] = payload;
-      if (roles && roles.length > 0) {
-        if (!roles.includes(payload.role)) {
-          throw new ForbiddenException("Access denied");
-        }
-      }
-      return true;
     } catch (error) {
       if (error instanceof ForbiddenException) {
         throw error;

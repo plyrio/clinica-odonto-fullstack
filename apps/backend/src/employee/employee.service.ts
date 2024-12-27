@@ -27,6 +27,7 @@ export class EmployeeService {
   async create(
     createEmployeeDto: CreateEmployeeDto
   ): Promise<ResponseEmployeeDto> {
+     try {
     const birthdayAsDate = new Date(createEmployeeDto.birthday);
     const employeeDtoWithDate = {
       ...createEmployeeDto,
@@ -36,7 +37,7 @@ export class EmployeeService {
 
     const {password} = createEmployeeDto;
     const hashedPassword = await bcrypt.hash(password, 10);
-    try {
+   
       const employee = await this.prismaService.user.create({
         data: {
           email: createEmployeeDto.email,
@@ -62,6 +63,7 @@ export class EmployeeService {
       return responseEmployeeSchema.parse(employee);
     } catch (error) {
       this.commonService.handleError(error, "Failed create new employee");
+    
     }
   }
 
@@ -83,7 +85,8 @@ export class EmployeeService {
         include: {
           blogs: true,
           services: true,
-          specialties: true
+          specialties: true,
+          employeeAppointments: {include: {service: true, user: true}}
         }
       });
       this.commonService.validateDto(responseEmployeeSchema.array(), employees);

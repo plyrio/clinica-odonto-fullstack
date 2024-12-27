@@ -15,7 +15,7 @@ export class AuthService {
   async signIn(
     email: string,
     pass: string
-  ): Promise<{access_token: string; refresh_token: string; role: string}> {
+  ): Promise<{access_token: string; refresh_token: string; role: string[]}> {
     try {
       const user = await this.userService.findByEmail(email);
       const passwordMatch = await bcrypt.compare(pass, user.password);
@@ -48,7 +48,6 @@ export class AuthService {
         role: user.role
       };
 
-      // console.log("Tokens:", {access_token, refresh_token});
     } catch (error) {
       this.commonService.handleError(error, `Failed to signIn`);
     }
@@ -61,12 +60,11 @@ export class AuthService {
       const decoded = await this.jwtService.verifyAsync(refreshToken);
 
       const user = await this.userService.findByIdRefreshToken(decoded.sub);
-
       if (!user || user.refreshToken !== refreshToken) {
         throw new UnauthorizedException("Invalid refresh token");
       }
 
-      const payload = {sub: user.id, email: user.email};
+      const payload = {sub: user.id, email: user.email, role: user.role};
       const access_token = await this.jwtService.signAsync(payload, {
         expiresIn: "15m"
       });

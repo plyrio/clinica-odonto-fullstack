@@ -20,7 +20,7 @@ export const createEmployeeSchema = z.object({
   googleId: z.string().optional().nullable(),
   password: z
     .string()
-    .min(8, "Password must have at least 8 characters")
+    .min(8, "Password must have at least")
     .default("12345678"),
   name: z.string().min(1, "Name cannot be empty"),
   bio: z.string().optional().nullable(),
@@ -48,6 +48,24 @@ export const responseEmployeeSchema = z.object({
   phone: z.string().optional().nullable(),
   birthday: z.date(),
   imgUrl: z.string().optional().nullable(),
+  employeeAppointments: z.array(
+    z
+      .object({
+        id: z.number(),
+        date: z.date(),
+        status: z.string(),
+        service: z.object({
+          id: z.number(),
+          name: z.string()
+        }),
+        user: z.object({
+          id: z.number(),
+          name: z.string(),
+          email: z.string()
+        })
+      })
+      .nullable()
+  ).optional(),
   specialties: z
     .array(
       z

@@ -21,6 +21,8 @@ import {
 } from "@nestjs/swagger";
 import {SignInZodDto} from "@odonto/core";
 import {AuthGuard} from "./auth.guard";
+import {RolesGuard} from "./roles.guard";
+import {Roles} from "./roles.decorator";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -34,7 +36,7 @@ export class AuthController {
   })
   @ApiResponse({
     status: 201,
-    description: "User validated and login successful.",
+    description: "User validated and login successful."
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
   @ApiResponse({status: 500, description: "Internal server error."})
@@ -62,13 +64,13 @@ export class AuthController {
     return {message: "Login successful"};
   }
 
- /* @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("USER")
   @ApiBearerAuth("access-token")
   @Get("profile")
   async getProfile(@Request() req) {
-    // console.log("Request User:", req.user);
     return {profile: req.user};
-  }*/
+  }
 
   @Post("refresh")
   async refreshAccessToken(@Request() req, @Response({passthrough: true}) res) {

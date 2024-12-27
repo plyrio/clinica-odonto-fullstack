@@ -26,9 +26,12 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBody,
-  ApiParam
+  ApiParam,
+  ApiBearerAuth
 } from "@nestjs/swagger";
 import {AuthGuard} from "../auth/auth.guard";
+import {UserGuard} from "../auth/user.guard";
+import {RolesGuard} from "../auth/roles.guard";
 import {Roles} from "../auth/roles.decorator";
 
 @ApiTags("Users")
@@ -50,8 +53,6 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  // @UseGuards(AuthGuard)
-  // @Roles("ADMIN")
   @Get()
   @ApiOperation({summary: "Retrieve a list of users"})
   @ApiResponse({
@@ -84,6 +85,8 @@ export class UserController {
   }
 
   @Patch(":id")
+  @UseGuards(UserGuard)
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Update a user by ID"})
   @ApiParam({name: "id", description: "ID of the user to update", type: String})
   @ApiResponse({
@@ -99,26 +102,10 @@ export class UserController {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Patch(":id/refreshToken")
-  @ApiOperation({summary: "Update  refresh_token of a user by ID"})
-  @ApiParam({name: "id", description: "ID of the user to update refresh_token", type: String})
-  @ApiResponse({
-    status: 200,
-    description: "User refresh_token updated successfully.",
-    type: RefreshTokenResponseZodDto
-  })
-  @ApiResponse({status: 400, description: "Invalid data provided."})
-  @ApiResponse({status: 404, description: "User not found."})
-  @ApiResponse({status: 500, description: "Internal server error."})
-  @ApiBody({type: RefreshTokenZodDto})
-  updateRefreshToken(
-    @Param("id") id: string,
-    @Body() updateRefreshTokenDto: RefreshTokenDto
-  ) {
-    return this.userService.updateRefreshToken(+id, updateRefreshTokenDto);
-  }
-
   @Delete(":id")
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "MANAGER")
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Delete a user by ID"})
   @ApiParam({name: "id", description: "ID of the user to delete", type: String})
   @ApiResponse({status: 200, description: "User deleted successfully."})
@@ -130,6 +117,8 @@ export class UserController {
   }
 
   @Patch(":id/password")
+  @UseGuards(UserGuard)
+  @ApiBearerAuth("access-token")
   @ApiOperation({summary: "Update user password"})
   @ApiResponse({status: 200, description: "Password successfully updated."})
   @ApiResponse({status: 400, description: "Invalid data or old password."})

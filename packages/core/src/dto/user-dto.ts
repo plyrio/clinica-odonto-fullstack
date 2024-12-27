@@ -24,32 +24,44 @@ export const responseUserSchema = z.object({
   id: z.number(),
   email: z.string().email(),
   googleId: z.string().optional().nullable(),
-  password: z.string().min(8).optional(),
   name: z.string().min(1),
   bio: z.string().optional().nullable(),
   phone: z.string().optional().nullable(),
   birthday: z.date(),
   imgUrl: z.string().optional().nullable(),
   role: z.array(z.string()),
+  patientAppointments: z
+    .array(
+      z
+        .object({
+          id: z.number(),
+          date: z.date(),
+          status: z.string(),
+          service: z.object({
+            id: z.number(),
+            name: z.string()
+          }),
+          employee: z.object({
+            id: z.number(),
+            name: z.string(),
+            email: z.string()
+          })
+        })
+        .optional()
+        .nullable()
+    )
+    .optional()
+    .nullable(),
   createdAt: z.date(),
   updatedAt: z.date()
 });
 
-export const responseUserPasswordSchema = z
-  .object({
-    id: z.number(),
-    role: z.enum([
-      "USER",
-      "PATIENT",
-      "ADMIN",
-      "DOCTOR",
-      "NURSE",
-      "RECEPTIONIST",
-      "MANAGER",
-      "EMPLOYEE"
-    ])
-  })
-  .merge(createUserSchema.extend({}));
+export const responseUserPasswordSchema = z.object({
+  id: z.number(),
+  email: z.string(),
+  password: z.string(),
+  role: z.array(z.string())
+});
 
 export type CreateUserDto = z.infer<typeof createUserSchema>;
 export type UpdateUserDto = z.infer<typeof updateUserSchema>;
