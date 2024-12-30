@@ -1,30 +1,31 @@
 import {z} from "zod";
 import {createZodDto} from "@anatine/zod-nestjs";
 
+const STATUS = ["PENDING", "CONFIRMED", "COMPLETED", "CANCELED"] as const;
+
+const statusEnum = z.enum(STATUS);
+
 export const createAppointmentSchema = z.object({
   userId: z.number(),
   employeeId: z.number(),
-  status: z.enum(["PENDING", "CONFIRMED", "COMPLETED", "CANCELED"]),
+  status: statusEnum,
   date: z.date().refine((val) => !isNaN(new Date(val).getTime()), {
     message: "Invalid date format"
   }),
   service: z.number()
 });
 
-export const updateAppointmentSchema = createAppointmentSchema
-  .partial()
-  .extend({
-    id: z.number()
-  });
+export const updateAppointmentSchema = z
+  .object({id: z.number()})
+  .merge(createAppointmentSchema.partial().extend({}));
 
 export const responseAppointmentSchema = z.object({
   id: z.number(),
   date: z.date(),
-  status: z.enum(["PENDING", "CONFIRMED", "COMPLETED", "CANCELED"]),
+  status: statusEnum,
   service: z.object({
-    name: z.string(), 
+    name: z.string(),
     slots: z.number()
-    
   }),
   user: z.object({
     id: z.number(),
@@ -33,9 +34,10 @@ export const responseAppointmentSchema = z.object({
   employee: z.object({
     name: z.string(),
     email: z.string().email(),
+    bio: z.string(),
     imgUrl: z.string().optional(),
     specialties: z.array(z.object({name: z.string()})),
-    bio: z.string()
+    
   })
 });
 

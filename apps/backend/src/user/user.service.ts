@@ -102,7 +102,6 @@ export class UserService {
 
   async findByIdRefreshToken(id: number): Promise<RefreshTokenResponseFullDto> {
     try {
-      
       const user = await this.prismaService.user.findUnique({
         where: {id}
       });
@@ -139,7 +138,9 @@ export class UserService {
     }
   }
 
-  async remove(id: number): Promise<ResponseUserDto> {
+  async remove(
+    id: number
+  ): Promise<{message: string; deletedUser: ResponseUserDto}> {
     try {
       const user = await this.prismaService.user.findUnique({
         where: {id}
@@ -153,7 +154,10 @@ export class UserService {
         where: {id}
       });
 
-      return responseUserSchema.parse(user);
+      return {
+        message: `User with ID #${id} successfully deleted`,
+        deletedUser: responseUserSchema.parse(user)
+      };
     } catch (error) {
       this.commonService.handleError(
         error,
@@ -165,7 +169,7 @@ export class UserService {
   async update(
     id: number,
     updateUserDto: UpdateUserDto
-  ): Promise<ResponseUserDto> {
+  ): Promise<{message: string; updatedUser: ResponseUserDto}> {
     try {
       this.commonService.validateDto(updateUserSchema, updateUserDto);
 
@@ -174,7 +178,10 @@ export class UserService {
         data: {...updateUserDto}
       });
 
-      return responseUserSchema.parse(user);
+      return {
+        message: `User with ID #${id} successfully updated refreshToken`,
+        updatedUser: responseUserSchema.parse(user)
+      };
     } catch (error) {
       throw new InternalServerErrorException(
         error,
@@ -186,7 +193,10 @@ export class UserService {
   async updateRefreshToken(
     id: number,
     refreshTokenDto: RefreshTokenDto
-  ): Promise<RefreshTokenResponseDto> {
+  ): Promise<{
+    message: string;
+    updatedRefreshToken: RefreshTokenResponseDto;
+  }> {
     try {
       this.commonService.validateDto(refreshTokenSchema, refreshTokenDto);
 
@@ -194,10 +204,13 @@ export class UserService {
         where: {id},
         data: {refreshToken: refreshTokenDto.refreshToken}
       });
-      return refreshTokenResponseSchema.parse(user);
+      return {
+        message: `User with ID #${id} successfully updated refreshToken`,
+        updatedRefreshToken: refreshTokenResponseSchema.parse(user)
+      };
     } catch (error) {
       throw new InternalServerErrorException(
-        `Failed to update refreToken form user of ID ${id}`
+        `Failed to update refreshToken form user of ID ${id}`
       );
     }
   }
@@ -205,34 +218,39 @@ export class UserService {
   async updatePassword(
     id: number,
     updatePasswordDto: UpdatePasswordDto
-  ): Promise<ResponseUserDto> {
-    this.commonService.validateDto(updatePasswordSchema, updatePasswordDto);
-
-    const {newpassword, oldpassword} = updatePasswordDto;
-
-    const user = await this.prismaService.user.findUnique({
-      where: {id}
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-
-    const isOldPasswordValid = await bcrypt.compare(oldpassword, user.password);
-
-    if (!isOldPasswordValid) {
-      throw new BadRequestException("Old password is incorrect");
-    }
-
-    const hashedNewPassword = await bcrypt.hash(newpassword, 10);
-
-    console.log(hashedNewPassword);
+  ): Promise<{message: string; updatedPassword: ResponseUserDto}> {
     try {
+      this.commonService.validateDto(updatePasswordSchema, updatePasswordDto);
+
+      const {newpassword, oldpassword} = updatePasswordDto;
+
+      const user = await this.prismaService.user.findUnique({
+        where: {id}
+      });
+
+      if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+
+      const isOldPasswordValid = await bcrypt.compare(
+        oldpassword,
+        user.password
+      );
+
+      if (!isOldPasswordValid) {
+        throw new BadRequestException("Old password is incorrect");
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newpassword, 10);
+
       const updatedUserPassword = await this.prismaService.user.update({
         where: {id},
         data: {password: hashedNewPassword}
       });
-      return responseUserSchema.parse(updatedUserPassword);
+      return {
+        message: `User with ID #${id} successfully update password`,
+        updatedPassword: responseUserSchema.parse(updatedUserPassword)
+      };
     } catch (error) {
       this.commonService.handleError(error, "Failed to update user password");
     }

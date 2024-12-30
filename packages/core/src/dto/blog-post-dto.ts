@@ -8,9 +8,9 @@ export const createBlogPostSchema = z.object({
   authorId: z.number()
 });
 
-export const updateBlogPostSchema = createBlogPostSchema.partial().extend({
-  id: z.number()
-});
+export const updateBlogPostSchema = z.object({id: z.number()}).merge(createBlogPostSchema.partial().extend({
+  
+}));
 
 export const responseBlogPostSchema = z.object({
   id: z.number(),

@@ -65,7 +65,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles("USER")
+  @Roles("USER", "EMPLOYEE")
   @ApiBearerAuth("access-token")
   @Get("profile")
   async getProfile(@Request() req) {
