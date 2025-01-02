@@ -6,8 +6,10 @@ import {
 import {
   createEmployeeSchema,
   updateEmployeeSchema,
+  updateEmployeeRoleSchema,
   CreateEmployeeDto,
   UpdateEmployeeDto,
+  UpdateEmployeeRoleDto,
   responseEmployeeSchema,
   ResponseEmployeeDto
 } from "@odonto/core";
@@ -27,17 +29,19 @@ export class EmployeeService {
   async create(
     createEmployeeDto: CreateEmployeeDto
   ): Promise<ResponseEmployeeDto> {
-     try {
-    const birthdayAsDate = new Date(createEmployeeDto.birthday);
-    const employeeDtoWithDate = {
-      ...createEmployeeDto,
-      birthday: birthdayAsDate
-    };
-    this.commonService.validateDto(createEmployeeSchema, employeeDtoWithDate);
+    try {
+      const birthdayAsDate = new Date(createEmployeeDto.birthday);
+      const employeeDtoWithDate = {
+        ...createEmployeeDto,
+        birthday: birthdayAsDate
+      };
+      this.commonService.validateDto(createEmployeeSchema, employeeDtoWithDate);
 
-    const {password} = createEmployeeDto;
-    const hashedPassword = await bcrypt.hash(password, 10);
-   
+      const {password} = createEmployeeDto;
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const roles = createEmployeeDto.role;
+
       const employee = await this.prismaService.user.create({
         data: {
           email: createEmployeeDto.email,
@@ -47,23 +51,28 @@ export class EmployeeService {
           phone: createEmployeeDto.phone,
           birthday: createEmployeeDto.birthday,
           imgUrl: createEmployeeDto.imgUrl,
-          role: createEmployeeDto.role,
-          specialties: {
-            connect: createEmployeeDto.specialties?.map((specialtyId) => ({
-              id: specialtyId
-            }))
-          },
-          services: {
-            connect: createEmployeeDto.services?.map((serviceId) => ({
-              id: serviceId
-            }))
-          }
+          role: roles?.includes("EMPLOYEE")
+            ? roles
+            : ["EMPLOYEE", ...(roles || [])],
+          specialties: roles?.includes("DOCTOR")
+            ? {
+                connect: createEmployeeDto.specialties?.map((specialtyId) => ({
+                  id: specialtyId
+                }))
+              }
+            : undefined,
+          services: roles?.includes("DOCTOR")
+            ? {
+                connect: createEmployeeDto.services?.map((serviceId) => ({
+                  id: serviceId
+                }))
+              }
+            : undefined
         }
       });
       return responseEmployeeSchema.parse(employee);
     } catch (error) {
       this.commonService.handleError(error, "Failed create new employee");
-    
     }
   }
 
@@ -87,6 +96,9 @@ export class EmployeeService {
           services: true,
           specialties: true,
           employeeAppointments: {include: {service: true, user: true}}
+        },
+        orderBy: {
+          id: "asc"
         }
       });
       this.commonService.validateDto(responseEmployeeSchema.array(), employees);
@@ -113,14 +125,18 @@ export class EmployeeService {
               "EMPLOYEE"
             ]
           }
+        },
+        include: {
+          blogs: true,
+          services: true,
+          specialties: true,
+          employeeAppointments: {include: {service: true, user: true}}
         }
       });
 
       if (!employee) {
         throw new NotFoundException(`Not found employee of ID #${id}`);
       }
-
-      this.commonService.validateDto(responseEmployeeSchema, employee);
       return responseEmployeeSchema.parse(employee);
     } catch (error) {
       this.commonService.handleError(
@@ -130,25 +146,94 @@ export class EmployeeService {
     }
   }
 
-  async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    this.commonService.validateDto(updateEmployeeSchema, updateEmployeeDto);
-
-    const {specialties, services, ...rest} = updateEmployeeDto;
-
+  async update(
+    id: number,
+    updateEmployeeDto: UpdateEmployeeDto
+  ): Promise<{message: string; responseEmployee: ResponseEmployeeDto}> {
     try {
-      const employee = await this.prismaService.user.update({
+      this.commonService.validateDto(updateEmployeeSchema, updateEmployeeDto);
+
+      const {specialties, services, ...rest} = updateEmployeeDto;
+      const employee = await this.prismaService.user.findUnique({
+        where: {id},
+        select: {role: true}
+      });
+      if (!employee) {
+        throw new Error(`Employee with ID #${id} not found`);
+      }
+
+      const isDoctor = employee.role?.includes("DOCTOR");
+
+      const updatedEmployee = await this.prismaService.user.update({
         where: {id},
         data: {
           ...rest,
-          specialties: specialties
-            ? {set: specialties.map((specialtyId) => ({id: specialtyId}))}
-            : undefined,
-          services: services
-            ? {set: services.map((serviceId) => ({id: serviceId}))}
-            : undefined
+          specialties:
+            isDoctor && specialties
+              ? {set: specialties.map((specialtyId) => ({id: specialtyId}))}
+              : {set: []},
+          services:
+            isDoctor && services
+              ? {set: services.map((serviceId) => ({id: serviceId}))}
+              : {set: []}
         }
       });
+      return {
+        message: `Employee with ID #${id} successfully updated `,
+        responseEmployee: responseEmployeeSchema.parse(updatedEmployee)
+      };
     } catch (error) {
+      this.commonService.handleError(
+        error,
+        `Failed to update employee of ID #${id}`
+      );
+    }
+  }
+
+  async updateRole(
+    id: number,
+    updateEmployeeRoleDto: UpdateEmployeeRoleDto
+  ): Promise<{message: string; responseEmployee: ResponseEmployeeDto}> {
+    try {
+      this.commonService.validateDto(
+        updateEmployeeRoleSchema,
+        updateEmployeeRoleDto
+      );
+
+      const employee = await this.prismaService.user.findUnique({
+        where: {id}
+      });
+      if (!employee) {
+        throw new Error(`Employee with ID #${id} not found`);
+      }
+
+      const isDoctor = updateEmployeeRoleDto.role?.includes("DOCTOR");
+
+      const {role, specialties, services} = updateEmployeeRoleDto;
+
+      const updatedEmployeeRole = await this.prismaService.user.update({
+        where: {id},
+        data: {
+          role,
+          specialties:
+            isDoctor && specialties
+              ? {
+                  set: specialties.map((specialtyId) => ({id: specialtyId}))
+                }
+              : {set: []},
+          services:
+            isDoctor && services
+              ? {set: services.map((serviceId) => ({id: serviceId}))}
+              : {set: []}
+        }
+      });
+
+      return {
+        message: `Employee with ID #${id} successfully updated role`,
+        responseEmployee: responseEmployeeSchema.parse(updatedEmployeeRole)
+      };
+    } catch (error) {
+      console.error("Error occurred:", error);
       this.commonService.handleError(
         error,
         `Failed to update employee of ID #${id}`

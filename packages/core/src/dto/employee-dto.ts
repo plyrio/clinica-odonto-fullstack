@@ -32,12 +32,23 @@ export const createEmployeeSchema = z.object({
   services: z.array(z.number()).optional()
 });
 
-export const updateEmployeeSchema = createEmployeeSchema
-  .omit({password: true})
-  .partial()
-  .extend({
-    id: z.number({required_error: "ID is required"})
-  });
+export const updateEmployeeSchema = z.object({
+  id: z.number(),
+  name: z.string().min(1).optional(),
+  bio: z.string().optional().nullable(),
+  phone: z.string().regex(phoneRegex).optional().nullable(),
+  birthday: z.date().optional(),
+  imgUrl: z.string().url("Invalid URL").optional().nullable(),
+  specialties: z.array(z.number()).optional(),
+  services: z.array(z.number()).optional()
+});
+
+export const updateEmployeeRoleSchema = z.object({
+  id: z.number(),
+  role: z.array(roleEnum).min(1).default(["EMPLOYEE"]),
+  specialties: z.array(z.number()).optional(),
+  services: z.array(z.number()).optional()
+});
 
 export const responseEmployeeSchema = z.object({
   id: z.number(),
@@ -48,24 +59,26 @@ export const responseEmployeeSchema = z.object({
   phone: z.string().optional().nullable(),
   birthday: z.date(),
   imgUrl: z.string().optional().nullable(),
-  employeeAppointments: z.array(
-    z
-      .object({
-        id: z.number(),
-        date: z.date(),
-        status: z.string(),
-        service: z.object({
+  employeeAppointments: z
+    .array(
+      z
+        .object({
           id: z.number(),
-          name: z.string()
-        }),
-        user: z.object({
-          id: z.number(),
-          name: z.string(),
-          email: z.string()
+          date: z.date(),
+          status: z.string(),
+          service: z.object({
+            id: z.number(),
+            name: z.string()
+          }),
+          user: z.object({
+            id: z.number(),
+            name: z.string(),
+            email: z.string()
+          })
         })
-      })
-      .nullable()
-  ).optional(),
+        .nullable()
+    )
+    .optional(),
   specialties: z
     .array(
       z
@@ -106,10 +119,14 @@ export const responseEmployeeSchema = z.object({
 
 export type CreateEmployeeDto = z.infer<typeof createEmployeeSchema>;
 export type UpdateEmployeeDto = z.infer<typeof updateEmployeeSchema>;
+export type UpdateEmployeeRoleDto = z.infer<typeof updateEmployeeRoleSchema>;
 export type ResponseEmployeeDto = z.infer<typeof responseEmployeeSchema>;
 
 export class CreateEmployeeZodDto extends createZodDto(createEmployeeSchema) {}
 export class UpdateEmployeeZodDto extends createZodDto(updateEmployeeSchema) {}
+export class UpdateEmployeeRoleZodDto extends createZodDto(
+  updateEmployeeRoleSchema
+) {}
 export class ResponseEmployeeZodDto extends createZodDto(
   responseEmployeeSchema
 ) {}

@@ -68,7 +68,7 @@ export class UserService {
     try {
       const users = await this.prismaService.user.findMany({
         include: {
-          patientAppointments: {include: {service: true, employee: true}}
+          patientAppointments: {include: {service: true, employee: true}},
         }
       });
       this.commonService.validateDto(responseUserSchema.array(), users);
@@ -83,7 +83,7 @@ export class UserService {
       const user = await this.prismaService.user.findUnique({
         where: {id},
         include: {
-          patientAppointments: {include: {service: true, employee: true}}
+          patientAppointments: {include: {service: true, employee: true}},
         }
       });
 
