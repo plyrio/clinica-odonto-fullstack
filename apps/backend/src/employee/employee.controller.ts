@@ -30,7 +30,6 @@ import {
 } from "@nestjs/swagger";
 import { AuthGuard } from "../auth/auth.guard";
 import { RolesGuard } from "../auth/roles.guard";
-import { UserGuard } from "../auth/user.guard";
 import { Roles } from "../auth/roles.decorator";
 
 @ApiTags("employee")
@@ -175,7 +174,7 @@ export class EmployeeController {
     @ApiParam({
         name: "id",
         description: "The unique identifier of the employee to delete.",
-        type: string,
+        type: String,
         required: true
     })
     @ApiResponse({ status: 200, description: "Employee deleted successfully." })
