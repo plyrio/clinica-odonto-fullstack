@@ -5,10 +5,8 @@ import Link from "next/link";
 import {ResponseBlogPostDto} from "@odonto/core"
 
 export default async function BlogCard() {
-  const res = await fetch("https://cof-backend.onrender.com/blog-posts", {
-    cache: "no-store"
-  });
-  const blogposts: ResponseBlogPostDto[] = await res.json();
+  const data = await fetch("https://cof-backend.onrender.com/blog-posts",{cache: "no-store"});
+  const blogposts: ResponseBlogPostDto[] = await data.json();
 
   return (
     <Card>
