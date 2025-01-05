@@ -17,8 +17,7 @@ import {
     UpdateEmployeeZodDto,
     UpdateEmployeeRoleZodDto,
     ResponseEmployeeDto,
-    ResponseEmployeeZodDto,
-   
+    ResponseEmployeeZodDto
 } from "@odonto/core";
 import {
     ApiTags,
@@ -43,7 +42,8 @@ export class EmployeeController {
     @ApiBearerAuth("access-token")
     @ApiOperation({
         summary: "Create a new employee",
-        description: "Allows creation of a new employee with the provided data."
+        description:
+            "Allows creation of a new employee with the provided data. This endpoint requires a valid access token."
     })
     @ApiResponse({
         status: 201,
@@ -179,10 +179,10 @@ export class EmployeeController {
     })
     @ApiResponse({ status: 200, description: "Employee deleted successfully." })
     @ApiResponse({ status: 404, description: "Employee not found." })
-      @ApiResponse({
-    status: 403,
-    description: "Forbidden. Insufficient permissions."
-  })
+    @ApiResponse({
+        status: 403,
+        description: "Forbidden. Insufficient permissions."
+    })
     @ApiResponse({ status: 500, description: "Internal server error." })
     @ApiResponse({ status: 503, description: "Service unavailable." })
     remove(@Param("id") id: string) {
