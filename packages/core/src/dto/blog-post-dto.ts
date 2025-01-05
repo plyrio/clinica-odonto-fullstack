@@ -17,8 +17,8 @@ export const responseBlogPostSchema = z.object({
     title: z.string(),
     content: z.string(),
     imgUrl: z.string().optional().nullable(),
-    views: z.number().optional().nullable(),
-    likes: z.number().optional().nullable(),
+    views: z.number().optional(),
+    likes: z.number().optional(),
     likedBy: z
         .array(
             z
@@ -28,9 +28,8 @@ export const responseBlogPostSchema = z.object({
                 })
                 .optional()
                 .nullable()
-        )
-        .optional()
-        .nullable(),
+    ).optional()
+        ,
     updatedAt: z.date(),
     createdAt: z.date(),
     author: z.object({

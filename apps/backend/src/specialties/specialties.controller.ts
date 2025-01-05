@@ -83,7 +83,8 @@ export class SpecialtiesController {
   @ApiParam({
     name: "id",
     description: "ID of the specialty to retrieve.",
-    type: String
+    type: String,
+    required: true
   })
   @ApiResponse({
     status: 200,
@@ -109,7 +110,8 @@ export class SpecialtiesController {
   @ApiParam({
     name: "id",
     description: "ID of the specialty to update.",
-    type: String
+    type: String,
+    required: true
   })
   @ApiResponse({
     status: 200,
@@ -144,7 +146,8 @@ export class SpecialtiesController {
   @ApiParam({
     name: "id",
     description: "ID of the specialty to delete.",
-    type: String
+    type: String,
+    required: true
   })
   @ApiResponse({
     status: 200,

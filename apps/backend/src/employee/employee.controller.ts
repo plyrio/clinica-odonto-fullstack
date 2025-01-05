@@ -18,7 +18,7 @@ import {
     UpdateEmployeeRoleZodDto,
     ResponseEmployeeDto,
     ResponseEmployeeZodDto,
-    CreateUserDto
+   
 } from "@odonto/core";
 import {
     ApiTags,

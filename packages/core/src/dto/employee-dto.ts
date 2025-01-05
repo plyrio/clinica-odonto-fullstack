@@ -20,9 +20,9 @@ export const createEmployeeSchema = z.object({
   googleId: z.string().optional().nullable(),
   password: z
     .string()
-    .min(8, "Password must have at least")
+    .min(8)
     .default("12345678"),
-  name: z.string().min(1, "Name cannot be empty"),
+  name: z.string().min(1),
   bio: z.string().optional().nullable(),
   phone: z.string().regex(phoneRegex).optional().nullable(),
   birthday: z.date(),

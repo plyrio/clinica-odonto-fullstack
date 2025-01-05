@@ -36,23 +36,33 @@ export class BlogPostsController {
 
   @Post()
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles("DOCTOR", "MANAGER")
+  @Roles("DOCTOR", "MANAGER", "ADMIN")
   @ApiBearerAuth("access-token")
-  @ApiOperation({summary: "Create a new post"})
+  @ApiOperation({summary: "Create a new post",
+    description:
+      "This endpoint requires a valid access token. Only users with ADMIN, DOCTOR or MANAGER roles are authorized to perform this operation."
+  })
   @ApiResponse({
     status: 201,
     description: "Post created successfully.",
     type: CreateBlogPostZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
-  @ApiResponse({status: 500, description: "Internal server error."})
+  @ApiResponse({
+    status: 403,
+    description: "Forbidden. Insufficient permissions."
+  })
+  @ApiResponse({ status: 500, description: "Internal server error." })
+  @ApiResponse({ status: 503, description: "Service unavailable." })
   @ApiBody({type: CreateBlogPostZodDto})
   create(@Body() createBlogPostDto: CreateBlogPostDto) {
     return this.blogPostsService.create(createBlogPostDto);
   }
 
   @Get()
-  @ApiOperation({summary: "Retrieve a list of posts"})
+  @ApiOperation({summary: "Retrieve a list of posts",
+    description: "Fetches a list of all Blog-posts."
+  })
   @ApiResponse({
     status: 200,
     description: "Posts retrieved successfully.",
@@ -65,11 +75,14 @@ export class BlogPostsController {
   }
 
   @Get(":id")
-  @ApiOperation({summary: "Retrieve a post by ID"})
+  @ApiOperation({summary: "Retrieve a post by ID",
+    description: "Fetch details of a specific blog-post using its ID."
+  })
   @ApiParam({
     name: "id",
     description: "ID of the post to retrieve",
-    type: String
+    type: String,
+    required: true
   })
   @ApiResponse({
     status: 200,
@@ -78,19 +91,24 @@ export class BlogPostsController {
   })
   @ApiResponse({status: 404, description: "Post not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
+  @ApiResponse({ status: 503, description: "Service unavailable." })
   findOne(@Param("id") id: string) {
     return this.blogPostsService.findOne(+id);
   }
 
   @Patch(":id")
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles("DOCTOR", "MANAGER", "RECEPTIONIST")
+  @Roles("DOCTOR", "MANAGER", "ADMIN")
   @ApiBearerAuth("access-token")
-  @ApiOperation({summary: "Update a post by ID"})
+  @ApiOperation({summary: "Update a post by ID",
+    description:
+      "This endpoint requires a valid access token. Only users with ADMIN, DOCTOR or MANAGER roles are authorized to perform this operation."
+  })
   @ApiParam({
     name: "id",
     description: "ID of the post to update",
-    type: String
+    type: String,
+    required: true
   })
   @ApiResponse({
     status: 200,
@@ -98,8 +116,13 @@ export class BlogPostsController {
     type: ResponseBlogPostZodDto
   })
   @ApiResponse({status: 400, description: "Invalid data provided."})
+  @ApiResponse({
+    status: 403,
+    description: "Forbidden. Insufficient permissions."
+  })
   @ApiResponse({status: 404, description: "Post not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
+  @ApiResponse({ status: 503, description: "Service unavailable." })
   @ApiBody({type: UpdateBlogPostZodDto})
   update(
     @Param("id") id: string,
@@ -112,13 +135,21 @@ export class BlogPostsController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles("DOCTOR", "MANAGER", "ADMIN")
   @ApiBearerAuth("access-token")
-  @ApiOperation({summary: "Delete a post by ID"})
+  @ApiOperation({
+    summary: "Delete a post by ID", description:
+      "This endpoint requires a valid access token. Only users with ADMIN, DOCTOR or MANAGER roles are authorized to perform this operation."
+})
   @ApiParam({
     name: "id",
     description: "ID of the post to delete",
-    type: String
+    type: String,
+    required: true
   })
   @ApiResponse({status: 200, description: "Post deleted successfully."})
+  @ApiResponse({
+    status: 403,
+    description: "Forbidden. Insufficient permissions."
+  })
   @ApiResponse({status: 404, description: "Post not found."})
   @ApiResponse({status: 500, description: "Internal server error."})
   @ApiResponse({status: 503, description: "Service unavailable."})
