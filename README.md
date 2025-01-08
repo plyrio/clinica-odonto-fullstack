@@ -1,81 +1,159 @@
-# Turborepo starter
+# Clínica Odonto Fullstack
+Bem-vindo ao repositório Clínica Odonto Fullstack. Este é um monorepo completo para o gerenciamento de uma aplicação de clínica odontológica, englobando backend, frontend e pacotes compartilhados. O projeto foi arquitetado para ser altamente modular e escalável, utilizando ferramentas modernas como Turborepo para otimizar o fluxo de desenvolvimento.
 
-This is an official starter Turborepo.
+Visão Geral
+A aplicação foi projetada com foco em eficiência, colaboração e manutenção a longo prazo, integrando as melhores práticas do desenvolvimento fullstack. Este monorepo contém:
 
-## Using this example
+Frontend (Next.js): Aplicação web responsiva e dinâmica com design moderno, implementada com React e Tailwind CSS.
+Backend (NestJS): API robusta e segura com Prisma ORM para gerenciamento de banco de dados PostgreSQL.
+Biblioteca Compartilhada: Um pacote de utilitários e schemas de validação com Zod, que promove o reuso e mantém consistência entre o frontend e o backend.
+Recursos Principais
+Turborepo para gerenciamento de tarefas eficiente em um ambiente monorepo.
+Docker para padronização e facilidade no deploy do backend.
+Prisma como ORM, garantindo consultas otimizadas e facilidade na modelagem de dados.
+Zod para validação tipada e compartilhada entre o frontend e o backend.
+Tailwind CSS para estilização ágil e responsiva.
+Swagger para documentação automática da API.
+Estrutura do Repositório
+plaintext
+Copiar código
+.
+├── apps
+│   ├── backend/        # API em NestJS com integração ao banco de dados
+│   ├── frontend/       # Aplicação Next.js para a interface do usuário
+├── packages
+│   ├── core/           # Biblioteca compartilhada de schemas, utilitários e validação
+├── turbo.json          # Configuração do Turborepo
+├── package.json        # Configurações gerais do monorepo
+└── README.md           # Documentação do projeto
+Tecnologias Utilizadas
+Frontend
+Next.js: Framework React para renderização híbrida (SSR/SSG).
+React: Biblioteca para construção de interfaces interativas.
+Tailwind CSS: Framework CSS para design responsivo.
+Axios: Cliente HTTP para comunicação com a API.
+Backend
+NestJS: Framework Node.js para APIs modulares e escaláveis.
+Prisma ORM: Gerenciamento do banco de dados PostgreSQL.
+Swagger: Ferramenta para documentação interativa da API.
+Zod: Validação de dados e schemas.
+Monorepo
+Turborepo: Gerenciamento e otimização de tarefas no monorepo.
+ESLint: Padronização de código.
+Prettier: Formatação de código.
+Pré-requisitos
+Certifique-se de ter as seguintes ferramentas instaladas no seu sistema:
 
-Run the following command:
+Node.js: Recomendado >= 18.
+npm: Recomendado >= 10.8.2.
+Docker: Opcional para executar o backend em contêineres.
+PostgreSQL: Banco de dados para armazenar informações da aplicação.
+Configuração Inicial
+Clone o repositório:
 
-```sh
-npx create-turbo@latest
-```
+bash
+Copiar código
+git clone https://github.com/plyrio/clinica-odonto-fullstack.git
+cd clinica-odonto-fullstack
+Instale as dependências do monorepo:
 
-## What's inside?
+bash
+Copiar código
+npm install
+Configuração do banco de dados:
 
-This Turborepo includes the following packages/apps:
+Configure o arquivo .env em apps/backend:
+plaintext
+Copiar código
+DATABASE_URL=postgresql://<usuario>:<senha>@<host>:<porta>/<database>
+Aplique as migrações no banco de dados:
+bash
+Copiar código
+npx prisma migrate dev
+Iniciando o Projeto
+Usando o Turborepo
+A maior vantagem de utilizar o Turborepo é a automação e o paralelismo das tarefas:
 
-### Apps and Packages
+Iniciar o desenvolvimento:
+Inicia simultaneamente o frontend e o backend:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+bash
+Copiar código
+turbo dev
+Build do monorepo:
+Cria a versão de produção de todos os pacotes:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+bash
+Copiar código
+turbo build
+Lint em todos os pacotes:
+Verifica o padrão de código em todos os projetos:
 
-### Utilities
+bash
+Copiar código
+turbo lint
+Testes (caso implementados):
 
-This Turborepo has some additional tools already setup for you:
+bash
+Copiar código
+turbo test
+Executando Individualmente
+Para rodar apenas uma parte do projeto, use os comandos abaixo:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+Frontend (Next.js):
 
-### Build
+bash
+Copiar código
+cd apps/frontend
+npm run dev
+Backend (NestJS):
 
-To build all apps and packages, run the following command:
+bash
+Copiar código
+cd apps/backend
+npm run dev
+Fluxo de Trabalho com Docker
+Se preferir usar Docker para rodar o backend, siga os passos:
 
-```
-cd my-turborepo
-pnpm build
-```
+Certifique-se de que o Docker está instalado e em execução.
+No diretório apps/backend, execute:
+bash
+Copiar código
+docker build -t backend .
+docker run -p 3000:3000 backend
+Documentação da API
+O backend possui uma documentação interativa da API acessível no navegador:
 
-### Develop
+Acesse http://localhost:3000/api/docs quando o backend estiver em execução.
+Dicas para Contribuição
+Crie um branch para sua funcionalidade:
 
-To develop all apps and packages, run the following command:
+bash
+Copiar código
+git checkout -b feature/nova-funcionalidade
+Siga os padrões de código definidos pelo ESLint e Prettier:
 
-```
-cd my-turborepo
-pnpm dev
-```
+bash
+Copiar código
+npm run lint
+npm run format
+Teste suas alterações localmente antes de enviar.
 
-### Remote Caching
+Envie um pull request com uma descrição clara das alterações.
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+FAQ
+1. Como o Turborepo otimiza o desenvolvimento?
+O Turborepo utiliza cache para evitar a reexecução de tarefas em partes do código que não foram alteradas. Isso economiza tempo em builds e execução de scripts.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+2. Posso usar outro banco de dados além do PostgreSQL?
+O Prisma suporta múltiplos bancos de dados, mas a configuração padrão utiliza PostgreSQL. Para mudar, ajuste o arquivo schema.prisma e a variável DATABASE_URL.
 
-```
-cd my-turborepo
-npx turbo login
-```
+3. Quais são os principais benefícios do monorepo?
+Gerenciamento centralizado de dependências.
+Compartilhamento de código entre pacotes.
+Builds e lint otimizados com o Turborepo.
+Autor
+Este projeto foi desenvolvido por Pedro Lyrio (Plyrio Dev).
+Para dúvidas ou sugestões, entre em contato pelo email: pedrolyrio@ucl.br.
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+Licença: ISC
