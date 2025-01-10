@@ -18,23 +18,20 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          primary: "#001429",
-          secondary: "#01438D",
-          neutral: "#666666",
-          accent: "#08C4AC",
-          a: "#FFFFFF",
-          b: "#FFFFFF00",
-          c: "#A5D8FF",
-          d: "#EFF8FF",
-          e: "#23F6DB",
-          f: "#007AFF",
-          g: "#015CC0",
-          h: "#069381",
+          brand: "#1BA2BB",
+          bsubtle: "#FBFFA1",
+          bgwhite: "#FFFFFF",
+          bgsubtle: "#F1F2F2",
+          fgprimary: "#222222",
+          fgsecondary: "#666666",
+          fgwhite: "#FFFFFF",
+        
+          
         }
       },
       backgroundImage: {
         "hero-home":
-          "url('https://images.stockcake.com/public/0/0/9/009a68d4-ffae-4892-96da-288282cc0433_large/dental-checkup-smile-stockcake.jpg')",
+          "url('https://images.stockcake.com/public/d/3/7/d37bbc96-7223-4249-9205-004188b57011/dental-appointment-scene-stockcake.jpg')",
         "hero-blog":
           "url('https://images.stockcake.com/public/5/4/8/548a9418-362a-474f-b35e-fa185cddc64f_large/dental-models-displayed-stockcake.jpg')",
         "hero-services":
