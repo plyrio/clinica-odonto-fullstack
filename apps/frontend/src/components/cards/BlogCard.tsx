@@ -1,12 +1,23 @@
-import React from "react";
 import Card from "../layout/GridContainer";
 import Image from "next/image";
 import Link from "next/link";
 import {ResponseBlogPostDto} from "@odonto/core"
 
+async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
+  const res = await fetch("https://cof-backend.onrender.com/blog-posts", {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch blog posts");
+  }
+  return res.json();
+}
+
+
+
 export default async function BlogCard() {
-  const data = await fetch("https://cof-backend.onrender.com/blog-posts",{cache: "no-store"});
-  const blogposts: ResponseBlogPostDto[] = await data.json();
+  const blogposts = await fetchBlogPosts();
+  
 
   return (
     <Card>
@@ -20,7 +31,7 @@ export default async function BlogCard() {
                 width={320}
                 style={{width: "100%", height: "auto"}}
                 className='object-center w-full h-64 rounded-lg lg:h-80'
-                src={item.imgUrl || ``}
+                src={item.imgUrl || `https://images.stockcake.com/public/d/7/7/d77cdbe5-5fd2-49d4-b737-9e07d352f32b/dentist-holding-tools-stockcake.jpg`}
                 alt={item.title || "Blog post image"}
               />
 

@@ -1,35 +1,23 @@
-
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Card from "../layout/GridContainer";
 import { ResponseEmployeeDto } from "@odonto/core";
 
-export default function ProfessionalsCard() {
 
-  const [professionals, setProfessionals] = useState<ResponseEmployeeDto[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-
-    const fetchProfessionals = async () => {
-      const res = await fetch("https://cof-backend.onrender.com/employee", { cache: "no-store" });
-      const data: ResponseEmployeeDto[] = await res.json();
-      setProfessionals(data);
-      setLoading(false);
-    };
-
-    fetchProfessionals();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-lg font-medium text-gray-700">Carregando...</div>
-
-      </div>
-    );
+async function fetchProfessionals(): Promise<ResponseEmployeeDto[]> {
+  const res = await fetch("https://cof-backend.onrender.com/employee", {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch professionals");
   }
+  return res.json();
+}
 
+
+export default async function ProfessionalsCard() {
+  const professionals = await fetchProfessionals();
+
+  
   const doctors = professionals.filter((prof) => prof.role?.includes("DOCTOR"));
 
   return (
@@ -37,10 +25,10 @@ export default function ProfessionalsCard() {
       {doctors.map((doctor) => (
         <div key={doctor.id} className="w-full max-w-xs text-center">
           <Image
-            width={64}
-            height={64}
+            width={640}
+            height={640}
             className="object-cover object-center w-full h-96 mx-auto rounded-lg"
-            src={doctor.imgUrl || ""}
+            src={doctor.imgUrl || "https://images.stockcake.com/public/d/7/7/d77cdbe5-5fd2-49d4-b737-9e07d352f32b/dentist-holding-tools-stockcake.jpg"}
             alt={`avatar de ${doctor.name}`}
           />
           <div className="mt-2">

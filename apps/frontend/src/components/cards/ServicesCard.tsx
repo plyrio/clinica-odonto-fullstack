@@ -1,11 +1,21 @@
-import React from "react";
 import Card from "../layout/GridContainer";
 import CardBase from "./CardBase";
 import {ResponseServiceDto} from "@odonto/core"
 
+async function fetchServices(): Promise<ResponseServiceDto[]> {
+  const res = await fetch("https://cof-backend.onrender.com/services", {
+    cache: "no-cache",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch services");
+  }
+  return res.json();
+}
+
+
 export default async function ServicesCard() {
-  const data = await fetch("https://cof-backend.onrender.com/services", {cache: "no-cache"});
-  const services: ResponseServiceDto[] = await data.json();
+  
+  const services = await fetchServices();
 
   return (
     <>

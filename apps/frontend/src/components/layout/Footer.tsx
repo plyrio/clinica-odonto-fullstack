@@ -1,4 +1,3 @@
-"use client";
 import React  from "react";
 import { FOOTER, CLINIC_INFO, LOGO, SERVICES } from "@/data/Data";
 import Image from "next/image";
