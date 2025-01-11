@@ -1,10 +1,10 @@
-# **Clínica Odonto Fullstack**
+# Clínica Odonto Fullstack
 
 Bem-vindo ao repositório **Clínica Odonto Fullstack**. Este é um monorepo completo para o gerenciamento de uma aplicação de clínica odontológica, englobando backend, frontend e pacotes compartilhados. O projeto foi arquitetado para ser altamente modular e escalável, utilizando ferramentas modernas como **Turborepo** para otimizar o fluxo de desenvolvimento.
 
 ---
 
-## **Visão Geral**
+## Visão Geral
 
 A aplicação foi projetada com foco em **eficiência**, **colaboração** e **manutenção a longo prazo**, integrando as melhores práticas do desenvolvimento fullstack. Este monorepo contém:
 
@@ -14,7 +14,7 @@ A aplicação foi projetada com foco em **eficiência**, **colaboração** e **m
 
 ---
 
-## **Recursos Principais**
+## Recursos Principais
 
 - **Turborepo** para gerenciamento de tarefas eficiente em um ambiente monorepo.
 - **Docker** para padronização e facilidade no deploy do backend.
@@ -25,7 +25,7 @@ A aplicação foi projetada com foco em **eficiência**, **colaboração** e **m
 
 ---
 
-## **Estrutura do Repositório**
+## Estrutura do Repositório
 
 ```plaintext
 .
@@ -40,9 +40,9 @@ A aplicação foi projetada com foco em **eficiência**, **colaboração** e **m
 ```
 ---
 
-## **Tecnologias Utilizadas**
+## Tecnologias Utilizadas
 
-### **Frontend**
+### Frontend
 
 - **Next.js:** Framework React para renderização híbrida (SSR/SSG).
 
@@ -50,7 +50,7 @@ A aplicação foi projetada com foco em **eficiência**, **colaboração** e **m
 
 - **Tailwind CSS:** Framework CSS para design responsivo.
 
-### **Backend**
+### Backend
 
 - **NestJS:** Framework Node.js para APIs modulares e escaláveis.
 
@@ -60,8 +60,7 @@ A aplicação foi projetada com foco em **eficiência**, **colaboração** e **m
 
 - **Zod:** Validação de dados e schemas.
 
-
-## **Monorepo**
+## Monorepo
 
 - **Turborepo:** Gerenciamento e otimização de tarefas no monorepo.
 
@@ -71,7 +70,7 @@ A aplicação foi projetada com foco em **eficiência**, **colaboração** e **m
 
 ---
 
-## **Pré-requisitos**
+## Pré-requisitos
 
 Certifique-se de ter as seguintes ferramentas instaladas no seu sistema:
 
@@ -85,7 +84,7 @@ Certifique-se de ter as seguintes ferramentas instaladas no seu sistema:
 
 ---
 
-## **Configuração Inicial**
+## Configuração Inicial
 
 ### 1. Clone o repositório:
 ```bash
@@ -111,9 +110,9 @@ npx prisma migrate dev
 
 ---
 
-## **Iniciando o Projeto**
+## Iniciando o Projeto
 
-### **Usando o Turborepo**
+### Usando o Turborepo
 
 A maior vantagem de utilizar o Turborepo é a automação e o paralelismo das tarefas:
 
@@ -137,7 +136,7 @@ turbo lint
 turbo test
 ```
 
-### **Executando Individualmente**
+### Executando Individualmente
 
 Para rodar apenas uma parte do projeto, use os comandos abaixo:
 
@@ -154,22 +153,22 @@ npm run dev
 
 ---
 
-## **Documentação da API**
+## Documentação da API
 
 O backend possui uma documentação interativa da API acessível no navegador:
 
-- Acesse http://localhost:3000/api/docs quando o backend estiver em execução.
+- Acesse http://localhost:3000/api quando o backend estiver em execução.
 
 ---
 
-## **Dicas para Contribuição**
+## Dicas para Contribuição
 
 - 1. Crie um branch para sua funcionalidade:
 ```bash
 git checkout -b feature/nova-funcionalidade
 ```
 
-- 2. Siga os padrões de código definidos pelo ESLint e Prettier:
+- 2. Siga os padrões de código definidos pelo **ESLint** e **Prettier**:
 ```bash
 npm run lint
 npm run format
@@ -181,7 +180,7 @@ npm run format
 
 ---
 
-## **FAQ**
+## FAQ
 
 ### 1. Como o Turborepo otimiza o desenvolvimento?
 
