@@ -1,6 +1,5 @@
-"use client";
 import React from "react";
-import Hero  from "@/components/sections/Hero";
+import Hero from "@/components/sections/Hero";
 import Blog from "@/components/sections/Blog";
 import Sponsor from "@/components/sections/Sponsor";
 import Professionals from "@/components/sections/Professionals";
@@ -18,7 +17,7 @@ function page() {
         backgroundClass='hero-home'
         buttonLabel='Agende Sua Consulta'
         isHome={true}
-        description='A clínica Odontosorrir é especializada em tratamentos odontológicos para melhorar o seu sorriso e a sua saúde.'
+        description='Especializada em tratamentos odontológicos para melhorar o seu sorriso e a sua saúde.'
       />
       <Services />
       <About />
@@ -27,6 +26,7 @@ function page() {
       <Testimonials />
       <Blog />
       <Sponsor />
+    
     </>
   );
 }

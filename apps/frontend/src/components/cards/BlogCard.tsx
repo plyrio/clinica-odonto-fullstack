@@ -1,11 +1,11 @@
 import Card from "../layout/GridContainer";
 import Image from "next/image";
 import Link from "next/link";
-import {ResponseBlogPostDto} from "@odonto/core"
+import {ResponseBlogPostDto} from "@odonto/core";
 
 async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
   const res = await fetch("https://cof-backend.onrender.com/blog-posts", {
-    cache: "no-store",
+    cache: "no-store"
   });
   if (!res.ok) {
     throw new Error("Failed to fetch blog posts");
@@ -13,16 +13,12 @@ async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
   return res.json();
 }
 
-
-
 export default async function BlogCard() {
   const blogposts = await fetchBlogPosts();
-  
 
   return (
     <Card>
       {blogposts.map((item) => {
-
         return (
           <div key={item.id} className='p-6'>
             <div className='relative'>
@@ -31,7 +27,10 @@ export default async function BlogCard() {
                 width={320}
                 style={{width: "100%", height: "auto"}}
                 className='object-center w-full h-64 rounded-lg lg:h-80'
-                src={item.imgUrl || `https://images.stockcake.com/public/d/7/7/d77cdbe5-5fd2-49d4-b737-9e07d352f32b/dentist-holding-tools-stockcake.jpg`}
+                src={
+                  item.imgUrl ||
+                  `https://images.stockcake.com/public/d/7/7/d77cdbe5-5fd2-49d4-b737-9e07d352f32b/dentist-holding-tools-stockcake.jpg`
+                }
                 alt={item.title || "Blog post image"}
               />
 
@@ -49,8 +48,8 @@ export default async function BlogCard() {
                 <div className='mx-4'>
                   <h1 className='text-sm text-gray-700'>{item.author?.name}</h1>
                   <p className='text-sm text-gray-500'>
-                    {item.createdAt && new Date(item.createdAt).toLocaleDateString("pt-BR")}
-
+                    {item.createdAt &&
+                      new Date(item.createdAt).toLocaleDateString("pt-BR")}
                   </p>
                 </div>
               </div>

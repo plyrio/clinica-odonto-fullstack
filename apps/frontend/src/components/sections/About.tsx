@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import Section from '../layout/Section'
 import CountUp from 'react-countup';
