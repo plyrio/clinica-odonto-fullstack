@@ -163,20 +163,20 @@ O backend possui uma documentação interativa da API acessível no navegador:
 
 ## Dicas para Contribuição
 
-- 1. Crie um branch para sua funcionalidade:
+1. Crie um branch para sua funcionalidade:
 ```bash
 git checkout -b feature/nova-funcionalidade
 ```
 
-- 2. Siga os padrões de código definidos pelo **ESLint** e **Prettier**:
+2. Siga os padrões de código definidos pelo **ESLint** e **Prettier**:
 ```bash
 npm run lint
 npm run format
 ```
 
-- 3. Teste suas alterações localmente antes de enviar.
+3. Teste suas alterações localmente antes de enviar.
 
-- 4. Envie um pull request com uma descrição clara das alterações.
+4. Envie um **pull request** com uma descrição clara das alterações.
 
 ---
 
