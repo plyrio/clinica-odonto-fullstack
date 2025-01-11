@@ -163,7 +163,7 @@ O backend possui uma documentação interativa da API acessível no navegador:
 
 ## Dicas para Contribuição
 
-- 1. Crie um branch para sua funcionalidade:
+- **1.** Crie um branch para sua funcionalidade:
 ```bash
 git checkout -b feature/nova-funcionalidade
 ```
