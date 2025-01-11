@@ -1,12 +1,12 @@
 # Clínica Odonto Fullstack
 Bem-vindo ao repositório Clínica Odonto Fullstack. Este é um monorepo completo para o gerenciamento de uma aplicação de clínica odontológica, englobando backend, frontend e pacotes compartilhados. O projeto foi arquitetado para ser altamente modular e escalável, utilizando ferramentas modernas como Turborepo para otimizar o fluxo de desenvolvimento.
 
-Visão Geral
+## Visão Geral
 A aplicação foi projetada com foco em eficiência, colaboração e manutenção a longo prazo, integrando as melhores práticas do desenvolvimento fullstack. Este monorepo contém:
 
-Frontend (Next.js): Aplicação web responsiva e dinâmica com design moderno, implementada com React e Tailwind CSS.
-Backend (NestJS): API robusta e segura com Prisma ORM para gerenciamento de banco de dados PostgreSQL.
-Biblioteca Compartilhada: Um pacote de utilitários e schemas de validação com Zod, que promove o reuso e mantém consistência entre o frontend e o backend.
+**Frontend (Next.js):** Aplicação web responsiva e dinâmica com design moderno, implementada com React e Tailwind CSS.
+**Backend (NestJS):** API robusta e segura com Prisma ORM para gerenciamento de banco de dados PostgreSQL.
+**Biblioteca Compartilhada:** Um pacote de utilitários e schemas de validação com Zod, que promove o reuso e mantém consistência entre o frontend e o backend.
 Recursos Principais
 Turborepo para gerenciamento de tarefas eficiente em um ambiente monorepo.
 Docker para padronização e facilidade no deploy do backend.
