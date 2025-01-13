@@ -12,21 +12,20 @@ function page() {
   return (
     <>
       <Hero
-        title='Nutrindo Sorrisos,'
-        subtitle='Construindo Confiança'
+        title='Nutrindo Sorrisos, Construindo Confiança'
+      
         backgroundClass='hero-home'
         buttonLabel='Agende Sua Consulta'
         isHome={true}
         description='Especializada em tratamentos odontológicos para melhorar o seu sorriso e a sua saúde.'
       />
-      <Services />
+      {/* <Services />
       <About />
       <Professionals />
       <Contact />
       <Testimonials />
       <Blog />
-      <Sponsor />
-    
+      <Sponsor /> */}
     </>
   );
 }

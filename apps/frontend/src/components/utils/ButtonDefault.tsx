@@ -21,7 +21,7 @@ export default function ButtonDefault({
     <button
       type='button'
       className={twMerge(
-        ` relative hover:border-brand-bgwhite hover:border-opacity-90 focus:outline-brand-brand border-4 border-brand-fgprimary border-opacity-20  inline-block text-center overflow-hidden transition duration-400  font-semibold shadow-lg  w-full  px-12 py-3 text-sm focus:ring active:text-opacity-75 sm:w-auto ${buttonClass}`,
+        ` relative rounded-full hover:border-brand-bgwhite hover:border-opacity-90 focus:outline-brand-brand border-4 border-brand-fgprimary border-opacity-20  inline-block text-center overflow-hidden transition duration-400  font-semibold shadow-lg  w-full  px-8 py-3 text-sm focus:ring active:text-opacity-75 sm:w-auto ${buttonClass}`,
         className
       )}>
       {text}
