@@ -71,7 +71,7 @@ export function Footer() {
 
                         {Object.entries(FOOTER.contactInfo).map(([key, {icon: Icon, text}])=>
                         <div key={key} className="flex text-sm text-gray-600 mt-2">
-            <Icon className="w-4 h-4 mr-2 fill-current" viewBox="0 0 24"/>
+            <Icon className="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24"/>
             <span className="text-sm text-gray-600 hover:underline"> 
                             {text}
                         </span>

@@ -8,6 +8,6 @@ type SectionLayoutProps = {
 
 export default function Section({children, className}: SectionLayoutProps) {
   return (
-    <section className={twMerge(`py-8 mx-auto`, className)}>{children}</section>
+    <section className={twMerge(`lg:container px-6 py-8 mx-auto`, className)}>{children}</section>
   );
 }

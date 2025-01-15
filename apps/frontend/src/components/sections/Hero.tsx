@@ -27,13 +27,13 @@ export default function Hero({
     <div
       className={twMerge(
         `relative bg-no-repeat bg-cover z-10 mx-auto px-6 md:flex flex-col items-center justify-start md:items-start before:absolute before:inset-0 before:bg-gradient-to-r before:from-black/50 before:via-black/20 before:to-transparent ${
-          isHome ? "bg-center h-full" : "max-w-screen-xl h-[300px]"
+          isHome ? "bg-center h-[425px]" : "h-[320px]"
         } bg-${backgroundClass}`,
         className
       )}>
       <div
-        className={`relative flex flex-col container-lg py-32 w-full ${
-          isHome ? "  md:mx-0 items-center md:items-start" : " items-center"
+        className={` relative flex flex-col py-32 lg:container ${
+          isHome ? "  lg:mx-auto items-center md:items-start" : " items-center"
         }`}>
         <h1 className=' relative flex flex-row text-center md:text-start text-3xl font-bold text-brand-fgwhite sm:text-4xl drop-shadow-lg max-w-md'>
           {title}
@@ -56,7 +56,7 @@ export default function Hero({
               {/*  <ButtonDefault text='Nossos Serviços'></ButtonDefault> */}
             </div>
           ) : (
-            <nav className='flex mx-auto flex gap-4'>
+            <nav className='flex mx-auto gap-4'>
               <Link
                 href='/'
                 className='text-center text-brand-fgwhite text-md drop-shadow-lg hover:underline'>

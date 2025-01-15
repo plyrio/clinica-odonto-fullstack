@@ -9,6 +9,7 @@ const nextConfig = {
             { protocol: 'https', hostname: 'img.daisyui.com',},
             { protocol: 'https', hostname: 'avatars.githubusercontent.com',},
             { protocol: 'https', hostname: 'images.stockcake.com', },
+            { protocol: 'https', hostname: 'res.cloudinary.com', },
             
         ]
     },

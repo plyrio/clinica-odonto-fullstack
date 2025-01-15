@@ -48,8 +48,8 @@ export const Header = () => {
 
   return (
     <nav className='sticky bg-white shadow top-0 start-0  mx-auto z-50'>
-      <div className='container-lg mx-auto px-6 py-4 md:py-0 md:px-0'>
-        <div className='md:flex md:items-center md:justify-between'>
+     
+        <div className='lg:container mx-auto md:flex md:items-center md:justify-between  px-6 py-4 md:py-0 md:px-0'>
           <div className='flex items-center justify-between'>
             <Link href='#' className='flex md:ms-4 items-center'>
               <Image
@@ -107,8 +107,7 @@ export const Header = () => {
           </div>
 
           {/* Mobile Menu open: "block", Menu closed: "hidden" */}
-          <div
-            className={`${
+          <div className={`${
               open ? `translate-x-0 opacity-100` : `opacity-0 -translate-x-full`
             } absolute inset-x-0 z-20 w-full py-4 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center shadow-sm`}
             id='toggle-menu'>
@@ -119,7 +118,7 @@ export const Header = () => {
                   onClick={link.name === "Mais" ? handleDrop : undefined}>
                   <Link
                     href={link.href}
-                    className={`flex inline-flex px-6 md:px-3 py-4 items-start w-full shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shad1w-blue-400 ${
+                    className={`flex px-6 md:px-3 py-4 items-start w-full shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shad1w-blue-400 ${
                       pathname === link.href
                         ? " md:text-brand-primary"
                         : " text-gray-700"
@@ -130,6 +129,7 @@ export const Header = () => {
                       <svg
                         className='w-5 h-5'
                         fill='none'
+                        viewBox='0 0 24 24'
                         xmlns='http://www.w3.org/2000/svg'>
                         {!drop ? (
                           <path
@@ -192,7 +192,7 @@ export const Header = () => {
 
               <button
                 type='button'
-                className='flex items-center focus:outline-none px-6 md:px-3 py-4 items-start '
+                className='flex focus:outline-none px-6 md:px-3 py-4 items-start '
                 aria-label='toggle profile dropdown'>
                 <div className='w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full'>
                   <img
@@ -207,7 +207,7 @@ export const Header = () => {
             </div>
           </div>
         </div>
-      </div>
+      
     </nav>
   );
 };
