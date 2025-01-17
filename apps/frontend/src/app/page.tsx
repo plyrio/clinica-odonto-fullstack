@@ -19,7 +19,7 @@ function page() {
         isHome={true}
         description='Especializada em tratamentos odontológicos para melhorar o seu sorriso e a sua saúde.'
       />
-     <Services />
+      <Services />
       <About />
       <Professionals />
       <Contact />

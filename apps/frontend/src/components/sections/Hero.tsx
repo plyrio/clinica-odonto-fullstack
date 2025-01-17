@@ -26,16 +26,18 @@ export default function Hero({
   return (
     <div
       className={twMerge(
-        `relative bg-no-repeat bg-cover z-10 mx-auto px-6 md:flex flex-col items-center justify-start md:items-start before:absolute before:inset-0 before:bg-gradient-to-r before:from-black/50 before:via-black/20 before:to-transparent ${
-          isHome ? "bg-center h-[425px]" : "h-[320px]"
+        `relative bg-no-repeat bg-cover z-10 mx-auto px-6 flex flex-col justify-center md:items-start before:absolute before:inset-0 before:bg-gradient-to-r before:from-black/50 before:via-black/20 before:to-transparent ${
+          isHome ? "bg-center h-[425px]" : "h-[280px] items-center"
         } bg-${backgroundClass}`,
         className
       )}>
       <div
-        className={` relative flex flex-col py-32 lg:container ${
-          isHome ? "  lg:mx-auto items-center md:items-start" : " items-center"
+        className={`lg:container relative flex flex-col justify-center ${
+          isHome
+            ? "lg:mx-auto text-center md:text-start"
+            : "text-center mx-auto items-center"
         }`}>
-        <h1 className=' relative flex flex-row text-center md:text-start text-3xl font-bold text-brand-fgwhite sm:text-4xl drop-shadow-lg max-w-md'>
+        <h1 className=' relative flex flex-row text-3xl font-bold text-brand-fgwhite sm:text-4xl drop-shadow-lg max-w-md'>
           {title}
           <span className='relative flex flex-row text-brand-fgwhite max-w-md'>
             {" "}
