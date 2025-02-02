@@ -5,7 +5,7 @@ import CountUp from 'react-countup';
 
 export default function About() {
   return (
-    <Section>
+    <Section className='bg-banner w-screen px-0 md:container bg-cover bg-center bg-no-repeat text-white'>
       <CountUp
         start={-875.039}
         end={160527.012}
@@ -24,9 +24,8 @@ export default function About() {
             <button onClick={start}>Start</button>
           </div>
         )}
+
       </CountUp>
-
-
     </Section>
   )
 }

@@ -7,9 +7,9 @@ type GridContainerProps = {
     gridClassName?: string; 
 };
 
-export default function GridContainer({ children, className, gridClassName }: GridContainerProps) {
-    const defaultContainerClasses = 'p-6 mx-auto justify-center';
-    const defaultGridClasses = 'flex flex-wrap items-center justify-center gap-8 mt-8 md:mt-16 ';
+export function CardContainer({ children, className, gridClassName }: GridContainerProps) {
+    const defaultContainerClasses = 'lg:contaienr mx-auto';
+    const defaultGridClasses = 'grid grid-cols-1 gap-6 xl:mt-16 md:grid-cols-3 xl:grid-cols-4 mt-12 mx-auto justify-item-center';
     return (
         <div className={twMerge(defaultContainerClasses, className)}>
             <div className={twMerge(defaultGridClasses, gridClassName)}>

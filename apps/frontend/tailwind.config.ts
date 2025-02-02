@@ -43,7 +43,12 @@ const config: Config = {
         "hero-professionals":
           "url('https://images.stockcake.com/public/3/e/c/3ec9a839-3260-4284-8e48-9bc05d8787d4_large/dentist-holding-x-ray-stockcake.jpg')",
         "contact-form":
-          "url('https://images.stockcake.com/public/6/6/4/6647d8f8-3cf0-4d60-9b84-d1f7230a59b8/dentist-holding-molar-stockcake.jpg')"
+          "url('https://images.stockcake.com/public/6/6/4/6647d8f8-3cf0-4d60-9b84-d1f7230a59b8/dentist-holding-molar-stockcake.jpg')",
+        "banner":
+          "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/banner-bg_wd7mfz.jpg')",
+        "contact":
+          "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/appointment_owikow.jpg')",
+
       }
     }
   },

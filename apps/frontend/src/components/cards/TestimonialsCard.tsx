@@ -1,46 +1,188 @@
 import Image from 'next/image'
 import React from 'react'
-import { FaStar } from "react-icons/fa";
+import { CardContainer } from '../layout/CardContainer';
 
 export default function TestimonialsCard() {
   return (
-      <section className="bg-white">
-          <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-              <h2 className="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-                  Read trusted reviews from our customers
-              </h2>
-
-              <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-                  <blockquote className="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
-                      <div className="flex items-center gap-4">
-                          <Image height={50} width={50}
-                              alt=""
-                              src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
-                              className="size-14 rounded-full object-cover"
-                          />
-
-                          <div>
-                              <div className="flex justify-center gap-0.5 text-green-500">
-                                  <FaStar />
-                                  <FaStar />
-                                  <FaStar />
-                                  <FaStar />
-                                  <FaStar />
-                              </div>
-
-                              <p className="mt-0.5 text-lg font-medium text-gray-900">Paul Starr</p>
-                          </div>
+      <CardContainer>
+              <div>
+                  <div className="flex flex-col items-center">
+                      <Image src="https://readymadeui.com/team-2.webp"
+                      height={96}
+                      width={96}
+                      alt='John Doe'
+                      className="w-24 h-24 rounded-full border-2 border-purple-600" 
+                      />
+                      <div className="mt-6">
+                          <h4 className="text-sm font-bold text-gray-800">John Doe</h4>
                       </div>
+                  </div>
 
-                      <p className="mt-4 text-gray-700">
-                          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa sit rerum incidunt, a
-                          consequuntur recusandae ab saepe illo est quia obcaecati neque quibusdam eius accusamus
-                          error officiis atque voluptates magnam!
-                      </p>
-                  </blockquote>
+                  <div className="flex justify-center space-x-1 mt-2.5">
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                  </div>
+
+                  <div className="mt-4">
+                      <p className="text-sm leading-relaxed text-gray-800">The service was amazing. I never had to wait that long for my food. The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                  </div>
+              </div>
+
+              <div>
+                  <div className="flex flex-col items-center">
+                      <Image src="https://readymadeui.com/team-3.webp" className="w-24 h-24 rounded-full border-2 border-purple-600"
+                          height={96}
+                          width={96}
+                          alt='Mark' />
+                      <div className="mt-6">
+                          <h4 className="text-sm font-bold text-gray-800">Mark Adair</h4>
+                      </div>
+                  </div>
+
+                  <div className="flex justify-center space-x-1 mt-2.5">
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                  </div>
+
+                  <div className="mt-4">
+                      <p className="text-sm leading-relaxed text-gray-800">The service was amazing. I never had to wait that long for my food. The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                  </div>
+              </div>
+
+              <div>
+                  <div className="flex flex-col items-center">
+                      <Image src="https://readymadeui.com/team-4.webp" className="w-24 h-24 rounded-full border-2 border-purple-600"
+                          height={96}
+                          width={96}
+                          alt='Simon' />
+                      <div className="mt-6">
+                          <h4 className="text-sm font-bold text-gray-800">Simon Konecki</h4>
+                      </div>
+                  </div>
+
+                  <div className="flex justify-center space-x-1 mt-2.5">
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                  </div>
+
+                  <div className="mt-4">
+                      <p className="text-sm leading-relaxed text-gray-800">The service was amazing. I never had to wait that long for my food. The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                  </div>
 
               </div>
-          </div>
-      </section>
+
+              <div>
+                  <div className="flex flex-col items-center">
+                      <Image src="https://readymadeui.com/team-2.webp" className="w-24 h-24 rounded-full border-2 border-purple-600"
+                          height={96}
+                          width={96}
+                          alt='John Doe' />
+                      <div className="mt-6">
+                          <h4 className="text-sm font-bold text-gray-800">John Doe</h4>
+                      </div>
+                  </div>
+
+                  <div className="flex justify-center space-x-1 mt-2.5">
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 h-4 fill-purple-600" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                      <svg className="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                      </svg>
+                  </div>
+
+                  <div className="mt-4">
+                      <p className="text-sm leading-relaxed text-gray-800">The service was amazing. I never had to wait that long for my food. The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                  </div>
+              </div>
+      </CardContainer> 
   )
 }

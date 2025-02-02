@@ -1,4 +1,4 @@
-import Card from "../layout/GridContainer";
+import { CardContainer } from "../layout/CardContainer";
 import Image from "next/image";
 import Link from "next/link";
 import {ResponseBlogPostDto} from "@odonto/core";
@@ -17,14 +17,14 @@ export default async function BlogCard() {
   const blogposts = await fetchBlogPosts();
 
   return (
-    <Card>
+    <CardContainer>
       {blogposts.map((item) => {
         return (
-          <div key={item.id} className='p-6'>
+          <div key={item.id} className="max-w-sm mx-auto">
             <div className='relative'>
               <Image
                 height={256}
-                width={320}
+                width={256}
                 style={{width: "100%", height: "auto"}}
                 className='object-center w-full h-64 rounded-lg lg:h-80'
                 src={
@@ -73,6 +73,6 @@ export default async function BlogCard() {
           </div>
         );
       })}
-    </Card>
+    </CardContainer>
   );
 }

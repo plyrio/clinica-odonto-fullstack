@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Card from "../layout/GridContainer";
-import {ResponseEmployeeDto} from "@odonto/core";
+import { ResponseEmployeeDto } from "@odonto/core";
+import { CardContainer } from "../layout/CardContainer";
 
 async function fetchProfessionals(): Promise<ResponseEmployeeDto[]> {
-  const res = await fetch("https://cof-backend.onrender.com/employee");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employee`);
   if (!res.ok) {
     throw new Error("Failed to fetch professionals");
   }
@@ -16,19 +16,18 @@ export default async function ProfessionalsCard() {
   const doctors = professionals.filter((prof) => prof.role?.includes("DOCTOR"));
 
   return (
-    <div className='lg:max-w-5xl max-w-3xl mx-auto'>
-      <div className='grid lg:grid-cols-5 md:grid-cols-4 gap-6 max-md:justify-center mt-12'>
+    <CardContainer>
         {doctors.map((professionals) => (
           <div
             key={professionals.id}
-            className='border rounded-lg overflow-hidden'>
+            className='border rounded-lg overflow-hidden w-full '>
             <Image
               src={
                 professionals.imgUrl || "https://readymadeui.com/team-1.webp"
               }
               width={400}
               height={200}
-              className='w-full h-56 object-cover'
+              className='w-full object-cover'
               alt={`Imagem de ${professionals.name}`}
             />
 
@@ -89,7 +88,6 @@ export default async function ProfessionalsCard() {
             </div>
           </div>
         ))}
-      </div>
-    </div>
+    </CardContainer>
   );
 }
