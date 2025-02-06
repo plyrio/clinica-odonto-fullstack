@@ -12,12 +12,11 @@ function page() {
   return (
     <>
       <Hero
-        title='Nutrindo Sorrisos, Construindo Confiança'
-      
-        backgroundClass='hero-home'
+        title='Cuidando do seu sorriso'
+        subtitle='Bem-vindo a Clinica Odonto'
         buttonLabel='Agende Sua Consulta'
         isHome={true}
-        description='Especializada em tratamentos odontológicos para melhorar o seu sorriso e a sua saúde.'
+        description='Especializada em tratamentos odontológicos para melhorar o seu sorriso e a sua saúde. Eleve a sua autoestima, estamos nutrindo sorrisos, construindo confiança.'
       />
       <Services />
       <About />
@@ -25,7 +24,7 @@ function page() {
       <Contact />
       <Testimonials />
       <Blog />
-      <Sponsor /> 
+      <Sponsor />
     </>
   );
 }

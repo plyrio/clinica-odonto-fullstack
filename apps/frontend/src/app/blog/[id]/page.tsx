@@ -21,7 +21,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
 
     return (
         <>
-            <Hero title={article.title || "Titulo Não Disponivel"} backgroundClass="hero-blog" />
+            <Hero title={article.title || "Titulo Não Disponivel"}/>
             <h1>{article.title}</h1>
             <p>Autor: {article.author?.name}</p>
             <p>Data: {article.createdAt && new Date(article.createdAt).toLocaleDateString("pt-BR")}</p>

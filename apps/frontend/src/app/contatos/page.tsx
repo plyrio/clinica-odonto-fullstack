@@ -8,7 +8,7 @@ import Section from '@/components/layout/Section';
 export default function ContactPage() {
   return (
     <>
-      <Hero title="Contatos" backgroundClass="hero-contact" />
+      <Hero title="Contatos" />
       <Section>
         <Contact />
         <div className="overflow-hidden rounded-lg lg:col-span-2 h-96 lg:h-auto">
