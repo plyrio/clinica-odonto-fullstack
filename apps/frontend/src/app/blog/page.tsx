@@ -5,7 +5,7 @@ import Blog from '@/components/sections/Blog';
 export default function BlogMain () {
   return (
     <>
-      <Hero title="Blog" backgroundClass="hero-blog"/>
+      <Hero title="Blog"/>
       <Blog />
     </>
     )
