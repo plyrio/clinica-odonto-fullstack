@@ -48,6 +48,8 @@ const config: Config = {
           "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/banner-bg_wd7mfz.jpg')",
         "contact":
           "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/appointment_owikow.jpg')",
+        "hero-generic":
+          "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/banner-bg_wd7mfz.jpg')"
 
       }
     }

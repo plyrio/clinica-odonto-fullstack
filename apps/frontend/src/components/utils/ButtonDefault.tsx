@@ -1,30 +1,37 @@
+import Link from "next/link";
 import React from "react";
 import {twMerge} from "tailwind-merge";
 
 type ButtonDefaultProps = {
   text: string;
-  variant?: "blue-white" | "white-blue"; // Define as variações
+  variant?: "blue-white" | "white-blue";
   className?: string;
+  href: string;
 };
 
 export default function ButtonDefault({
   text,
   variant = "blue-white",
-  className
+  className,
+  href = "#"
 }: ButtonDefaultProps) {
   const buttonClass =
-    variant === "blue-white"
-      ? "bg-transparent text-brand-fgprimary hover:bg-brand-bgsubtle hover:text-brand-fgwhite   focus:outline-brand-brand"
-      : "bg-brand-bgwhite text-brand-fgprimary hover:bg-brand-bgsubtle    ";
+    variant === "white-blue"
+      ? " hover:text-white shadow-[0_7px_25px_rgba(123,104,238,0.25)] text-blue-600  bg-white "
+      : "text-white bg-blue-600";
 
   return (
-    <button
+    <Link href={href}
       type='button'
       className={twMerge(
-        ` relative rounded-full hover:border-brand-bgwhite hover:border-opacity-90 focus:outline-brand-brand border-4 border-brand-fgprimary border-opacity-20  inline-block text-center overflow-hidden transition duration-400  font-semibold shadow-lg  w-full  px-8 py-3 text-sm focus:ring active:text-opacity-75 sm:w-auto ${buttonClass}`,
+        `relative inline-block text-center overflow-hidden z-10
+                duration-400
+               rounded-full font-semibold text-[15px]
+               px-[35px] py-[12px] mt-[5px] mr-[10px]
+                border-none hover:bg-indigo-900 ${buttonClass}`,
         className
       )}>
       {text}
-    </button>
+    </Link>
   );
 }

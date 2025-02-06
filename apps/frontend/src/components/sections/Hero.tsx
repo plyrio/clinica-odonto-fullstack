@@ -1,13 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import ButtonDefault from "@/components/utils/ButtonDefault";
-import {twMerge} from "tailwind-merge";
+import { twMerge } from "tailwind-merge";
 
 type HeroProps = {
   title: string;
   subtitle?: string;
   description?: string;
-  backgroundClass: string;
   buttonLabel?: string;
   buttonLink?: string;
   isHome?: boolean;
@@ -17,59 +16,51 @@ type HeroProps = {
 export default function Hero({
   title,
   subtitle,
-  backgroundClass,
   buttonLabel,
   isHome = false,
   description,
   className = ""
 }: HeroProps) {
   return (
-    <div
-      className={twMerge(
-        `relative bg-no-repeat bg-cover z-10 mx-auto px-6 flex flex-col justify-center md:items-start before:absolute before:inset-0 before:bg-gradient-to-r before:from-black/50 before:via-black/20 before:to-transparent ${
-          isHome ? "bg-center h-[425px]" : "h-[280px] items-center"
-        } bg-${backgroundClass}`,
-        className
-      )}>
-      <div
-        className={`lg:container relative flex flex-col justify-center ${
-          isHome
-            ? "lg:mx-auto text-center md:text-start"
-            : "text-center mx-auto items-center"
-        }`}>
-        <h1 className=' relative flex flex-row text-3xl font-bold text-brand-fgwhite sm:text-4xl drop-shadow-lg max-w-md'>
-          {title}
-          <span className='relative flex flex-row text-brand-fgwhite max-w-md'>
-            {" "}
-            {subtitle}{" "}
-          </span>
-        </h1>
+    <div className={twMerge(`relative z-10 h-full bg-cover bg-center bg-no-repeat ${isHome ? 'py-[100px] sm:pt-[120px] sm:pb-[100px] md:h-[700px] bg-hero-home' : 'h-[300px] bg-hero-generic'}`, className)}>
+      <div className="absolute inset-0 bg-slate-900 opacity-50 -z-10"></div>
+      <div className="flex items-center justify-center h-full w-full">
+        <div className="container w-full flex mx-auto">
+          <div className="flex items-center max-w-6xl mx-auto">
+            <div className="col-lg-8 offset-lg-2 col-md-12">
+              <div className="text-center">
+                <h4 className="text-white text-[20px] font-medium">{subtitle}</h4>
+                <h1 className={twMerge(`text-white  font-bold uppercase mb-5 ${isHome ? 'text-[40px] sm:text-[35px] md:text-[60px]' : 'text-[28px] sm:text-[35px] md:text-[38px]'}`)}>{title}</h1>
+                <p className="text-white text-[16px] m-0">{description}</p>
+                {isHome ? (
+                  <div className="mt-[25px]">
+                    <ButtonDefault
+                      href="/contatos"
+                      text={`${buttonLabel}`}
+                      variant='white-blue'
+                      className="mr-[10px]"></ButtonDefault>
+                    <ButtonDefault
+                      href="/servicos"
+                      text='Nossos Serviços'
+                    ></ButtonDefault>
+                  </div>) :
+                  (<div className='flex mx-auto justify-center items-center'>
+                    <Link
+                      href='/'
+                      className='text-center text-white text-[17px] font-semibold mx-[10px]'>
+                      Inicio
+                    </Link>
+                    <span className='text-center text-blue-600 text-[17px] font-semibold mx-[10px]'> • </span>
+                    <span className='text-center text-white text-[17px] font-semibold mx-[10px]'>
+                      {title}
+                    </span>
+                  </div>)
 
-        <p className='relative flex mt-4 max-w-md sm:text-xl/relaxed text-brand-fgwhite drop-shadow-lg text-center md:text-start'>
-          {description}
-        </p>
 
-        <div className='relative mt-8 flex items-center gap-4'>
-          {isHome ? (
-            <div className='flex flex-col md:flex-row items-center md:mx-0 mx-auto gap-3 md:gap-6'>
-              <ButtonDefault
-                text={`${buttonLabel}`}
-                variant='white-blue'></ButtonDefault>
-              {/*  <ButtonDefault text='Nossos Serviços'></ButtonDefault> */}
+                }
+              </div>
             </div>
-          ) : (
-            <nav className='flex mx-auto gap-4'>
-              <Link
-                href='/'
-                className='text-center text-brand-fgwhite text-md drop-shadow-lg hover:underline'>
-                Inicio
-              </Link>
-              <span className='text-brand-fgwhite drop-shadow-lg'>•</span>
-              <span className='text-brand-fgwhite text-md drop-shadow-lg'>
-                {title}
-              </span>
-            </nav>
-          )}
+          </div>
         </div>
       </div>
     </div>
