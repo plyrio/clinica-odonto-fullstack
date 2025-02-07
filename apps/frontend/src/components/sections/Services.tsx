@@ -5,7 +5,7 @@ import TitlesSection from "../utils/TitlesSection";
 
 export default function ServicesSection() {
   return (
-    <Section >
+    <Section>
       <TitlesSection
         title='Serviços Odontológicos'
         subtitle='O Que Oferecemos'
