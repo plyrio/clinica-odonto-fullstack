@@ -3,6 +3,8 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import "swiper/css";
 import {Autoplay} from "swiper/modules";
 import Image from "next/image";
+import Section from "../layout/Section";
+import TitlesSection from "../utils/TitlesSection";
 
 const sponsorList = [
   {
@@ -27,12 +29,14 @@ const sponsorList = [
 
 export default function Sponsor() {
   return (
-    <div className='w-full h-full'>
-      <div className='bg-gray-200'>
+    <Section noContainer={true} className='bg-gray-200'>
+      <TitlesSection title="Patrocinadores"></TitlesSection>
+    <div className='w-full h-full lg:container mx-auto'>
+        <div className=' lg:container mx-auto'>
         <div className='section-wrapper'>
-          <div className='sponsor-slider'>
+          <div className='sponsor-slider mx-auto items-center justify-center'>
             <Swiper
-              slidesPerView={2}
+              slidesPerView={1}
               spaceBetween={20}
               autoplay={{
                 delay: 2000,
@@ -44,25 +48,29 @@ export default function Sponsor() {
                   spaceBetween: 20
                 },
                 768: {
-                  slidesPerView: 3,
+                  slidesPerView: 2,
                   spaceBetween: 40
                 },
                 1024: {
-                  slidesPerView: 5,
+                  slidesPerView: 3,
+                  spaceBetween: 50
+                },
+                1440: {
+                  slidesPerView: 4,
                   spaceBetween: 50
                 }
               }}
               modules={[Autoplay]}
-              className='mySwiper h-full'>
+              className='mySwiper '>
               {sponsorList.map((val, i) => (
                 <SwiperSlide key={i}>
-                  <div className='h-full'>
+                  <div className="flex mx-auto justify-center items-center bg-white w-full h-24">
                     <Image
-                      height={86}
-                      width={86}
+                      height={286}
+                      width={286}
                       src={val.imgUrl}
-                      alt=''
-                      className=''
+                      alt=""
+                      className="object-contain h-full w-auto"
                     />
                   </div>
                 </SwiperSlide>
@@ -72,5 +80,6 @@ export default function Sponsor() {
         </div>
       </div>
     </div>
+    </Section>
   );
 }

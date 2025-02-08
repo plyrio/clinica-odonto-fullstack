@@ -1,20 +1,25 @@
 import { CardContainer } from "../layout/CardContainer";
 import Image from "next/image";
 import Link from "next/link";
-import {ResponseBlogPostDto} from "@odonto/core";
+import { ResponseBlogPostDto } from "@odonto/core";
 
 async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
   try {
-    const res = await fetch("https://cof-backend.onrender.com/blog-posts");
-  if (!res.ok) {
-    throw new Error("Failed to fetch blog posts");
-  }
-  return res.json();
+    const res = await fetch("https://cof-backend.onrender.com/blog-posts",
+      {
+        next: { revalidate: 600 },
+        cache: "force-cache",
+      }
+    );
+    if (!res.ok) {
+      throw new Error("Failed to fetch blog posts");
+    }
+    return res.json();
   } catch (error) {
     console.error("Error fetching services:", error);
     return [];
   }
-  
+
 }
 
 export default async function BlogCard() {
@@ -34,7 +39,7 @@ export default async function BlogCard() {
               <Image
                 height={256}
                 width={256}
-                style={{width: "100%", height: "auto"}}
+                style={{ width: "100%", height: "auto" }}
                 className='object-center w-full h-64 rounded-lg lg:h-80'
                 src={
                   item.imgUrl ||

@@ -5,7 +5,10 @@ import ButtonDefault from "../utils/ButtonDefault";
 
 async function fetchServices(): Promise<ResponseServiceDto[]> {
   try {
-    const res = await fetch("https://cof-backend.onrender.com/services" );
+    const res = await fetch("https://cof-backend.onrender.com/services", {
+      next: { revalidate: 600 },
+      cache: "force-cache",
+    });
     if (!res.ok) {
       throw new Error("Failed to fetch services");
     }
@@ -25,29 +28,38 @@ export default async function ServicesCard() {
   }
 
   return (
-    <CardContainer>
+    <CardContainer >
       {services.length > 0 ? (
         services.map((service) => (
-          <div key={service.id} className="flex">
-              <div className="h-full relative z-10 block p-[35px] px-[30px] text-left  
-                      rounded-[5px] bg-white mt-[30px] overflow-hidden  
-                      shadow-lg transition-all duration-500 ease-out before:text-left">
-                  <div className="relative z-10 text-blue-600 w-[55px] h-[55px] mb-[25px] transition-all duration-500">
-                      <Image width={45} height={45} src={
-                          service.imgUrl ||
-                          "https://res.cloudinary.com/dn5yfai0g/image/upload/v1736903941/tooth_ptns1e.png"
-                      }
-                          alt={`avatar de ${service.name}`} className="text-[45px] ml-[20px]" />
-                      <span className="absolute -z-10 left-0 top-1/4 w-[45px] h-[45px]  
-                           bg-neutral-100 rounded-full transform -translate-y-1/2">
-                      </span>
-                  </div>
-                  <h3 className="font-bold mb-0 transition-all duration-400 ease-out leading-[1.4]">{service.name}</h3>
-                  <p className="flex flex-growtext-[15px] mt-[15px] mb-0 transition-all duration-400 ease-out will-change-transform">{service.description}</p>
-                  <div className="mt-[25px]">
-                      <ButtonDefault text="Leia Mais" href={`/service/${service.id}`} />
-                  </div>
-              </div>
+          <div
+            key={service.id}
+            className="flex flex-col h-full bg-white rounded-[5px] shadow-lg relative z-10 p-[35px] px-[30px] text-left  
+                       mt-[30px] overflow-hidden  
+                       transition-all duration-500 ease-out before:text-left before:content-[''] before:absolute before:left-0 before:bottom-0 
+            before:w-0 before:h-[3px] before:bg-blue-600 
+            before:transition-all before:duration-1000 hover:before:w-full"
+          >
+
+            <div className="relative w-[55px] h-[55px] mb-4 ">
+              <Image
+                width={45}
+                height={45}
+                src={
+                  service.imgUrl ||
+                  "https://res.cloudinary.com/dn5yfai0g/image/upload/v1736903941/tooth_ptns1e.png"
+                }
+                alt={`avatar de ${service.name}`}
+                className="text-[45px] ml-[20px] rounded-full"
+              />
+              <span className="absolute -z-10 left-0 top-1/4 w-[45px] h-[45px] bg-neutral-100 rounded-full transform -translate-y-1/2"></span>
+            </div>
+
+            <h3 className="font-bold mb-0 transition-all duration-400 ease-out leading-[1.4]">{service.name}</h3>
+            <p className="flex flex-grow text-[15px] mt-[15px] mb-0 transition-all duration-400 ease-out will-change-transform">{service.description}</p>
+
+            <div className="mt-auto pt-4">
+              <ButtonDefault text="Leia Mais" href={`/service/${service.id}`} />
+            </div>
           </div>
         ))
       ) : (

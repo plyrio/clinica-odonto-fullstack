@@ -4,7 +4,10 @@ import { CardContainer } from "../layout/CardContainer";
 
 async function fetchProfessionals(): Promise<ResponseEmployeeDto[]> {
   try {
-    const res = await fetch("https://cof-backend.onrender.com/employee");
+    const res = await fetch("https://cof-backend.onrender.com/employee", {
+      next: { revalidate: 600 },
+      cache: "force-cache",
+    });
     if (!res.ok) {
       throw new Error("Failed to fetch professionals");
     }
