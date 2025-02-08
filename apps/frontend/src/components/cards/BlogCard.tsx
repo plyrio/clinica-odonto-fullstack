@@ -4,17 +4,26 @@ import Link from "next/link";
 import {ResponseBlogPostDto} from "@odonto/core";
 
 async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
-  const res = await fetch("https://cof-backend.onrender.com/blog-posts", {
-    cache: "no-store"
-  });
+  try {
+    const res = await fetch("https://cof-backend.onrender.com/blog-posts");
   if (!res.ok) {
     throw new Error("Failed to fetch blog posts");
   }
   return res.json();
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    return [];
+  }
+  
 }
 
 export default async function BlogCard() {
-  const blogposts = await fetchBlogPosts();
+  let blogposts: ResponseBlogPostDto[] = [];
+  try {
+    blogposts = await fetchBlogPosts();
+  } catch (error) {
+    console.error("Error in BlosPostCard component:", error);
+  }
 
   return (
     <CardContainer>
