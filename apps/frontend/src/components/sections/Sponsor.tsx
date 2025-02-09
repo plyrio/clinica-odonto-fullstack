@@ -44,19 +44,19 @@ export default function Sponsor() {
               }}
               breakpoints={{
                 640: {
-                  slidesPerView: 1,
+                  slidesPerView: 2,
                   spaceBetween: 20
                 },
                 768: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 40
                 },
                 1024: {
-                  slidesPerView: 3,
+                  slidesPerView: 4,
                   spaceBetween: 50
                 },
                 1440: {
-                  slidesPerView: 4,
+                  slidesPerView: 5,
                   spaceBetween: 50
                 }
               }}

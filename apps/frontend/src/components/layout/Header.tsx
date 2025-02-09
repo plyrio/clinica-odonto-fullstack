@@ -111,16 +111,20 @@ export const Header = () => {
           {/* Mobile Menu open: "block", Menu closed: "hidden" */}
           <div className={`${
               open ? `translate-x-0 opacity-100` : `opacity-0 -translate-x-full`
-            } absolute inset-x-0 z-20 w-full py-4 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center shadow-sm`}
+            } absolute inset-x-0 z-20 bg-white w-full py-4 transition-all duration-300 ease-in-out md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center shadow-sm`}
             id='toggle-menu'>
             <ul className='flex flex-col md:flex-row md:items-center md:mx-0'>
               {navLinks.map((link) => (
-                <li
+                <li className=""
                   key={link.name}
                   onClick={link.name === "Mais" ? handleDrop : undefined}>
                   <Link
                     href={link.href}
-                    className={`flex px-6 md:px-3 py-4 items-start w-full shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shad1w-blue-400 ${
+                    className={`flex px-6 md:px-3 py-4 items-start w-full 
+                transition-shadow duration-300 cursor-pointer relative before:content-[''] before:absolute before:left-0 before:bottom-0 
+             before:w-0 before:h-[3px] before:bg-blue-600 
+             before:transition-all before:duration-300 hover:before:w-full
+                 ${
                       pathname === link.href
                         ? " md:text-brand-primary"
                         : " text-gray-700"
@@ -157,7 +161,9 @@ export const Header = () => {
                         <li key={subLink.name}>
                           <Link
                             href={subLink.href}
-                            className={`flex flex-col items-start px-10 md:px-4 py-4 md:py-2  md:mx-0 shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shadow-gray-400  ${
+                            className={`flex flex-col items-start px-10 md:px-4 py-4 md:py-2  md:mx-0 shadow-none transition-shadow duration-300 cursor-pointer relative before:content-[''] before:absolute before:left-0 before:bottom-0 
+             before:w-0 before:h-[3px] before:bg-blue-600 
+             before:transition-all before:duration-300 hover:before:w-full  ${
                               pathname === subLink.href
                                 ? " md:text-brand-primary"
                                 : " text-gray-700"
@@ -176,9 +182,9 @@ export const Header = () => {
 
           {user ? (<div className='flex items-center mt-md:mt-0'>
             <button
-              className='hidden mx-4 text-gray-600 transition-colors duration-300 transform md:block before:content-[""] before:absolute before:left-0 before:bottom-0 
-            before:w-0 before:h-[3px] before:bg-blue-600
-            before:transition-all before:duration-1000 hover:before:w-full'
+              className='hidden mx-4 text-gray-600 transition-colors duration-300 transform md:block relative before:content-[""] before:absolute before:left-0 before:bottom-0 
+             before:w-0 before:h-[3px] before:bg-blue-600
+             before:transition-all before:duration-300 hover:before:w-full'
               aria-label='show notifications'>
               <svg
                 className='w-6 h-6'
@@ -210,11 +216,7 @@ export const Header = () => {
               <h3 className='mx-2 text-gray-700 md:hidden'>Khatab wedaa</h3>
             </button>
           </div>) : (
-              <Link
-                href='#'
-                className={`flex flex-col items-start px-10 md:px-4   md:mx-0 shadow-none transition-shadow duration-300 cursor-pointer hover:shadow-md hover:shadow-gray-400`}>
-                Registrar/Logar
-              </Link>
+              <ButtonDefault className="ms-5 py-2 px-4" text='Entrar / Registrar' href='/login' />
           )}
             
           </div>

@@ -33,12 +33,14 @@ export default async function ServicesCard() {
         services.map((service) => (
           <div
             key={service.id}
-            className="flex flex-col h-full bg-white rounded-[5px] shadow-lg relative z-10 p-[35px] px-[30px] text-left  
-                       mt-[30px] overflow-hidden  
-                       transition-all duration-500 ease-out before:text-left before:content-[''] before:absolute before:left-0 before:bottom-0 
-            before:w-0 before:h-[3px] before:bg-blue-600 
-            before:transition-all before:duration-1000 hover:before:w-full"
+            className="flex flex-col h-full bg-white rounded-xl shadow-[0_0_10px_rgba(0,0,0,0.06)] relative z-10 p-[35px] px-[30px] text-left  
+             mt-[30px] overflow-hidden  
+             transition-all duration-500 ease-out 
+             before:text-left before:content-[''] before:absolute before:left-0 before:bottom-0 
+             before:w-0 before:h-[3px] before:bg-blue-600 
+             before:transition-all before:duration-1000 hover:before:w-full"
           >
+
 
             <div className="relative w-[55px] h-[55px] mb-4 ">
               <Image

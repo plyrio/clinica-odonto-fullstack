@@ -34,27 +34,21 @@ export default async function ProfessionalsCard() {
         doctors.map((professional) => (
           <div
             key={professional.id}
-            className='border rounded-lg overflow-hidden w-full '>
-            <Image
+            className='flex flex-col h-full bg-white rounded-xl mt-[30px]overflow-hidden'>
+            <div className="relative z-10 rounded-[5px] overflow-hidden mx-auto before:content-[''] before:absolute before:z-2 
+             before:top-0 before:left-0 before:w-full before:h-full 
+             before:bg-black/50 before:opacity-0 before:invisible 
+             before:transition-opacity before:duration-500 hover:before:opacity-100 hover:before:visible"><Image
               src={professional.imgUrl || "https://readymadeui.com/team-1.webp"}
               width={400}
               height={200}
-              className='w-full object-cover'
+              className='w-full object-cover h-auto'
               alt={`Imagem de ${professional.name}`}
             />
-            <div className='p-4'>
-              <h4 className='text-gray-800 text-base font-bold'>
-                {professional.name}
-              </h4>
-              <p className='text-gray-800 text-xs mt-1'>
-                {professional.specialties
-                  ? professional?.specialties[0]?.name
-                  : "Especialidade não encontrada"}
-              </p>
-              <div className='space-x-4 mt-4'>
+              <div className="absolute z-20 bottom-[-50px] w-full text-center transition-all duration-500 ease-out">
                 <button
                   type='button'
-                  className='w-6 h-6 inline-flex items-center justify-center rounded-full border-none outline-none bg-blue-600 hover:bg-blue-700'>
+                  className='w-6 h-6 items-center justify-center rounded-full border-none outline-none bg-blue-600 hover:bg-blue-700 m-[5px] text-[#1877dd] text-[16px] inline-block transition-all duration-300 will-change-transform'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     width='14px'
@@ -65,7 +59,26 @@ export default async function ProfessionalsCard() {
                       data-original='#010002'
                     />
                   </svg>
+                
                 </button>
+              </div>
+            </div>
+
+            <div className="">
+
+            </div>
+            
+            <div className='p-4'>
+              <h4 className='text-gray-800 text-base font-bold'>
+                {professional.name}
+              </h4>
+              <p className='text-gray-800 text-xs mt-1'>
+                {professional.specialties
+                  ? professional?.specialties[0]?.name
+                  : "Especialidade não encontrada"}
+              </p>
+              <div className='space-x-4 mt-4'>
+                
                 <button
                   type='button'
                   className='w-6 h-6 inline-flex items-center justify-center rounded-full border-none outline-none bg-[#03a9f4] hover:bg-[#03a1f4]'>
