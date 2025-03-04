@@ -37,7 +37,8 @@ export default async function ProfessionalsCard() {
           <div
             key={professional.id}
             className='flex flex-col h-full bg-white rounded-xl mt-[30px]overflow-hidden'>
-            <div className="relative w-fit group z-10 rounded-[5px] overflow-hidden mx-auto "><Image
+            <div className="relative flex w-fit group z-10 rounded-[5px] overflow-hidden mx-auto flex-1">
+              <Image
               src={professional.imgUrl || "https://readymadeui.com/team-1.webp"}
               width={400}
               height={200}
@@ -46,7 +47,7 @@ export default async function ProfessionalsCard() {
             />
               <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-500 group-hover:opacity-50 before:content-[''] before:absolute before:inset-0 before:bg-black before:opacity-0 before:transition-opacity before:duration-500 group-hover:before:opacity-50"></div>
 
-              <div className="absolute inset-0 flex items-center justify-center space-x-4 opacity-0 transition-all duration-500 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 bottom-[-220px]">
+              <div className="absolute inset-0 flex items-center justify-center space-x-4 opacity-0 transition-all duration-500 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 bottom-[-50px]">
                 <Link href={`#`}>
                   <IconBrandFacebookFilled className=" border bg-white rounded-md text-blue-500 h-[50px] w-[50px] md:h-[30px] md:w-[30px]" />
                 </Link>

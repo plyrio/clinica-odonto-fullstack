@@ -12,6 +12,7 @@
         "@odonto/core": "*",
         "@tabler/icons-react": "^3.30.0",
         "next": "^15.0.3",
+        "next-auth": "^5.0.0-beta.25",
         "react": "^18",
         "react-countup": "^6.5.3",
         "react-dom": "^18",
