@@ -5,7 +5,7 @@ import TestimonialsCard from "../cards/TestimonialsCard";
 
 export default function Testimonials() {
   return (
-    <Section>
+    <Section className="bg-zinc-300" noContainer={true}>
       <TitlesSection title='Nosso Feedback' subtitle='Nossos Pacientes Dizem' />
       <TestimonialsCard />
     </Section>
