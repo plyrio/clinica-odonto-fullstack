@@ -83,9 +83,6 @@ export interface About {
 }
 
 
-
-
-
 export const CLINIC_INFO: ClinicInfo = {
     name: "Rayssa Odonto",
     description: "Acreditamos que um sorriso saudável é a chave para uma vida mais feliz e confiante Nossa missão é transformar vidas através de cuidados odontológicos personalizados, sempre priorizando o bem-estar e a satisfação de nossos pacientes.",
