@@ -6,7 +6,7 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {CardContainer} from "../layout/CardContainer";
 import Section from "../layout/Section";
 import {IconStar, IconStarFilled} from "@tabler/icons-react";
-import {TESTIMONIALS_INFO} from "../../data/TestimonialsData.ts";
+import {TESTIMONIALS_INFO} from "../../data/TestimonialsData";
 
 export default function TestimonialsCard() {
   return (
