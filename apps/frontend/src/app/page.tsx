@@ -7,6 +7,7 @@ import Services from "@/components/sections/Services";
 import Contact from "@/components/sections/Contact";
 import About from "@/components/sections/About";
 import Testimonials from "@/components/sections/Testimonials";
+import Overview from "@/components/sections/Overview"
 
 function page() {
   return (
@@ -20,6 +21,7 @@ function page() {
       />
       <Services />
       <About />
+      <Overview />
       <Professionals />
       <Contact />
       <Testimonials />
