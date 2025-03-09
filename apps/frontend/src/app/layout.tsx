@@ -1,11 +1,11 @@
 import type {Metadata} from "next";
-import {Inter} from "next/font/google";
+import {Kumbh_Sans} from "next/font/google";
 import "./globals.css";
 import {Footer} from "@/components/layout/Footer";
 import {Header} from "@/components/layout/Header";
 import React from "react";
 
-const inter = Inter({subsets: ["latin"]});
+const kumbhSans = Kumbh_Sans({subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "Clínica Odontológica",
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={kumbhSans.className}>
         <Header />
         <main>{children}</main>
         <Footer />

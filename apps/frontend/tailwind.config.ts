@@ -12,7 +12,8 @@ const config: Config = {
     "bg-hero-services",
     "bg-hero-contact",
     "bg-hero-about",
-    "bg-hero-professionals"
+    "bg-hero-professionals",
+    "bg-overview",
   ],
   theme: {
     extend: {
@@ -49,7 +50,9 @@ const config: Config = {
         "contact":
           "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/appointment_owikow.jpg')",
         "hero-generic":
-          "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/banner-bg_wd7mfz.jpg')"
+          "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1738529069/banner-bg_wd7mfz.jpg')",
+        "overview":
+          "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1741543504/overview_rlh828.jpg')",
 
       }
     }

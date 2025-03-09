@@ -5,13 +5,15 @@ type SectionLayoutProps = {
   children: React.ReactNode;
   className?: string;
   noContainer?: boolean;
-
+  classNameContainer?: string;
 };
 
-export default function Section({ children, className, noContainer = false }: SectionLayoutProps) {
+export default function Section({ children, className, classNameContainer, noContainer = false }: SectionLayoutProps) {
   return (
-    <section className={twMerge(`${noContainer ? '' : 'lg:container'}  px-6 py-[100px] mx-auto`, className)}>
+    <section className={twMerge(`w-full py-24 mx-auto `, className)}>
+      <div className={twMerge(`${noContainer ? 'px-0' : 'container px-4'} w-full  mx-auto`, classNameContainer)}>
       {children}
+      </div>
     </section>
   );
 }
