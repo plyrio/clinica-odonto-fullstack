@@ -54,7 +54,25 @@ const config: Config = {
         "overview":
           "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1741543504/overview_rlh828.jpg')",
 
-      }
+      },
+      container: {
+        center: true,
+        padding: '1rem', 
+      },
+      screens: {
+        sm: "576px",
+        md: "768px",
+        lg: "992px",
+        xl: "1200px",
+        "2xl": "1400px",
+      },
+      maxWidth: {
+        sm: "540px",
+        md: "720px",
+        lg: "960px",
+        xl: "1140px",
+        "2xl": "1320px",
+      },
     }
   },
   plugins: []

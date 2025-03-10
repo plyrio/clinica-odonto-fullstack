@@ -41,10 +41,11 @@ const AboutItens: AboutProps[] = [
   }
 ]
 
-export default function About() {
+export default function Counter() {
   return (
-    <Section noContainer={true} className='bg-banner w-full contain-none bg-cover bg-center bg-no-repeat text-white text-center'>
-      <div className="lg:container justify-center mx-auto">
+    <Section noContainer={true} className='relative bg-banner w-full contain-none bg-cover bg-center bg-no-repeat text-white text-center'>
+      <div className='absolute inset-0 h-full w-full opacity-60 bg-slate-900'></div>
+      <div className="relative container justify-center mx-auto">
         <div className="flex flex-wrap items-center justify-center">
           {AboutItens.map((item) => (
             <div key={item.id} className="w-full md:w-1/2 lg:w-1/4">

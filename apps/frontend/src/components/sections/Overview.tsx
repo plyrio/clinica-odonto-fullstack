@@ -28,9 +28,9 @@ const list = [
 export default function Overview() {
   return (
     <Section>
-      <div className="flex flex-wrap items-center mx-[-15px] ">
+      <div className="flex flex-wrap items-center  ">
 
-        <div className="flex flex-col w-full md:w-1/2">
+        <div className="flex flex-col w-full lg:w-1/2">
           <TitlesSection title={<>Por que escolher a <span className="text-blue-600">Clinica Odonto</span> para extração dentária?</>} subtitle='Por que Nos Escolher' subtitleClassName="text-start" titleClassName="text-start" baseClassName="justify-start" />
           <div className=''>
             <p>Na Clinica Odonto, entendemos que a extração dentária pode ser uma experiência preocupante. Por isso, oferecemos um atendimento humanizado, com profissionais altamente qualificados e tecnologia de ponta para garantir um procedimento seguro, eficiente e o mais confortável possível.</p>
@@ -51,9 +51,9 @@ export default function Overview() {
         </div>
 
 
-        <div className='flex flex-col items-center justify-center w-full h-full md:w-1/2 px-4 pt-0'>
-          <div className='flex flex-grow md:mt-0 mt-9'>
-            <Image src='https://res.cloudinary.com/dn5yfai0g/image/upload/v1741543504/overview_rlh828.jpg' alt='Overview' width={900} height={470} className=" h-full border-3  w-auto object-cover" />
+        <div className='flex flex-col items-center justify-center w-full h-full lg:w-1/2 lg:px-4 pt-0 px-0'>
+          <div className='flex mt-9 h-full w-full'>
+            <Image src='https://res.cloudinary.com/dn5yfai0g/image/upload/v1741543504/overview_rlh828.jpg' alt='Overview' width={900} height={470} className="flex rounded h-full w-full flex-grow" />
           </div>
         </div>
 

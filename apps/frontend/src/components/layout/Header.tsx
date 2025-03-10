@@ -51,7 +51,7 @@ export const Header = () => {
   return (
     <nav className='sticky bg-white shadow top-0 start-0  mx-auto z-50'>
      
-        <div className='lg:container mx-auto md:flex md:items-center md:justify-between  px-6 py-4 md:py-0 md:px-0'>
+        <div className='container mx-auto md:flex md:items-center md:justify-between  px-6 py-4 md:py-0 md:px-0'>
           <div className='flex items-center justify-between'>
             <Link href='#' className='flex md:ms-4 items-center'>
               <Image

@@ -41,7 +41,7 @@ export default async function ProfessionalsCard() {
         doctors.map((professional) => (
           <div
             key={professional.id}
-            className='flex flex-col h-full bg-white rounded-xl mt-[30px] overflow-hidden'>
+            className='relative flex flex-col h-full bg-white rounded-xl mt-[30px] overflow-hidden'>
             <div className='relative flex w-full group z-10 rounded-[5px] overflow-hidden mx-auto flex-1'>
               <Image
                 src={
