@@ -1,6 +1,5 @@
-
-import {BsInstagram, BsFacebook, BsYoutube, BsLinkedin, BsHouse, BsTelephone, BsMailbox} from 'react-icons/bs';
 import { FC } from 'react';
+import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconBrandLinkedinFilled, IconBrandYoutubeFilled, IconHomeFilled, IconMailFilled, IconPhoneFilled } from '@tabler/icons-react';
 
 export const LOGO = '/Rayssa.png';
 export const CLAREAMENTO = '/src/assets/images/services/clean-tooth (1).png';
@@ -21,7 +20,7 @@ export interface SocialMedia {
     id: number;
     name: string;
     url: string;
-    icon: FC<{className?: string; fill?: string; viewBox?: string;}>;
+    icon: FC<{ className?: string; fill?: string; viewBox?: string; }>;
 }
 
 export interface Service {
@@ -50,20 +49,16 @@ export interface FooterLink {
     url: string;
 }
 
-export interface ContactItem {
-    icon: FC<{className?: string}>;
-    text: string;
-}
+
 
 export interface ContactInfo {
-    address: ContactItem;
-    phone: ContactItem;
-    email: ContactItem;
+    icon: FC<{ className?: string; fill?: string; viewBox?: string; }>;
+    text: string;
 }
 
 export interface Footer {
     links: FooterLink[];
-    contactInfo: ContactInfo;
+    contactInfo: ContactInfo[];
     socialMedia: SocialMedia[];
 }
 
@@ -94,33 +89,33 @@ export const CLINIC_INFO: ClinicInfo = {
             id: 1,
             name: "Facebook",
             url: "https://www.facebook.com/odontosorriso",
-            icon: BsFacebook,
+            icon: IconBrandFacebookFilled,
         },
         {
             id: 2,
             name: "Instagram",
             url: "https://www.instagram.com/odontosorriso",
-            icon: BsInstagram,
+            icon: IconBrandInstagramFilled,
         },
         {
             id: 3,
             name: "LinkedIn",
             url: "https://www.linkedin.com/company/odontosorriso",
-            icon: BsLinkedin,
+            icon: IconBrandLinkedinFilled,
         },
         {
             id: 4,
             name: "YouTube",
             url: "https://www.youtube.com/channel/odontosorriso",
-            icon: BsYoutube,
+            icon: IconBrandYoutubeFilled,
         }
     ],
     workingHours: [
-        { day: "Segunda-feira", open: "08:00",at:"às", close: "17:00" },
-        { day: "Terça-feira", open: "08:00", at:"às", close: "17:00" },
-        { day: "Quarta-feira", open: "08:00", at:"às", close: "17:00" },
-        { day: "Quinta-feira", open: "08:00", at:"às", close: "17:00" },
-        { day: "Sexta-feira", open: "08:00", at:"às", close: "17:00" },
+        { day: "Segunda-feira", open: "08:00", at: "às", close: "17:00" },
+        { day: "Terça-feira", open: "08:00", at: "às", close: "17:00" },
+        { day: "Quarta-feira", open: "08:00", at: "às", close: "17:00" },
+        { day: "Quinta-feira", open: "08:00", at: "às", close: "17:00" },
+        { day: "Sexta-feira", open: "08:00", at: "às", close: "17:00" },
         { day: "Sábado", open: "08:00", at: "às", close: "12:00" },
         { day: "Domingo", open: "Fechado", at: null, close: null },
     ],
@@ -145,28 +140,28 @@ export const SERVICES: Service[] = [
         name: "Implantes Dentários",
         description:
             "Recupere sua autoestima com nossos implantes dentários de última geração, que garantem conforto e durabilidade.",
-        imgUrl:"/src/assets/images/services/dental-implant.png",
+        imgUrl: "/src/assets/images/services/dental-implant.png",
     },
     {
         id: 3,
         name: "Ortodontia",
         description:
             "Corrija a posição dos seus dentes e tenha um sorriso alinhado e saudável com nossos tratamentos ortodônticos.",
-        imgUrl:"/src/assets/images/services/braces.png",
+        imgUrl: "/src/assets/images/services/braces.png",
     },
     {
         id: 4,
         name: "Próteses Dentárias",
         description:
             "Oferecemos próteses dentárias de alta qualidade, personalizadas para atender às suas necessidades.",
-        imgUrl:"/src/assets/images/services/prothesis.png",
+        imgUrl: "/src/assets/images/services/prothesis.png",
     },
     {
         id: 5,
         name: "Limpeza e Profilaxia",
         description:
             "Mantenha sua saúde bucal em dia com nossas limpezas profissionais e orientações de higiene.",
-        imgUrl:"/src/assets/images/services/clean-tooth.png",
+        imgUrl: "/src/assets/images/services/clean-tooth.png",
     },
 ];
 
@@ -233,44 +228,44 @@ export const FOOTER: Footer = {
         { label: "Parceiros", url: "#partners" },
         { label: "Contato", url: "#contact" },
     ],
-    contactInfo: {
-        address:{
-            icon: BsHouse,
+    contactInfo: [
+        {
+            icon: IconHomeFilled,
             text: "Rua dos Sorrisos, 310, Vila Vleha - ES",
         },
-        phone: {
-            icon: BsTelephone,
+        {
+            icon: IconPhoneFilled,
             text: "(27) 9 8869-3416",
         },
-        email: {
-            icon: BsMailbox,
-            text: "drarayssaodont@clinica.com.br"
+        {
+            icon: IconMailFilled,
+            text: "ClinicaOdonto@clinica.com.br"
         },
-    },
+    ],
     socialMedia: [
         {
             id: 1,
             name: "Facebook",
             url: "https://www.facebook.com/odontosorriso",
-            icon: BsFacebook,
+            icon: IconBrandFacebookFilled,
         },
         {
             id: 2,
             name: "Instagram",
             url: "https://www.instagram.com/odontosorriso",
-            icon: BsInstagram,
+            icon: IconBrandInstagramFilled,
         },
         {
             id: 3,
             name: "LinkedIn",
             url: "https://www.linkedin.com/company/odontosorriso",
-            icon: BsLinkedin,
+            icon: IconBrandLinkedinFilled,
         },
         {
             id: 4,
             name: "YouTube",
             url: "https://www.youtube.com/channel/odontosorriso",
-            icon: BsYoutube,
+            icon: IconBrandYoutubeFilled,
         }
     ],
 }
