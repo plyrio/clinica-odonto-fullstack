@@ -11,7 +11,7 @@ type SectionLayoutProps = {
 export default function Section({ children, className, classNameContainer, noContainer = false }: SectionLayoutProps) {
   return (
     <section className={twMerge(`${noContainer ? 'px-0 py-24' : 'container py-24'} w-full mx-auto `, className)}>
-      <div className={twMerge(`${noContainer ? 'px-0' : 'container px-4'} w-full  mx-auto`, classNameContainer)}>
+      <div className={twMerge(`${noContainer ? 'px-0' : 'container '} w-full  mx-auto`, classNameContainer)}>
       {children}
       </div>
     </section>
