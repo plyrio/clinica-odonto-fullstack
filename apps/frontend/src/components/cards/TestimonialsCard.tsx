@@ -24,7 +24,7 @@ export default function TestimonialsCard() {
       modules={[Pagination, Navigation, Autoplay]}
       className='container h-[420px] '>
       {TESTIMONIALS_INFO.map((testimonial, index) => (
-        <SwiperSlide key={index} className='h-full flex px-6'>
+        <SwiperSlide key={index} className='h-full flex px-0 md:px-6'>
           <div className='flex shadow-md h-full w-full '>
             <div className='relative flex flex-col h-full bg-white border border-sm rounded-md p-6'>
               <div className='mb-4 flex justify-center'>
