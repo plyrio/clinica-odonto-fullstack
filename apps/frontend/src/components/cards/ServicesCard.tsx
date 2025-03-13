@@ -33,7 +33,7 @@ export default async function ServicesCard() {
         services.map((service) => (
           <div
             key={service.id}
-            className="flex flex-col h-full bg-white rounded-xl shadow-[0_0_10px_rgba(0,0,0,0.06)] relative z-10 p-[35px] px-[30px] text-left  
+            className="flex flex-col h-full bg-white rounded-xl shadow-card relative z-10 p-[35px] px-[30px] text-left  
              mt-[30px] overflow-hidden  
              transition-all duration-500 ease-out 
              before:text-left before:content-[''] before:absolute before:left-0 before:bottom-0 

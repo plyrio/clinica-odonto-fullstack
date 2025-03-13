@@ -2,7 +2,7 @@ import type {Metadata} from "next";
 import {Kumbh_Sans} from "next/font/google";
 import "./globals.css";
 import {Footer} from "@/components/layout/Footer";
-import {Header} from "@/components/layout/Header";
+import Header from "@/components/layout/Header";
 import React from "react";
 
 const kumbhSans = Kumbh_Sans({subsets: ["latin"]});

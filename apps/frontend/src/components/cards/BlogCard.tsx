@@ -39,8 +39,7 @@ export default async function BlogCard() {
               <Image
                 height={256}
                 width={256}
-                style={{ width: "100%", height: "auto" }}
-                className='object-center w-full h-64 rounded-lg lg:h-80'
+                className='object-center h-auto w-full rounded-lg lg:h-80'
                 src={
                   item.imgUrl ||
                   `https://images.stockcake.com/public/d/7/7/d77cdbe5-5fd2-49d4-b737-9e07d352f32b/dentist-holding-tools-stockcake.jpg`

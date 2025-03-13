@@ -52,7 +52,8 @@ const config: Config = {
                     "url('https://res.cloudinary.com/dn5yfai0g/image/upload/v1741543504/overview_rlh828.jpg')"
             },
             boxShadow: {
-                custom: "0 7px 13px 0 rgba(0, 0, 0, 0.1)"
+                header: "0 7px 13px 0 rgba(0, 0, 0, 0.1)",
+                card: "0 2px 25px 0 rgb(110, 110, 110, 0.12);"
             },
             container: {
               center: true,
