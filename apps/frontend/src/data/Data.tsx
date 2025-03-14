@@ -37,7 +37,11 @@ export interface SocialMedia {
  id: number;
  name: string;
  url: string;
- icon: string;
+ icon:  FC<{
+  className?: string;
+  fill?: string;
+  viewBox?: string;
+ }>;
 }
 
 export interface Service {
