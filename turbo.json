@@ -3,13 +3,27 @@
  "ui": "tui",
  "tasks": {
   "build": {
-   "dependsOn": ["^build"],
-   "inputs": ["$TURBO_DEFAULT$", ".env*"],
-   "outputs": [".next/**", "!.next/cache/**"],
-   "env": ["AUTH_GOOGLE_ID", "AUTH_GOOGLE_SECRET"]
+   "dependsOn": [
+    "^build"
+   ],
+   "inputs": [
+    "$TURBO_DEFAULT$",
+    ".env*"
+   ],
+   "outputs": [
+    ".next/**",
+    "!.next/cache/**"
+   ],
+   "env": [
+    "AUTH_GOOGLE_ID",
+    "AUTH_GOOGLE_SECRET",
+    "AUTH_SECRET"
+   ]
   },
   "lint": {
-   "dependsOn": ["^lint"]
+   "dependsOn": [
+    "^lint"
+   ]
   },
   "dev": {
    "cache": false,
