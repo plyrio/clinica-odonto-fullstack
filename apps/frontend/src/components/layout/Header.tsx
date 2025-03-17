@@ -1,12 +1,15 @@
 import NavLinks from './nav/NavLinks';
-
 import Logo from './nav/Logo';
 import Dropmenu from './nav/DropNavMenu';
 import BtnMenu from './nav/BtnMenu';
-import UserMenu from './nav/UserMenu';
+import UserMenu from './nav/user/UserMenu';
+import NotificationBell from './nav/user/NotificationBell';
+import { auth } from '@/auth';
 
-export default function Header() {
-    const user = true;
+export default async function Header  () {
+    const session = await auth()
+    console.log(session?.user)
+    const user = false;
     return (
         <header className='bg-white sticky top-0 z-50 shadow-header '>
             <div className='mx-auto container px-4 sm:px-6 lg:px-8'>
@@ -17,8 +20,7 @@ export default function Header() {
                     <div className='flex items-center h-full md:w-full'>
                         <NavLinks />
                         <div className='flex items-center gap-4'>
-                            {user ? (<UserMenu />) : (<BtnMenu />)}
-                            
+                            {session?.user ? (<UserMenu />) : (<BtnMenu />)}
                             
 
                             <div className='flex md:hidden'>

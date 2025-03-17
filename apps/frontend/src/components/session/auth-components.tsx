@@ -1,4 +1,12 @@
+import { IconArrowBackUp } from "@tabler/icons-react";
 import { handleSignIn, handleSignOut } from "../../actions/auth-actions";
+import { twMerge } from "tailwind-merge";
+
+type btnProps = {
+    className?: string
+    text: string
+    icon?: boolean
+}
 
 export function SignIn({provider, ...props} : {provider: string} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
     return (
@@ -7,19 +15,24 @@ export function SignIn({provider, ...props} : {provider: string} & React.ButtonH
               await handleSignIn(provider)
             }}
         >
-            <button {...props} type="submit">Sign In</button>
+            
+            <button {...props} type="submit">Entrar</button>
         </form>
     )
 } 
 
-export const SignOut = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+export const SignOut = ({className, text, icon = false, ...props}: btnProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
     return (
         <form
             action={async () => {
              await handleSignOut()
             }}
         >
-            <button {...props} type="submit">Sign Out</button>
+            <button className={twMerge(className)} {...props} type="submit">
+                {icon ? (<IconArrowBackUp stroke={1} />) : (null)}
+                Sair
+            </button>
+            
         </form>
     )
 }

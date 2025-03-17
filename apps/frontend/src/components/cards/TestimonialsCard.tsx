@@ -3,8 +3,7 @@ import Image from "next/image";
 import React from "react";
 import {Autoplay, Pagination, Navigation} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
-import {CardContainer} from "../layout/CardContainer";
-import Section from "../layout/Section";
+
 import {IconStar, IconStarFilled} from "@tabler/icons-react";
 import {TESTIMONIALS_INFO} from "../../data/TestimonialsData";
 
@@ -12,19 +11,20 @@ export default function TestimonialsCard() {
   return (
     <Swiper
       slidesPerView={1}
-      spaceBetween={20}
+      spaceBetween={5}
       autoplay={true}
       pagination={{clickable: true}}
       breakpoints={{
-        640: {slidesPerView: 2, spaceBetween: 20},
-        768: {slidesPerView: 2, spaceBetween: 20},
-        1024: {slidesPerView: 3, spaceBetween: 20}
+        640: {slidesPerView: 2, spaceBetween: 15},
+        768: {slidesPerView: 2, spaceBetween: 5},
+        1024: {slidesPerView: 3, spaceBetween: 5},
+        1440: { slidesPerView: 4, spaceBetween: 15},
       }}
       navigation={true}
       modules={[Pagination, Navigation, Autoplay]}
-      className='container h-[420px] '>
+      className='container  h-[440px]  '>
       {TESTIMONIALS_INFO.map((testimonial, index) => (
-        <SwiperSlide key={index} className='h-full flex px-0 md:px-6'>
+        <SwiperSlide key={index} className='h-full flex px-0 md:px-3'>
           <div className='flex shadow-md h-full w-full '>
             <div className='relative flex flex-col h-full bg-white border border-sm rounded-md p-6'>
               <div className='mb-4 flex justify-center'>
