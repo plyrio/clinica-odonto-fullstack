@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={kumbhSans.className}>
-      <UserMenuProvider><NavMenuProvider><Header /></NavMenuProvider></UserMenuProvider>
+        <NavMenuProvider><UserMenuProvider><Header /></UserMenuProvider></NavMenuProvider>
         <main>{children}</main>
         <Footer />
       </body>

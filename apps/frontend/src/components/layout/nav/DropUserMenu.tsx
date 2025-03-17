@@ -1,10 +1,10 @@
 'use client'
 
-import { useMenu } from '@/hooks/UseUserMenuContext.tsx'
+import { useUserMenu } from '@/hooks/useUserMenu'
 import Image from 'next/image'
 
 export default function DropUserMenu() {
-    const { toggleMenuUser, menuOpenUser } = useMenu()
+    const { toggleMenuUser} = useUserMenu()
     return (
 
         <button onClick={toggleMenuUser}

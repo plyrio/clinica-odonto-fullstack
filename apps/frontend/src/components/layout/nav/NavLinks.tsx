@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { usePathname } from 'next/navigation';
-import { useMenu } from '@/hooks/UseNavMenuContext';
+import { useNavMenu } from '@/hooks/useNavMenu';
 
 const navLinks = [
   {
@@ -25,20 +25,20 @@ const navLinks = [
 ];
 
 export default function NavLinks() {
-  const { menuOpen } = useMenu();
+  const { menuOpen, closeMenu, menuRef } = useNavMenu();
   const pathname = usePathname();
 
   return (
-    <nav
+    <nav ref={menuRef}
       aria-label='Global'
-      className={`${menuOpen ? 'block absolute left-0' : 'hidden'} md:flex h-full items-center justify-center hover:border-b-blue-600 w-full`}>
+      className={`${menuOpen ? 'block bg-orange-400 items-start justify-start top-16 w-[50%] absolute left-0 ' : 'hidden'} md:flex items-center justify-center hover:border-b-blue-600 w-full`}>
       <ul className='flex justify-evenly items-center text-sm h-full flex-col md:flex-row'>
         {navLinks.map(
           (link, i) => (
             <li
               key={i}
               className='flex h-full w-full'>
-              <Link
+              <Link onClick={closeMenu}
                 className={`flex h-full font-medium items-center w-full 
                 transition-shadow duration-300 cursor-pointer relative before:content-[''] before:absolute before:left-0 before:bottom-0 
              before:w-0 before:h-[3px] before:bg-blue-600 px-3

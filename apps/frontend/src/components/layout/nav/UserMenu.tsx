@@ -1,14 +1,17 @@
-
+'use client'
 import React from 'react'
+import { useUserMenu } from '@/hooks/useUserMenu';
 import DropUserMenu from './DropUserMenu';
 
 export default function UserMenu () {
+    const { menuOpenUser, menuRef } = useUserMenu()
+   
     
   return (
-      <div className="relative md:block">
+      <div ref={menuRef} className="relative md:block">
           <DropUserMenu />
-          <div
-              className=" hidden absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+          <div 
+              className={ `${menuOpenUser ? 'absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg' : 'hidden'} `}
               role="menu"
           >
               <div className="p-2">
