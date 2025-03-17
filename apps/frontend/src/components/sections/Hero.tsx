@@ -26,7 +26,7 @@ export default function Hero({
             className={twMerge(
                 `relative z-10 h-full bg-cover bg-center bg-no-repeat ${
                     isHome
-                        ? "py-24 h-full md:pt-[150px]  md:pb-[50px] bg-hero-home"
+                        ? "py-24 h-full md:pt-[150px]  md:pb-[50px] bg-hero-home lg:h-[700px]"
                         : "h-[300px] bg-hero-generic"
                 }`,
                 className

@@ -1,14 +1,16 @@
-import type {Metadata} from "next";
-import {Kumbh_Sans} from "next/font/google";
+import type { Metadata } from "next";
+import { Kumbh_Sans } from "next/font/google";
 import "./globals.css";
-import {Footer} from "@/components/layout/Footer";
+import { Footer } from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import React from "react";
+import { NavMenuProvider } from "@/context/NavMenuContext";
+import { UserMenuProvider } from "@/context/UserMenuContext";
 
-const kumbhSans = Kumbh_Sans({subsets: ["latin"]});
+const kumbhSans = Kumbh_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Clínica Odontológica",
+  title: "Clínica Odonto+",
   description:
     "Clínica especializada em tratamentos odontológico como ortodontia..."
 };
@@ -21,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={kumbhSans.className}>
-        <Header />
+      <UserMenuProvider><NavMenuProvider><Header /></NavMenuProvider></UserMenuProvider>
         <main>{children}</main>
         <Footer />
       </body>
