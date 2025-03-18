@@ -11,6 +11,7 @@ const nextConfig = {
             { protocol: 'https', hostname: 'images.stockcake.com', },
             { protocol: 'https', hostname: 'res.cloudinary.com', },
             { protocol: 'https', hostname: 'readymadeui.com',},
+            { protocol: 'https', hostname: 'lh3.googleusercontent.com',}
             
         ]
     },
