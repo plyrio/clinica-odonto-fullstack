@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header";
 import React from "react";
 import { NavMenuProvider } from "@/context/NavMenuContext";
 import { UserMenuProvider } from "@/context/UserMenuContext";
+import { SessionProvider } from "next-auth/react"
 
 const kumbhSans = Kumbh_Sans({ subsets: ["latin"] });
 
@@ -22,11 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+
       <body className={kumbhSans.className}>
+          <SessionProvider>
         <NavMenuProvider><UserMenuProvider><Header /></UserMenuProvider></NavMenuProvider>
         <main>{children}</main>
         <Footer />
+        </SessionProvider>
       </body>
+      
     </html>
   );
 }
