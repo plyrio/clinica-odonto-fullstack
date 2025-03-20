@@ -1,5 +1,5 @@
-import Section from "@/components/layout/Section";
-import TitlesSection from "../utils/TitlesSection";
+import Section from "@/components/ui/layout/Section";
+import TitlesSection from "../ui/layout/TitlesSection";
 import Image from "next/image";
 import { IconChecks } from "@tabler/icons-react";
 

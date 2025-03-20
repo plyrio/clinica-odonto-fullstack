@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect, useRef } from 'react';
-import { NavMenuContext } from '@/context/NavMenuContext';
+import { NavMenuContext } from '@/components/context/NavMenuContext';
 
 export function useNavMenu() {
     const context = useContext(NavMenuContext);
@@ -32,7 +32,7 @@ export function useNavMenu() {
         if (menuOpen) {
             document.addEventListener('mousedown', handleClickOutside);
         } else {
-            document.removeEventListener('mousedown', handleClickOutside); 
+            document.removeEventListener('mousedown', handleClickOutside);
         }
 
         return () => document.removeEventListener('mousedown', handleClickOutside);

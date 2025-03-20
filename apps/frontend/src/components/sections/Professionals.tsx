@@ -1,7 +1,7 @@
-import React, {Suspense} from "react";
+import React, { Suspense } from "react";
 import ProfessionalsCard from "@/components/cards/ProfessionalsCard";
-import Section from "@/components/layout/Section";
-import TitlesSection from "../utils/TitlesSection";
+import Section from "@/components/ui/layout/Section";
+import TitlesSection from "../ui/layout/TitlesSection";
 
 export default function Professionals() {
   return (

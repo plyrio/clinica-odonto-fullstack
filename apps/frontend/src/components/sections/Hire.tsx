@@ -1,6 +1,6 @@
 import React from 'react'
-import Section from '../layout/Section'
-import ButtonDefault from '../utils/ButtonDefault'
+import Section from '../ui/layout/Section'
+import ButtonDefault from '../ui/button/Button'
 
 
 

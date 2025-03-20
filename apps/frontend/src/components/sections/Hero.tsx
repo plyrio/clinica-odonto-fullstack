@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import ButtonDefault from "@/components/utils/ButtonDefault";
+import ButtonDefault from "@/components/ui/button/Button";
 import { twMerge } from "tailwind-merge";
 
 type HeroProps = {
@@ -24,10 +24,9 @@ export default function Hero({
     return (
         <div
             className={twMerge(
-                `relative z-10 h-full bg-cover bg-center bg-no-repeat ${
-                    isHome
-                        ? "py-24 h-full md:pt-[150px]  md:pb-[50px] bg-hero-home lg:h-[700px]"
-                        : "h-[300px] bg-hero-generic"
+                `relative z-10 h-full bg-cover bg-center bg-no-repeat ${isHome
+                    ? "py-24 h-full md:pt-[150px]  md:pb-[50px] bg-hero-home lg:h-[700px]"
+                    : "h-[300px] bg-hero-generic"
                 }`,
                 className
             )}
@@ -43,10 +42,9 @@ export default function Hero({
                                 </h4>
                                 <h1
                                     className={twMerge(
-                                        `text-white  font-bold uppercase leading-snug mb-5 ${
-                                            isHome
-                                                ? "text-[40px] md:text-[35px] lg:text-[60px]"
-                                                : "text-[28px] sm:text-[40px] md:text-[38px]"
+                                        `text-white  font-bold uppercase leading-snug mb-5 ${isHome
+                                            ? "text-[40px] md:text-[35px] lg:text-[60px]"
+                                            : "text-[28px] sm:text-[40px] md:text-[38px]"
                                         }`
                                     )}
                                 >

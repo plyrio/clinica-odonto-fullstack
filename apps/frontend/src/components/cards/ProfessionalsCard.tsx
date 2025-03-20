@@ -1,6 +1,6 @@
 import Image from "next/image";
-import {ResponseEmployeeDto} from "@odonto/core";
-import {CardContainer} from "../layout/CardContainer";
+import { ResponseEmployeeDto } from "@odonto/core";
+import { CardContainer } from "../ui/layout/CardContainer";
 import Link from "next/link";
 import {
   IconBrandFacebook,
@@ -12,7 +12,7 @@ import {
 async function fetchProfessionals(): Promise<ResponseEmployeeDto[]> {
   try {
     const res = await fetch("https://cof-backend.onrender.com/employee", {
-      next: {revalidate: 600},
+      next: { revalidate: 600 },
       cache: "force-cache"
     });
     if (!res.ok) {

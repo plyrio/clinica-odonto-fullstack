@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Kumbh_Sans } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
+import Footer from "@/components/ui/footer/Footer";
+import Header from "@/components/ui/header/Header";
 import React from "react";
-import { NavMenuProvider } from "@/context/NavMenuContext";
-import { UserMenuProvider } from "@/context/UserMenuContext";
+import { NavMenuProvider } from "@/components/context/NavMenuContext";
+import { UserMenuProvider } from "@/components/context/UserMenuContext";
 import { SessionProvider } from "next-auth/react"
 
 const kumbhSans = Kumbh_Sans({ subsets: ["latin"] });
@@ -25,13 +25,13 @@ export default function RootLayout({
     <html lang='en'>
 
       <body className={kumbhSans.className}>
-          <SessionProvider>
-        <NavMenuProvider><UserMenuProvider><Header /></UserMenuProvider></NavMenuProvider>
-        <main>{children}</main>
-        <Footer />
+        <SessionProvider>
+          <NavMenuProvider><UserMenuProvider><Header /></UserMenuProvider></NavMenuProvider>
+          <main>{children}</main>
+          <Footer />
         </SessionProvider>
       </body>
-      
+
     </html>
   );
 }

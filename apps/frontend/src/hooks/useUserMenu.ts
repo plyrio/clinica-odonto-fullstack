@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect, useRef } from 'react';
-import { UserMenuContext } from '@/context/UserMenuContext';
+import { UserMenuContext } from '@/components/context/UserMenuContext';
 
 export function useUserMenu() {
     const context = useContext(UserMenuContext);

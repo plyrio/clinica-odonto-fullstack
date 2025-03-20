@@ -1,7 +1,7 @@
 "use client";
-import ButtonDefault from "../utils/ButtonDefault";
-import TitlesSection from "../utils/TitlesSection";
-import {useForm, SubmitHandler} from "react-hook-form";
+import ButtonDefault from "../ui/button/Button";
+import TitlesSection from "../ui/layout/TitlesSection";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
   nomecompleto: string;
@@ -16,7 +16,7 @@ const Form = () => {
     register,
     handleSubmit,
     watch,
-    formState: {errors}
+    formState: { errors }
   } = useForm<Inputs>({});
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 

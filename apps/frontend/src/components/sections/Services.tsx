@@ -1,7 +1,7 @@
-import {Suspense} from "react";
+import { Suspense } from "react";
 import ServicesCard from "@/components/cards/ServicesCard";
-import Section from "../layout/Section";
-import TitlesSection from "../utils/TitlesSection";
+import Section from "../ui/layout/Section";
+import TitlesSection from "../ui/layout/TitlesSection";
 
 export default function ServicesSection() {
   return (

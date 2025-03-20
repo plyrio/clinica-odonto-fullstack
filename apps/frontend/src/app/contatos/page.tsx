@@ -2,7 +2,7 @@
 import React from 'react';
 import Hero from '@/components/sections/Hero';
 import Contact from '@/components/sections/Contact';
-import Section from '@/components/layout/Section';
+import Section from '@/components/ui/layout/Section';
 
 
 export default function ContactPage() {

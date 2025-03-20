@@ -3,15 +3,14 @@ import {
     FOOTER,
     CLINIC_INFO,
 } from '@/data/Data';
-import Logo from './nav/Logo';
-import Image from 'next/image';
+import Logo from '../header/Logo';
 import Link from 'next/link';
-import ButtonDefault from '../utils/ButtonDefault';
+import Button from '../button/Button';
 
 const year =
     new Date().getFullYear();
 
-export function Footer() {
+export default function Footer() {
     return (
         <footer className='relative z-10 py-24 bg-neutral-800'>
             <div className='container px-0 md:px-6'>
@@ -127,7 +126,7 @@ export function Footer() {
                                         placeholder='Digite Seu Email'
                                         name='EMAIL'
                                     />
-                                    <ButtonDefault
+                                    <Button
                                         href='#'
                                         text='Increva-se'
                                         className='rounded w-full'

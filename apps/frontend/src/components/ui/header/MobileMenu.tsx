@@ -2,7 +2,7 @@
 import { useNavMenu } from "@/hooks/useNavMenu"
 import { IconMenu2, IconX } from "@tabler/icons-react"
 
-export default function Dropmenu() {
+export default function MobileMenu() {
     const { toggleMenu, menuOpen } = useNavMenu()
     return (
         <button className='rounded-sm p-2' onClick={toggleMenu} aria-expanded='true' aria-controls="toggle-menu">

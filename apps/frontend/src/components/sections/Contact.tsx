@@ -1,5 +1,5 @@
 import React from "react";
-import Section from "../layout/Section";
+import Section from "../ui/layout/Section";
 import Form from "../form/Form";
 
 export default function Contact() {

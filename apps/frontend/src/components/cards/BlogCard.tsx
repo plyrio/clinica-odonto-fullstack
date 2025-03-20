@@ -1,4 +1,4 @@
-import { CardContainer } from "../layout/CardContainer";
+import { CardContainer } from "../ui/layout/CardContainer";
 import Image from "next/image";
 import Link from "next/link";
 import { ResponseBlogPostDto } from "@odonto/core";

@@ -1,6 +1,6 @@
-import React, {Suspense} from "react";
-import Section from "../layout/Section";
-import TitlesSection from "../utils/TitlesSection";
+import React, { Suspense } from "react";
+import Section from "../ui/layout/Section";
+import TitlesSection from "../ui/layout/TitlesSection";
 import BlogCard from "../cards/BlogCard";
 
 export default function Blog() {
