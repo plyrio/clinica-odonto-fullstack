@@ -1,6 +1,7 @@
+"use client"
 import { IconArrowBackUp } from "@tabler/icons-react";
 import { twMerge } from "tailwind-merge";
-import { signOut } from "@/auth"
+import { signOut } from "next-auth/react"
 
 type btnProps = {
     className?: string
@@ -11,17 +12,11 @@ type btnProps = {
 
 export default function SignOut  ({ className, text, icon = false, ...props }: btnProps & React.ButtonHTMLAttributes<HTMLButtonElement>)  {
     return (
-        <form
-            action={async () => {
-                "use server"
-                await signOut()
-            }}
-        >
-            <button className={twMerge(className)} {...props} type="submit">
+
+            <button onClick={() => signOut()} className={twMerge(className)} {...props} type="submit">
                 {icon ? (<IconArrowBackUp stroke={1} />) : (null)}
                 Sair
             </button>
 
-        </form>
     )
 }
