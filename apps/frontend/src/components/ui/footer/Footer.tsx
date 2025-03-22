@@ -21,7 +21,7 @@ export default function Footer() {
                                 isBgDark={
                                     true
                                 }
-                                className='w-full h-auto mb-3'
+                                classNameLink='w-full h-auto mb-3'
                             />
 
                             <p className='text-justify text-zinc-100 mb-4 '>

@@ -19,13 +19,13 @@ export default function Section({
     return (
         <section
             className={twMerge(
-                `${noContainer ? "" : "container "} py-24`,
+                `${noContainer ? "" : "container md:px-3.5 px-0"} py-24 `,
                 className
             )}
         >
             <div
                 className={twMerge(
-                    `${noContainer1 ? "" : "container "}`,
+                    `${noContainer1 ? "" : "container md:px-3.5 px-0"} `,
                     classNameContainer
                 )}
             >

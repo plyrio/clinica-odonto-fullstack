@@ -7,9 +7,9 @@ export default function Header() {
  return (
   <header className="bg-white sticky top-0 z-50 shadow-header ">
    <div className="mx-auto container px-4 sm:px-6 lg:px-8">
-    <div className="flex h-16 items-center justify-between">
+    <div className="flex mx-auto h-16 items-center md:justify-evenly justify-between">
      <div className="h-full flex items-center md:gap-12">
-      <Logo />
+      <Logo classNameImg='w-full' />
      </div>
      <div className="flex items-center h-full md:w-full">
       <NavLinks />

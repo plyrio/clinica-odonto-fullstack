@@ -4,7 +4,6 @@ import { User } from 'next-auth';
 import { useUserMenu } from '@/hooks/useUserMenu';
 import Link from 'next/link';
 import SignOut from '../button/ButtonSignOut';
-import { IconBell } from '@tabler/icons-react';
 import Image from 'next/image';
 
 type Props = {
@@ -45,17 +44,6 @@ export default function UserMenu({
 
  return (
   <div className="flex items-center gap-4">
-   <Link href={'#'}>
-    <div className="flex items-center relative">
-     <IconBell
-      stroke={2}
-      className="text-gray-700"
-     />
-     <div className="absolute -top-2.5 -right-2.5 w-5 h-5 bg-red-600 rounded-full flex justify-center items-center text-xs text-white">
-      4
-     </div>
-    </div>
-   </Link>
    <div
     ref={menuRef}
     className="relative md:flex">
@@ -79,9 +67,9 @@ export default function UserMenu({
        user.image ||
        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       }
-      height={256}
-      width={256}
-      className=" size-10 object-cover"
+      height={128}
+      width={128}
+      className="h-10 w-10 object-cover"
      />
     </button>
     <div

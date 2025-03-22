@@ -1,4 +1,3 @@
-'use client'
 import Hero from "@/components/sections/Hero";
 import { notFound } from 'next/navigation';
 import { ResponseBlogPostDto } from '@odonto/core';

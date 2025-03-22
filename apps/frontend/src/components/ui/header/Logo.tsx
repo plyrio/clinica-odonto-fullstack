@@ -2,18 +2,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
  LOGO,
- LOGO_DARK,
- CLINIC_INFO,
+ LOGO_DARK
 } from '@/data/Data';
 import { twMerge } from 'tailwind-merge';
 
 type LogoProps = {
- className?: string;
+ classNameLink?: string;
+ classNameImg?: string;
  isBgDark?: boolean;
 };
 
 export default function Logo({
- className,
+ classNameLink,
+ classNameImg,
  isBgDark = false,
 }: LogoProps) {
  return (
@@ -21,10 +22,10 @@ export default function Logo({
    href="/"
    className={twMerge(
     `flex text-gray-700 font-bold items-center h-[60%]`,
-    className,
+    classNameLink,
    )}>
    <span className="sr-only">
-    Home
+    Inicio
    </span>
    <Image
     src={
@@ -34,7 +35,10 @@ export default function Logo({
     }
     height={250}
     width={250}
-    className="flex h-full w-auto items-center"
+       className={twMerge(
+         `flex h-full w-auto items-center`,
+         classNameImg,
+       )}
     alt="Logo da Clinica Odonto"
    />
   </Link>

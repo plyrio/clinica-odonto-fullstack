@@ -29,7 +29,7 @@ export default function Button({
                 `relative inline-block text-center overflow-hidden z-10
                 duration-400
                rounded-full font-semibold text-[15px]
-               px-[35px] py-[12px] mt-[5px] mr-[10px]
+               px-9 py-3 mt-[5px] mr-2.5
                 border-none hover:bg-indigo-900 ${buttonClass}`,
                 className
             )}

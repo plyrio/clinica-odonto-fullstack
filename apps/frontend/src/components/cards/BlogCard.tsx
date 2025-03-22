@@ -2,6 +2,8 @@ import { CardContainer } from "../ui/layout/CardContainer";
 import Image from "next/image";
 import Link from "next/link";
 import { ResponseBlogPostDto } from "@odonto/core";
+import ButtonDefault from "../ui/button/Button";
+import { IconCalendar } from "@tabler/icons-react";
 
 async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
   try {
@@ -34,12 +36,12 @@ export default async function BlogCard() {
     <CardContainer>
       {blogposts.map((item) => {
         return (
-          <div key={item.id} className="max-w-sm mx-auto">
-            <div className='relative'>
+          <div key={item.id} className="mx-auto bg-white rounded-lg shadow-card">
+            <div className='relative border-b '>
               <Image
                 height={256}
                 width={256}
-                className='object-center h-auto w-full rounded-lg lg:h-80'
+                className='object-center h-auto w-full lg:h-auto lg:w-full'
                 src={
                   item.imgUrl ||
                   `https://images.stockcake.com/public/d/7/7/d77cdbe5-5fd2-49d4-b737-9e07d352f32b/dentist-holding-tools-stockcake.jpg`
@@ -47,7 +49,7 @@ export default async function BlogCard() {
                 alt={item.title || "Blog post image"}
               />
 
-              <div className='absolute bottom-0 flex p-3 bg-white'>
+              <div className='absolute bottom-0 flex p-2 bg-white rounded-tr-xl'>
                 {item.author?.imgUrl && (
                   <Image
                     height={64}
@@ -60,29 +62,32 @@ export default async function BlogCard() {
 
                 <div className='mx-4'>
                   <h1 className='text-sm text-gray-700'>{item.author?.name}</h1>
-                  <p className='text-sm text-gray-500'>
-                    {item.createdAt &&
+                  
+                  <p className='text-sm text-gray-500 flex mt-1 items-center line-clamp-5'>
+                    <IconCalendar stroke={1} className="h-5 flex " />
+                    <span className="flex ml-1">
+                      {item.createdAt &&
                       new Date(item.createdAt).toLocaleDateString("pt-BR")}
+                    </span>
+                    
                   </p>
                 </div>
               </div>
             </div>
+            <div className="p-4">
+              <h1 className='mt-6 text-xl font-semibold text-gray-800'>
+                {item.title}
+              </h1>
 
-            <h1 className='mt-6 text-xl font-semibold text-gray-800'>
-              {item.title}
-            </h1>
-
-            <div className='my-6'>
-              <p className='text-sm text-gray-500 line-clamp-3'>
-                {item.content}
-              </p>
-
-              <Link
-                href={`/blog/${item.id}`}
-                className='inline-block mt-4 text-blue-500 underline hover:text-blue-400'>
-                Leia Mais
-              </Link>
+              <div className='mt-6'>
+                <p className='text-sm text-gray-500 line-clamp-3'>
+                  {item.content}
+                </p>
+                <ButtonDefault text="Leia Mais" className="" href={`/blog/${item.id}`} />
+                
+              </div>
             </div>
+
           </div>
         );
       })}
