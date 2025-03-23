@@ -45,7 +45,7 @@ export default function UserMenu({
 
  return (
   <div className="flex items-center gap-4">
-  <NotifyBell />
+   <NotifyBell user={user}/>
    <div
     ref={menuRef}
     className="relative md:flex">
