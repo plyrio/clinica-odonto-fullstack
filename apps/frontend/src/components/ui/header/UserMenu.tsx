@@ -5,6 +5,7 @@ import { useUserMenu } from '@/hooks/useUserMenu';
 import Link from 'next/link';
 import SignOut from '../button/ButtonSignOut';
 import Image from 'next/image';
+import NotifyBell from './NotifyBell';
 
 type Props = {
  user: User;
@@ -44,6 +45,7 @@ export default function UserMenu({
 
  return (
   <div className="flex items-center gap-4">
+  <NotifyBell />
    <div
     ref={menuRef}
     className="relative md:flex">
