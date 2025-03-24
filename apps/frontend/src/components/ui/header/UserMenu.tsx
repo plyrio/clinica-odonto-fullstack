@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { User } from 'next-auth';
-import { useUserMenu } from '@/hooks/useUserMenu';
+import { useDropdown } from '@/hooks/useDropdown';
 import Link from 'next/link';
 import SignOut from '../button/ButtonSignOut';
 import Image from 'next/image';
@@ -38,20 +38,20 @@ export default function UserMenu({
   user,
   }: Props) {
   const {
-  menuOpenUser,
+  menuOpen,
   menuRef,
-  toggleMenuUser,
-  } = useUserMenu();
+  toggleMenu,
+  } = useDropdown("userMenu");
 
   return (
-  <div className="flex items-center gap-4">
-   <NotifyBell user={user} />
+  <div className="flex justify-center items-center gap-4">
+<NotifyBell user={user} />
    <div
     ref={menuRef}
     className="relative md:flex">
     <button
       onClick={
-      toggleMenuUser
+      toggleMenu
       }
       type="button"
       aria-expanded="true"
@@ -76,7 +76,7 @@ export default function UserMenu({
     </button>
     <div
       className={`${
-      menuOpenUser
+      menuOpen
       ? 'absolute top-12 end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg list-none': 'hidden'
       } `}
       role="menu">
