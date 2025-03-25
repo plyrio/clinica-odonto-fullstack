@@ -17,7 +17,10 @@ A aplicação foi projetada com foco em **eficiência**, **colaboração** e **m
 ## 📷 Demonstração
 
 ### Front-end
+#### Desktop
 ![Desktop](https://res.cloudinary.com/dn5yfai0g/image/upload/v1742908669/Cl%C3%ADnica_Odonto_3_sckpzi.png)
+
+#### Mobile
 ![Mobile](https://res.cloudinary.com/dn5yfai0g/image/upload/v1742908398/Cl%C3%ADnica_Odonto_2_vl5p3h.png)
 
 ### Back-end
@@ -200,9 +203,9 @@ Sim! O **Prisma** suporta múltiplos bancos de dados. Para mudar, ajuste o arqui
 
 ## 👨‍💻 Autor
 
-**Pedro Lyrio (Plyrio Dev)
-📧 Email: pedrolyrio@ucl.br
-🔗 GitHub: [github.com/plyrio](github.com/plyrio)
-🔗 LinkedIn: [linkedin.com/in/plyrio](linkedin.com/in/plyrio)**
+**Pedro Lyrio (Plyrio Dev)**
+**📧 Email: pedrolyrio@ucl.br**
+**🔗 GitHub: [github.com/plyrio](github.com/plyrio)**
+**🔗 LinkedIn: [linkedin.com/in/plyrio](linkedin.com/in/plyrio)**
 
 **Licença**: ISC
