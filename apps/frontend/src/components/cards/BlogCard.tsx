@@ -18,7 +18,7 @@ async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
     }
     return res.json();
   } catch (error) {
-    console.error("Error fetching services:", error);
+    console.error("Error fetching articles:", error);
     return [];
   }
 
