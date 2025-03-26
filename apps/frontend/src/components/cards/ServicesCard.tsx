@@ -51,7 +51,7 @@ export default async function ServicesCard() {
         "https://res.cloudinary.com/dn5yfai0g/image/upload/v1736903941/tooth_ptns1e.png"
         }
         alt={`avatar de ${service.name}`}
-        className="text-[45px] ml-[20px] rounded-full"
+        className="text-[45px] ml-[20px]"
         />
               <span className="absolute -z-10 left-0 top-1/4 w-[45px] h-[45px] bg-neutral-100 rounded-full transform -translate-y-1/2"></span>
       </div>
