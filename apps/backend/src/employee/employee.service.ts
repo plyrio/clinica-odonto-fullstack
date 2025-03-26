@@ -110,6 +110,32 @@ export class EmployeeService {
     }
   }
 
+  async findAllDoctors(): Promise<ResponseEmployeeDto[]> {
+    try {
+      const doctors = await this.prismaService.user.findMany({
+        where: {
+          role: {
+            hasSome: ['DOCTOR'],
+          },
+        },
+        include: {
+          blogs: true,
+          services: true,
+          specialties: true,
+        },
+        orderBy: {
+          id: 'asc',
+        },
+      });
+      this.commonService.validateDto(responseEmployeeSchema.array(), doctors);
+      return doctors.map((doctor) =>
+        responseEmployeeSchema.parse(doctor),
+      );
+    } catch (error) {
+      this.commonService.handleError(error, 'Failed to return all doctors');
+    }
+  }
+
   async findOne(id: number): Promise<ResponseEmployeeDto> {
     try {
       const employee = await this.prismaService.user.findUnique({
@@ -126,12 +152,6 @@ export class EmployeeService {
             ],
           },
         },
-        include: {
-          blogs: true,
-          services: true,
-          specialties: true,
-          employeeAppointments: { include: { service: true, user: true } },
-        },
       });
 
       if (!employee) {
@@ -142,6 +162,33 @@ export class EmployeeService {
       this.commonService.handleError(
         error,
         `An error occurred while try fetching employee`,
+      );
+    }
+  }
+
+  async findOneDoctor(id: number): Promise<ResponseEmployeeDto> {
+    try {
+      const doctor = await this.prismaService.user.findUnique({
+        where: {
+          id,
+          role: { hasSome: ['DOCTOR'] },
+        },
+        include: {
+          blogs: true,
+          services: true,
+          specialties: true,
+          employeeAppointments: { include: { service: true, user: true } },
+        },
+      });
+
+      if (!doctor) {
+        throw new NotFoundException(`Not found doctor of ID #${id}`);
+      }
+      return responseEmployeeSchema.parse(doctor);
+    } catch (error) {
+      this.commonService.handleError(
+        error,
+        `An error occurred while try fetching doctor`,
       );
     }
   }
