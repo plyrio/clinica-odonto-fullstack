@@ -1,8 +1,8 @@
 import {
   Injectable,
   NotFoundException,
-  BadRequestException
-} from "@nestjs/common";
+  BadRequestException,
+} from '@nestjs/common';
 import {
   createEmployeeSchema,
   updateEmployeeSchema,
@@ -11,33 +11,33 @@ import {
   UpdateEmployeeDto,
   UpdateEmployeeRoleDto,
   responseEmployeeSchema,
-  ResponseEmployeeDto
-} from "@odonto/core";
-import {UserService} from "src/user/user.service";
-import {CommonService} from "src/common/common.service";
-import {PrismaService} from "src/db/prisma.service";
-import * as bcrypt from "bcrypt";
+  ResponseEmployeeDto,
+} from '@odonto/core';
+import { UserService } from 'src/user/user.service';
+import { CommonService } from 'src/common/common.service';
+import { PrismaService } from 'src/db/prisma.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class EmployeeService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly commonService: CommonService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   async create(
-    createEmployeeDto: CreateEmployeeDto
+    createEmployeeDto: CreateEmployeeDto,
   ): Promise<ResponseEmployeeDto> {
     try {
       const birthdayAsDate = new Date(createEmployeeDto.birthday);
       const employeeDtoWithDate = {
         ...createEmployeeDto,
-        birthday: birthdayAsDate
+        birthday: birthdayAsDate,
       };
       this.commonService.validateDto(createEmployeeSchema, employeeDtoWithDate);
 
-      const {password} = createEmployeeDto;
+      const { password } = createEmployeeDto;
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const roles = createEmployeeDto.role;
@@ -51,28 +51,28 @@ export class EmployeeService {
           phone: createEmployeeDto.phone,
           birthday: createEmployeeDto.birthday,
           imgUrl: createEmployeeDto.imgUrl,
-          role: roles?.includes("EMPLOYEE")
+          role: roles?.includes('EMPLOYEE')
             ? roles
-            : ["EMPLOYEE", ...(roles || [])],
-          specialties: roles?.includes("DOCTOR")
+            : ['EMPLOYEE', ...(roles || [])],
+          specialties: roles?.includes('DOCTOR')
             ? {
                 connect: createEmployeeDto.specialties?.map((specialtyId) => ({
-                  id: specialtyId
-                }))
+                  id: specialtyId,
+                })),
               }
             : undefined,
-          services: roles?.includes("DOCTOR")
+          services: roles?.includes('DOCTOR')
             ? {
                 connect: createEmployeeDto.services?.map((serviceId) => ({
-                  id: serviceId
-                }))
+                  id: serviceId,
+                })),
               }
-            : undefined
-        }
+            : undefined,
+        },
       });
       return responseEmployeeSchema.parse(employee);
     } catch (error) {
-      this.commonService.handleError(error, "Failed create new employee");
+      this.commonService.handleError(error, 'Failed create new employee');
     }
   }
 
@@ -82,31 +82,31 @@ export class EmployeeService {
         where: {
           role: {
             hasSome: [
-              "ADMIN",
-              "DOCTOR",
-              "NURSE",
-              "RECEPTIONIST",
-              "MANAGER",
-              "EMPLOYEE"
-            ]
-          }
+              'ADMIN',
+              'DOCTOR',
+              'NURSE',
+              'RECEPTIONIST',
+              'MANAGER',
+              'EMPLOYEE',
+            ],
+          },
         },
         include: {
           blogs: true,
           services: true,
           specialties: true,
-          employeeAppointments: {include: {service: true, user: true}}
+          employeeAppointments: { include: { service: true, user: true } },
         },
         orderBy: {
-          id: "asc"
-        }
+          id: 'asc',
+        },
       });
       this.commonService.validateDto(responseEmployeeSchema.array(), employees);
       return employees.map((employee) =>
-        responseEmployeeSchema.parse(employee)
+        responseEmployeeSchema.parse(employee),
       );
     } catch (error) {
-      this.commonService.handleError(error, "Failed to return all employees");
+      this.commonService.handleError(error, 'Failed to return all employees');
     }
   }
 
@@ -117,21 +117,21 @@ export class EmployeeService {
           id,
           role: {
             hasSome: [
-              "ADMIN",
-              "DOCTOR",
-              "NURSE",
-              "RECEPTIONIST",
-              "MANAGER",
-              "EMPLOYEE"
-            ]
-          }
+              'ADMIN',
+              'DOCTOR',
+              'NURSE',
+              'RECEPTIONIST',
+              'MANAGER',
+              'EMPLOYEE',
+            ],
+          },
         },
         include: {
           blogs: true,
           services: true,
           specialties: true,
-          employeeAppointments: {include: {service: true, user: true}}
-        }
+          employeeAppointments: { include: { service: true, user: true } },
+        },
       });
 
       if (!employee) {
@@ -141,102 +141,102 @@ export class EmployeeService {
     } catch (error) {
       this.commonService.handleError(
         error,
-        `An error occurred while try fetching employee`
+        `An error occurred while try fetching employee`,
       );
     }
   }
 
   async update(
     id: number,
-    updateEmployeeDto: UpdateEmployeeDto
-  ): Promise<{message: string; responseEmployee: ResponseEmployeeDto}> {
+    updateEmployeeDto: UpdateEmployeeDto,
+  ): Promise<{ message: string; responseEmployee: ResponseEmployeeDto }> {
     try {
       this.commonService.validateDto(updateEmployeeSchema, updateEmployeeDto);
 
-      const {specialties, services, ...rest} = updateEmployeeDto;
+      const { specialties, services, ...rest } = updateEmployeeDto;
       const employee = await this.prismaService.user.findUnique({
-        where: {id},
-        select: {role: true}
+        where: { id },
+        select: { role: true },
       });
       if (!employee) {
         throw new Error(`Employee with ID #${id} not found`);
       }
 
-      const isDoctor = employee.role?.includes("DOCTOR");
+      const isDoctor = employee.role?.includes('DOCTOR');
 
       const updatedEmployee = await this.prismaService.user.update({
-        where: {id},
+        where: { id },
         data: {
           ...rest,
           specialties:
-            isDoctor && specialties
-              ? {set: specialties.map((specialtyId) => ({id: specialtyId}))}
-              : {set: []},
+            isDoctor && specialties !== undefined
+              ? { set: specialties.map((specialtyId) => ({ id: specialtyId })) }
+              : undefined,
           services:
-            isDoctor && services
-              ? {set: services.map((serviceId) => ({id: serviceId}))}
-              : {set: []}
-        }
+            isDoctor && services !== undefined
+              ? { set: services.map((serviceId) => ({ id: serviceId })) }
+              : undefined,
+        },
       });
       return {
         message: `Employee with ID #${id} successfully updated `,
-        responseEmployee: responseEmployeeSchema.parse(updatedEmployee)
+        responseEmployee: responseEmployeeSchema.parse(updatedEmployee),
       };
     } catch (error) {
       this.commonService.handleError(
         error,
-        `Failed to update employee of ID #${id}`
+        `Failed to update employee of ID #${id}`,
       );
     }
   }
 
   async updateRole(
     id: number,
-    updateEmployeeRoleDto: UpdateEmployeeRoleDto
-  ): Promise<{message: string; responseEmployee: ResponseEmployeeDto}> {
+    updateEmployeeRoleDto: UpdateEmployeeRoleDto,
+  ): Promise<{ message: string; responseEmployee: ResponseEmployeeDto }> {
     try {
       this.commonService.validateDto(
         updateEmployeeRoleSchema,
-        updateEmployeeRoleDto
+        updateEmployeeRoleDto,
       );
 
       const employee = await this.prismaService.user.findUnique({
-        where: {id}
+        where: { id },
       });
       if (!employee) {
         throw new Error(`Employee with ID #${id} not found`);
       }
 
-      const isDoctor = updateEmployeeRoleDto.role?.includes("DOCTOR");
+      const isDoctor = updateEmployeeRoleDto.role?.includes('DOCTOR');
 
-      const {role, specialties, services} = updateEmployeeRoleDto;
+      const { role, specialties, services } = updateEmployeeRoleDto;
 
       const updatedEmployeeRole = await this.prismaService.user.update({
-        where: {id},
+        where: { id },
         data: {
           role,
           specialties:
-            isDoctor && specialties
+            isDoctor && specialties !== undefined
               ? {
-                  set: specialties.map((specialtyId) => ({id: specialtyId}))
+                  set: specialties.map((specialtyId) => ({ id: specialtyId })),
                 }
-              : {set: []},
+              : undefined,
           services:
-            isDoctor && services
-              ? {set: services.map((serviceId) => ({id: serviceId}))}
-              : {set: []}
-        }
+            isDoctor && services !== undefined
+              ? { set: services.map((serviceId) => ({ id: serviceId })) }
+              : undefined,
+        },
       });
 
       return {
         message: `Employee with ID #${id} successfully updated role`,
-        responseEmployee: responseEmployeeSchema.parse(updatedEmployeeRole)
+        responseEmployee: responseEmployeeSchema.parse(updatedEmployeeRole),
       };
     } catch (error) {
-      console.error("Error occurred:", error);
+      console.error('Error occurred:', error);
       this.commonService.handleError(
         error,
-        `Failed to update employee of ID #${id}`
+        `Failed to update employee of ID #${id}`,
       );
     }
   }
@@ -244,18 +244,18 @@ export class EmployeeService {
   async remove(id: number) {
     try {
       const employee = await this.prismaService.user.findUnique({
-        where: {id}
+        where: { id },
       });
       if (!employee) {
         throw new NotFoundException(`Not found employee of ID #${id}`);
       }
       return await this.prismaService.user.delete({
-        where: {id}
+        where: { id },
       });
     } catch (error) {
       this.commonService.handleError(
         error,
-        `Failed to delete employee of ID #${id}`
+        `Failed to delete employee of ID #${id}`,
       );
     }
   }
