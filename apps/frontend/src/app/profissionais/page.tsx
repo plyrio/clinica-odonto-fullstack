@@ -6,7 +6,7 @@ import Section from "@/components/ui/layout/Section";
 export default function Professionals() {
   return (
     <>
-      <Hero title='Profissionais' />
+      <Hero title="Profissionais" />
       <Section>
         <ProfessionalsCard />
       </Section>

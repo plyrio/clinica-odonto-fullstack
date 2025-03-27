@@ -1,5 +1,5 @@
 import React from "react";
-import {twMerge} from "tailwind-merge";
+import { twMerge } from "tailwind-merge";
 
 type GridContainerProps = {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ type GridContainerProps = {
 export function CardContainer({
   children,
   className,
-  gridClassName
+  gridClassName,
 }: GridContainerProps) {
   const defaultContainerClasses = " w-full mx-auto";
   const defaultGridClasses =

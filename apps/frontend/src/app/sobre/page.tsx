@@ -5,7 +5,7 @@ import Section from "@/components/ui/layout/Section";
 export default function About() {
   return (
     <>
-      <Hero title='Sobre' />
+      <Hero title="Sobre" />
       <Section>Sobre nos</Section>
     </>
   );

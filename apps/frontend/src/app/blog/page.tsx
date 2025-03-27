@@ -1,12 +1,12 @@
-import React from 'react';
-import Hero from '@/components/sections/Hero';
-import Blog from '@/components/sections/Blog';
+import React from "react";
+import Hero from "@/components/sections/Hero";
+import Blog from "@/components/sections/Blog";
 
-export default function BlogMain () {
+export default function BlogMain() {
   return (
     <>
-      <Hero title="Blog"/>
+      <Hero title="Blog" />
       <Blog />
     </>
-    )
+  );
 }

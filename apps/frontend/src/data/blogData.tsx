@@ -1,21 +1,22 @@
 // blogData.tsx
 export interface Article {
-    id: number;
-    title: string;
-    description: string;
-    author: string;
-    date: string;
-    content: string;
+  id: number;
+  title: string;
+  description: string;
+  author: string;
+  date: string;
+  content: string;
 }
 
 export const blogArticles: Article[] = [
-    {
-        id: 1,
-        title: "A Importância da Higiene Bucal Diária",
-        description: "Entenda por que manter uma rotina de higiene bucal diária é essencial para a sua saúde geral.",
-        author: "Dr. João Silva",
-        date: "2024-08-01",
-        content: `
+  {
+    id: 1,
+    title: "A Importância da Higiene Bucal Diária",
+    description:
+      "Entenda por que manter uma rotina de higiene bucal diária é essencial para a sua saúde geral.",
+    author: "Dr. João Silva",
+    date: "2024-08-01",
+    content: `
       A saúde bucal é parte integrante da nossa saúde geral. Não se trata apenas de ter um sorriso bonito, mas de manter o corpo saudável. 
       Escovar os dentes ao menos duas vezes ao dia é fundamental, pois ajuda a remover a placa bacteriana que se forma naturalmente ao longo do dia. 
       A placa é uma película pegajosa cheia de bactérias que, quando não removida, pode causar cáries e gengivite. Além disso, o uso do fio dental é crucial, 
@@ -37,14 +38,15 @@ export const blogArticles: Article[] = [
       é importante fazer limpezas profissionais e check-ups regulares para garantir que não haja problemas subjacentes. 
       O dentista pode identificar cáries, doenças gengivais e outras condições em seus estágios iniciais, evitando tratamentos mais invasivos no futuro.
     `,
-    },
-    {
-        id: 2,
-        title: "Os Riscos do Uso de Clareadores Dentais Sem Prescrição",
-        description: "Saiba quais são os riscos envolvidos no uso de clareadores dentais comprados sem prescrição.",
-        author: "Dra. Maria Oliveira",
-        date: "2024-07-22",
-        content: `
+  },
+  {
+    id: 2,
+    title: "Os Riscos do Uso de Clareadores Dentais Sem Prescrição",
+    description:
+      "Saiba quais são os riscos envolvidos no uso de clareadores dentais comprados sem prescrição.",
+    author: "Dra. Maria Oliveira",
+    date: "2024-07-22",
+    content: `
       Clarear os dentes em casa pode parecer uma solução rápida e econômica para ter um sorriso mais branco, mas há vários riscos associados ao uso de clareadores dentais sem prescrição. 
       Muitos desses produtos contêm concentrações elevadas de peróxido de hidrogênio ou peróxido de carbamida, substâncias que ajudam a clarear o esmalte dental, 
       mas que, quando usadas em excesso ou sem supervisão, podem causar danos graves aos dentes e gengivas.
@@ -67,14 +69,15 @@ export const blogArticles: Article[] = [
       Em vez de recorrer a clareadores sem prescrição, o ideal é fazer o clareamento sob a supervisão de um dentista. 
       O profissional pode indicar o melhor tratamento de acordo com as suas necessidades e garantir que o procedimento seja seguro e eficaz.
     `,
-    },
-    {
-        id: 3,
-        title: "Ortodontia Infantil: Quando Procurar um Especialista?",
-        description: "Descubra o momento certo para levar seu filho ao ortodontista e os benefícios do tratamento precoce.",
-        author: "Dr. Pedro Costa",
-        date: "2024-08-15",
-        content: `
+  },
+  {
+    id: 3,
+    title: "Ortodontia Infantil: Quando Procurar um Especialista?",
+    description:
+      "Descubra o momento certo para levar seu filho ao ortodontista e os benefícios do tratamento precoce.",
+    author: "Dr. Pedro Costa",
+    date: "2024-08-15",
+    content: `
       A ortodontia infantil é uma área importante da odontologia que se concentra na correção de problemas de alinhamento e crescimento dentário e ósseo em crianças. 
       Embora muitos pais acreditem que o tratamento ortodôntico só deve ser considerado quando todos os dentes permanentes tiverem nascido, 
       é recomendado que a primeira consulta ao ortodontista ocorra por volta dos 7 anos de idade.
@@ -98,14 +101,15 @@ export const blogArticles: Article[] = [
       Em resumo, levar seu filho ao ortodontista desde cedo pode prevenir uma série de complicações e garantir um sorriso saudável e alinhado. 
       Consulte um especialista para avaliar a necessidade de tratamento e garantir o melhor cuidado para a saúde bucal de seu filho.
     `,
-    },
-    {
-        id: 4,
-        title: "Como a Alimentação Afeta a Saúde dos Seus Dentes",
-        description: "A alimentação tem um impacto direto na sua saúde bucal. Descubra quais alimentos são amigos dos seus dentes.",
-        author: "Dra. Clara Mendes",
-        date: "2024-09-01",
-        content: `
+  },
+  {
+    id: 4,
+    title: "Como a Alimentação Afeta a Saúde dos Seus Dentes",
+    description:
+      "A alimentação tem um impacto direto na sua saúde bucal. Descubra quais alimentos são amigos dos seus dentes.",
+    author: "Dra. Clara Mendes",
+    date: "2024-09-01",
+    content: `
       A alimentação desempenha um papel crucial na manutenção da saúde bucal. O que você come pode tanto ajudar a fortalecer seus dentes quanto enfraquecê-los, 
       dependendo do tipo de alimento. Por exemplo, o consumo frequente de alimentos ricos em açúcar e carboidratos refinados pode alimentar as bactérias da boca, 
       que produzem ácidos responsáveis pela cárie dentária. Estes ácidos corroem o esmalte dental, tornando os dentes mais suscetíveis a cáries e erosões.
@@ -129,14 +133,15 @@ export const blogArticles: Article[] = [
       Em resumo, manter uma alimentação equilibrada e evitar o consumo excessivo de açúcares e ácidos é essencial para a saúde bucal. 
       Combine isso com uma boa higiene dental e visitas regulares ao dentista para garantir um sorriso saudável e bonito por muitos anos.
     `,
-    },
-    {
-        id: 5,
-        title: "O Papel do Fio Dental na Prevenção de Doenças Bucais",
-        description: "Descubra por que o uso do fio dental é tão importante quanto a escovação para manter a saúde bucal.",
-        author: "Dr. Felipe Santos",
-        date: "2024-09-12",
-        content: `
+  },
+  {
+    id: 5,
+    title: "O Papel do Fio Dental na Prevenção de Doenças Bucais",
+    description:
+      "Descubra por que o uso do fio dental é tão importante quanto a escovação para manter a saúde bucal.",
+    author: "Dr. Felipe Santos",
+    date: "2024-09-12",
+    content: `
       Embora a escovação regular seja uma parte essencial da higiene bucal, o fio dental é igualmente importante e muitas vezes negligenciado. 
       A escovação, por melhor que seja, não consegue remover os resíduos de alimentos e a placa bacteriana que ficam presos entre os dentes, 
       especialmente em áreas onde as cerdas da escova não conseguem alcançar. O fio dental preenche essa lacuna, limpando os espaços interdentais 
@@ -159,14 +164,15 @@ export const blogArticles: Article[] = [
       Em resumo, o fio dental é um componente essencial para a prevenção de problemas bucais. 
       Adicionar o uso regular do fio dental à sua rotina de cuidados com os dentes pode fazer uma grande diferença na saúde bucal a longo prazo.
     `,
-    },
-    {
-        id: 6,
-        title: "O Impacto da Gravidez na Saúde Bucal",
-        description: "Saiba como a gravidez pode afetar a saúde dos dentes e gengivas e o que fazer para evitar problemas.",
-        author: "Dra. Beatriz Lima",
-        date: "2024-09-18",
-        content: `
+  },
+  {
+    id: 6,
+    title: "O Impacto da Gravidez na Saúde Bucal",
+    description:
+      "Saiba como a gravidez pode afetar a saúde dos dentes e gengivas e o que fazer para evitar problemas.",
+    author: "Dra. Beatriz Lima",
+    date: "2024-09-18",
+    content: `
       Durante a gravidez, o corpo da mulher passa por muitas mudanças hormonais que podem ter impacto direto na saúde bucal. 
       Um dos problemas mais comuns enfrentados pelas gestantes é a gengivite, uma inflamação nas gengivas que pode causar inchaço, vermelhidão e sangramentos durante a escovação ou o uso do fio dental. 
       Isso ocorre porque os altos níveis de progesterona aumentam o fluxo sanguíneo para as gengivas, tornando-as mais sensíveis e suscetíveis à placa bacteriana.
@@ -188,14 +194,15 @@ export const blogArticles: Article[] = [
       Em resumo, a gravidez pode aumentar o risco de problemas bucais, mas com os cuidados adequados, é possível manter a saúde dos dentes e gengivas em dia 
       e garantir uma gestação mais saudável.
     `,
-    },
-    {
-        id: 7,
-        title: "Benefícios do Clareamento Dental Supervisionado por um Dentista",
-        description: "Veja por que optar pelo clareamento supervisionado por um profissional é mais seguro e eficaz.",
-        author: "Dr. Rafael Barbosa",
-        date: "2024-09-25",
-        content: `
+  },
+  {
+    id: 7,
+    title: "Benefícios do Clareamento Dental Supervisionado por um Dentista",
+    description:
+      "Veja por que optar pelo clareamento supervisionado por um profissional é mais seguro e eficaz.",
+    author: "Dr. Rafael Barbosa",
+    date: "2024-09-25",
+    content: `
       Clarear os dentes é um procedimento estético popular que pode melhorar significativamente a aparência do sorriso. 
       No entanto, muitas pessoas buscam soluções de clareamento caseiro sem a devida orientação de um dentista, o que pode resultar em danos à saúde bucal. 
       Optar por um clareamento supervisionado por um profissional oferece uma série de benefícios que garantem um resultado mais seguro e eficaz.
@@ -219,6 +226,5 @@ export const blogArticles: Article[] = [
       Em resumo, o clareamento dental supervisionado por um dentista é a melhor opção para quem busca um sorriso mais branco sem comprometer a saúde dos dentes e gengivas. 
       Consulte seu dentista para saber qual a melhor opção de clareamento para você e garanta um resultado seguro e duradouro.
     `,
-    },
+  },
 ];
-
