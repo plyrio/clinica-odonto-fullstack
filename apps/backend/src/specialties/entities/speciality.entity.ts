@@ -1,8 +1,8 @@
-import { Employee } from "src/employee/entities/employee.entity";
+import { Employee } from 'src/employee/entities/employee.entity';
 
 export class Speciality {
-    id: number;
-    name: string;
-    description?: string;
-    employees: Employee[];
+  id: number;
+  name: string;
+  description?: string;
+  employees: Employee[];
 }

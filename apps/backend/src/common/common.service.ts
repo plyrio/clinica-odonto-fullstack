@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ZodError } from 'zod';
 
 @Injectable()
@@ -8,7 +12,7 @@ export class CommonService {
 
     if (!validateData.success) {
       const errors = validateData.error.errors.map(
-        (err) => `${err.path.join('.')} - ${err.message}`
+        (err) => `${err.path.join('.')} - ${err.message}`,
       );
       console.log(errors);
       throw new BadRequestException({
@@ -22,13 +26,20 @@ export class CommonService {
     if (error instanceof ZodError) {
       throw new BadRequestException({
         message,
-        validationErrors: error.errors.map((err) => `${err.path.join('.')} - ${err.message}`,)
+        validationErrors: error.errors.map(
+          (err) => `${err.path.join('.')} - ${err.message}`,
+        ),
       });
     }
 
-    if (error.name === 'QueryFailedError' || error.message.includes('database')) {
+    if (
+      error.name === 'QueryFailedError' ||
+      error.message.includes('database')
+    ) {
       console.error('Database Error:', error);
-      throw new InternalServerErrorException(`${message}: Database error occurred`);
+      throw new InternalServerErrorException(
+        `${message}: Database error occurred`,
+      );
     }
 
     console.error('Unhandled Error:', error);

@@ -3,13 +3,11 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { patchNestjsSwagger } from '@anatine/zod-nestjs';
-import * as cookieParser from 'cookie-parser'
-
-
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors()
+  app.enableCors();
   app.use(cookieParser());
 
   const config = new DocumentBuilder()
@@ -25,13 +23,14 @@ async function bootstrap() {
       },
       'access-token',
     )
-    .addBearerAuth({
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-    },
-     'refresh-token',
-  )
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'refresh-token',
+    )
     .build();
   patchNestjsSwagger();
   const document = SwaggerModule.createDocument(app, config);

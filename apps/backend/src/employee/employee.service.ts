@@ -128,9 +128,7 @@ export class EmployeeService {
         },
       });
       this.commonService.validateDto(responseEmployeeSchema.array(), doctors);
-      return doctors.map((doctor) =>
-        responseEmployeeSchema.parse(doctor),
-      );
+      return doctors.map((doctor) => responseEmployeeSchema.parse(doctor));
     } catch (error) {
       this.commonService.handleError(error, 'Failed to return all doctors');
     }

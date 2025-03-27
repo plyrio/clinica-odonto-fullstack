@@ -8,6 +8,6 @@ import { CommonModule } from 'src/common/common.module';
   imports: [DbModule, CommonModule],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService]
+  exports: [UserService],
 })
 export class UserModule {}

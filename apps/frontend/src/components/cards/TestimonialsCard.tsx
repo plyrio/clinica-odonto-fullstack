@@ -15,17 +15,17 @@ export default function TestimonialsCard() {
     autoplay={true}
     pagination={{clickable: true}}
     breakpoints={{
-    640: {slidesPerView: 2, spaceBetween: 15},
+    640: {slidesPerView: 1, spaceBetween: 0},
     768: {slidesPerView: 2, spaceBetween: 5},
     1024: {slidesPerView: 3, spaceBetween: 5},
-    1440: { slidesPerView: 4, spaceBetween: 15},
+    1440: { slidesPerView: 4, spaceBetween: 5},
     }}
     navigation={true}
     modules={[Pagination, Navigation, Autoplay]}
     className='container  h-[440px]  '>
       {TESTIMONIALS_INFO.map((testimonial, index) => (
     <SwiperSlide key={index} className='h-full flex px-0 md:px-3'>
-          <div className='flex h-full w-full px-3.5'>
+          <div className='flex h-full w-full lg:px-0 px-3.5'>
             <div className='relative flex flex-col h-full bg-white shadow-md border border-sm rounded-md p-6'>
               <div className='mb-4 flex justify-center'>
                 <ul className='flex'>

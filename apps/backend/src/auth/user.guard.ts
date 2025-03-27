@@ -1,5 +1,9 @@
-import {Injectable, ExecutionContext, ForbiddenException} from "@nestjs/common";
-import {AuthGuard} from "./auth.guard";
+import {
+  Injectable,
+  ExecutionContext,
+  ForbiddenException,
+} from '@nestjs/common';
+import { AuthGuard } from './auth.guard';
 
 @Injectable()
 export class UserGuard extends AuthGuard {
@@ -13,21 +17,17 @@ export class UserGuard extends AuthGuard {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
     const userIdFromParams = +request.params.id;
-    const isAdmin = user.role.includes("ADMIN");
-    
-  /*  console.log(user);
+    const isAdmin = user.role.includes('ADMIN');
+
+    /*  console.log(user);
     console.log(userIdFromParams);
     console.log(typeof user.sub);
     console.log(typeof userIdFromParams);
     console.log(user.role);*/
-    if (
-      userIdFromParams &&
-      userIdFromParams !== user.sub &&
-      !isAdmin
-    ) {
-   // console.log("Falhou a verifica");
+    if (userIdFromParams && userIdFromParams !== user.sub && !isAdmin) {
+      // console.log("Falhou a verifica");
       throw new ForbiddenException(
-        "You do not have permission to access this resource"
+        'You do not have permission to access this resource',
       );
     }
 

@@ -74,8 +74,8 @@ export class EmployeeController {
   findAll() {
     return this.employeeService.findAll();
   }
-  
-    @Get('doctors')
+
+  @Get('doctors')
   @ApiOperation({
     summary: 'Retrieve a list of doctors',
     description: 'Fetches a list of all registered doctors.',

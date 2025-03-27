@@ -12,8 +12,17 @@ import { CommonService } from './common/common.service';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UserModule, SpecialitiesModule, AppointmentsModule, ServicesModule, BlogPostsModule, DbModule, EmployeeModule, AuthModule],
-  controllers: [AppController,],
+  imports: [
+    UserModule,
+    SpecialitiesModule,
+    AppointmentsModule,
+    ServicesModule,
+    BlogPostsModule,
+    DbModule,
+    EmployeeModule,
+    AuthModule,
+  ],
+  controllers: [AppController],
   providers: [AppService, CommonService],
 })
 export class AppModule {}

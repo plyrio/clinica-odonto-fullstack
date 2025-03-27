@@ -1,9 +1,12 @@
-import {Injectable} from "@nestjs/common";
-import {TIME_SLOT} from "./constants";
-import {PrismaService} from "src/db/prisma.service";
-import {Service} from "../services/entities/service.entity";
-import {CommonService} from "src/common/common.service";
-import {responseAppointmentSchema, ResponseAppointmentDto} from "@odonto/core";
+import { Injectable } from '@nestjs/common';
+import { TIME_SLOT } from './constants';
+import { PrismaService } from 'src/db/prisma.service';
+import { Service } from '../services/entities/service.entity';
+import { CommonService } from 'src/common/common.service';
+import {
+  responseAppointmentSchema,
+  ResponseAppointmentDto,
+} from '@odonto/core';
 
 @Injectable()
 export class GetOccupiedHoursService {
@@ -22,13 +25,12 @@ export class GetOccupiedHoursService {
         employeeId,
         date: {
           gte: startDay,
-          lte: endDay
+          lte: endDay,
         },
-        
       },
       include: {
-          service: true
-        }
+        service: true,
+      },
     });
 
     const occupiedHours = appointments
@@ -39,12 +41,12 @@ export class GetOccupiedHoursService {
         const totalSlots = Array.isArray(appointment.service)
           ? appointment.service.reduce(
               (total, service: Service) => total + service.slots,
-              0
+              0,
             )
           : slots;
 
-        return Array.from({length: totalSlots}, (_, i) =>
-          this.addMinutes(appointmentDate, i * TIME_SLOT)
+        return Array.from({ length: totalSlots }, (_, i) =>
+          this.addMinutes(appointmentDate, i * TIME_SLOT),
         );
       })
       .map((d) => d.toTimeString().slice(0, 5));

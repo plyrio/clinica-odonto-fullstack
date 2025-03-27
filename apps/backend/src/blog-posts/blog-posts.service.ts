@@ -1,21 +1,21 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   createBlogPostSchema,
   updateBlogPostSchema,
   CreateBlogPostDto,
   UpdateBlogPostDto,
   ResponseBlogPostDto,
-  responseBlogPostSchema
-} from "@odonto/core";
-import { CommonService } from "src/common/common.service";
-import { PrismaService } from "src/db/prisma.service";
+  responseBlogPostSchema,
+} from '@odonto/core';
+import { CommonService } from 'src/common/common.service';
+import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class BlogPostsService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly commonService: CommonService
-  ) { }
+    private readonly commonService: CommonService,
+  ) {}
 
   async create(createBlogPostDto: CreateBlogPostDto) {
     this.commonService.validateDto(createBlogPostSchema, createBlogPostDto);
@@ -26,11 +26,11 @@ export class BlogPostsService {
           title: createBlogPostDto.title,
           content: createBlogPostDto.content,
           imgUrl: createBlogPostDto.imgUrl,
-          author: { connect: { id: createBlogPostDto.authorId } }
-        }
+          author: { connect: { id: createBlogPostDto.authorId } },
+        },
       });
     } catch (error) {
-      this.commonService.handleError(error, "Failed create new blog post");
+      this.commonService.handleError(error, 'Failed create new blog post');
     }
   }
 
@@ -45,25 +45,24 @@ export class BlogPostsService {
               email: true,
               imgUrl: true,
               role: true,
-            }
+            },
           },
           likedBy: {
             select: {
               id: true,
               name: true,
               email: true,
-              imgUrl: true
-
-            }
-          }
-        }
+              imgUrl: true,
+            },
+          },
+        },
       });
       this.commonService.validateDto(responseBlogPostSchema.array(), blogPosts);
       return blogPosts.map((blogPost) =>
-        responseBlogPostSchema.parse(blogPost)
+        responseBlogPostSchema.parse(blogPost),
       );
     } catch (error) {
-      this.commonService.handleError(error, "Failed to return all blog posts");
+      this.commonService.handleError(error, 'Failed to return all blog posts');
     }
   }
 
@@ -74,15 +73,17 @@ export class BlogPostsService {
         include: {
           author: {
             select: {
-              id: true, 
-              name: true, 
-              email: true, 
+              id: true,
+              name: true,
+              email: true,
               imgUrl: true,
               role: true,
-            }
+            },
           },
-          likedBy: { select: { id: true, name: true, email: true, imgUrl: true } }
-        }
+          likedBy: {
+            select: { id: true, name: true, email: true, imgUrl: true },
+          },
+        },
       });
 
       if (!blogpost) {
@@ -91,14 +92,14 @@ export class BlogPostsService {
 
       await this.prismaService.blogPost.update({
         where: { id },
-        data: { views: { increment: 1 } }
+        data: { views: { increment: 1 } },
       });
 
       return blogpost;
     } catch (error) {
       this.commonService.handleError(
         error,
-        `An error occurred while fetching blog post of ID #${id}`
+        `An error occurred while fetching blog post of ID #${id}`,
       );
     }
   }
@@ -109,12 +110,12 @@ export class BlogPostsService {
     try {
       return await this.prismaService.blogPost.update({
         where: { id },
-        data: updateBlogPostDto
+        data: updateBlogPostDto,
       });
     } catch (error) {
       this.commonService.handleError(
         error,
-        `Failed to update blog post of ID #${id}`
+        `Failed to update blog post of ID #${id}`,
       );
     }
   }
@@ -122,7 +123,7 @@ export class BlogPostsService {
   async remove(id: number) {
     try {
       const blogpost = this.prismaService.blogPost.findUnique({
-        where: { id }
+        where: { id },
       });
 
       if (!blogpost) {
@@ -130,12 +131,12 @@ export class BlogPostsService {
       }
 
       return await this.prismaService.blogPost.delete({
-        where: { id }
+        where: { id },
       });
     } catch (error) {
       this.commonService.handleError(
         error,
-        `Failed to delete blog post of ID #${id}`
+        `Failed to delete blog post of ID #${id}`,
       );
     }
   }
@@ -144,7 +145,7 @@ export class BlogPostsService {
     try {
       const post = await this.prismaService.blogPost.findUnique({
         where: { id },
-        include: { likedBy: { select: { id: true, name: true, email: true } } }
+        include: { likedBy: { select: { id: true, name: true, email: true } } },
       });
 
       if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
@@ -158,14 +159,14 @@ export class BlogPostsService {
           likes: { increment: alreadyLiked ? -1 : 1 },
           likedBy: alreadyLiked
             ? { disconnect: { id: userId } }
-            : { connect: { id: userId } }
-        }
+            : { connect: { id: userId } },
+        },
       });
     } catch (error) {
-      console.error("Erro no likePost:", error);
+      console.error('Erro no likePost:', error);
       this.commonService.handleError(
         error,
-        `Failed to like or unlike blogpost of ID ${id}`
+        `Failed to like or unlike blogpost of ID ${id}`,
       );
     }
   }
