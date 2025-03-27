@@ -152,7 +152,6 @@ export class BlogPostsService {
 
       const alreadyLiked = post.likedBy.some((user) => user.id === userId);
 
-      // Atualiza o post com base na condição de like/deslike
       return await this.prismaService.blogPost.update({
         where: { id },
         data: {

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ResponseBlogPostDto } from "@odonto/core";
 import ButtonDefault from "../ui/button/Button";
-import { IconCalendar } from "@tabler/icons-react";
+import { IconCalendar, IconEye, IconThumbUp } from "@tabler/icons-react";
 
 async function fetchBlogPosts(): Promise<ResponseBlogPostDto[]> {
   try {
@@ -29,19 +29,27 @@ export default async function BlogCard() {
     console.error("Error in BlosPostCard component:", error);
   }
 
+  const sortedByViews = blogposts.sort((a, b) => {
+    const aViews = a.views ?? 0;
+    const bViews = b.views ?? 0;
+    return bViews - aViews; 
+  });
+
+  const mostViewedPosts = sortedByViews.slice(0, 6);
+
   return (
     <CardContainer>
-      {blogposts.map((item) => {
+      {mostViewedPosts.map((item, index) => {
         return (
           <div
-            key={item.id}
-            className="mx-auto bg-white rounded-lg shadow-card"
+            key={index}
+            className="mx-auto rounded-lg shadow-sm"
           >
-            <div className="relative border-b ">
+            <div className="relative">
               <Image
                 height={256}
                 width={256}
-                className="object-center h-auto w-full lg:h-auto lg:w-full"
+                className="object-cover object-center w-full h-64 rounded-lg lg:h-80"
                 src={
                   item.imgUrl ||
                   `https://images.stockcake.com/public/d/7/7/d77cdbe5-5fd2-49d4-b737-9e07d352f32b/dentist-holding-tools-stockcake.jpg`
@@ -49,7 +57,7 @@ export default async function BlogCard() {
                 alt={item.title || "Blog post image"}
               />
 
-              <div className="absolute bottom-0 flex p-2 bg-white rounded-tr-xl">
+              <div className="absolute bottom-0 flex p-3 bg-white rounded-tr-xl">
                 {item.author?.imgUrl && (
                   <Image
                     height={64}
@@ -65,7 +73,7 @@ export default async function BlogCard() {
 
                   <p className="text-sm text-gray-500 flex mt-1 items-center line-clamp-5">
                     <IconCalendar stroke={1} className="h-5 flex " />
-                    <span className="flex ml-1">
+                    <span className="flex">
                       {item.createdAt &&
                         new Date(item.createdAt).toLocaleDateString("pt-BR")}
                     </span>
@@ -74,20 +82,36 @@ export default async function BlogCard() {
               </div>
             </div>
             <div className="p-4">
-              <h1 className="mt-6 text-xl font-semibold text-gray-800">
+              <h1 className="mt-6 text-xl font-semibold text-gray-800 line-clamp-2">
                 {item.title}
               </h1>
-
+              
               <div className="mt-6">
-                <p className="text-sm text-gray-500 line-clamp-3">
+                <p className="text-sm text-gray-500 line-clamp-4">
                   {item.content}
                 </p>
-                <ButtonDefault
-                  text="Leia Mais"
-                  className=""
-                  href={`/blog/${item.id}`}
-                />
+                
               </div>
+              <div className="flex items-center justify-between mt-2">
+                <ButtonDefault
+                text="Leia Mais"
+                className="flex mb-0"
+                href={`/blog/${item.id}`}
+              />
+                <div className="flex items-center justify-center space-x-4">
+                  <span className="text-sm text-gray-500 flex items-center font-bold">
+                    <IconThumbUp stroke={2} className="mr-1" />
+                    {item.likes ?? 0}
+                  </span>
+
+                  <span className="text-sm text-gray-500 flex items-center font-bold">
+                    <IconEye stroke={2} className="mr-1" />
+                    {item.views ?? 0}
+                  </span>
+                </div>
+
+              </div>
+              
             </div>
           </div>
         );
