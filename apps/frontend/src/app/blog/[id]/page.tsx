@@ -42,7 +42,25 @@ export default async function ArticlePage({
     <>
       <Hero title={article.title || "Detalhes do Artigo"} />
       <Section>
-        <BlogPost />
+        
+          <div className="flex flex-col max-w-3xl mx-auto overflow-hidden rounded">
+            <img src={article.imgUrl} alt="" className="h-auto w-full  " />
+            <div className="p-6 pb-12 m-4 mx-auto -mt-16 space-y-6 lg:max-w-2xl sm:px-10 sm:mx-12 lg:rounded-md bg-gray-100">
+              <div className="space-y-2">
+                <a rel="noopener noreferrer" href="#" className="inline-block text-2xl font-semibold sm:text-3xl">{article.title || "Título Não Disponível"}</a>
+                <p className="text-xs ">By 
+                  <a rel="noopener noreferrer" href="#" className="text-xs hover:underline"> {article.author?.name || "Desconhecido"}</a>
+                </p>
+              <span className="text-xs">{article.createdAt
+                ? new Date(article.createdAt).toLocaleDateString("pt-BR")
+                : "Data indisponível"}</span>
+              </div>
+              <div className="">
+                <p>{article.content || "Conteúdo não disponível"}</p>
+              </div>
+            </div>
+          </div>
+      
 
 
         {/* <h1>{article.title || "Título Não Disponível"}</h1>
