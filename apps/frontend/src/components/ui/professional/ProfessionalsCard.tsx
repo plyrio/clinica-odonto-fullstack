@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ResponseEmployeeDto } from "@odonto/core";
-import { CardContainer } from "../ui/layout/CardContainer";
+import { CardContainer } from "../layout/CardContainer";
 import Link from "next/link";
 import {
   IconBrandFacebook,

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ResponseServiceDto } from "@odonto/core";
-import { CardContainer } from "../ui/layout/CardContainer";
-import ButtonDefault from "../ui/button/Button";
+import { CardContainer } from "../layout/CardContainer";
+import ButtonDefault from "../button/Button";
 
 async function fetchServices(): Promise<ResponseServiceDto[]> {
   try {

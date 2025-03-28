@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import ProfessionalsCard from "@/components/cards/ProfessionalsCard";
+import ProfessionalsCard from "../ui/professional/ProfessionalsCard";
 import Section from "@/components/ui/layout/Section";
 import TitlesSection from "../ui/layout/TitlesSection";
 

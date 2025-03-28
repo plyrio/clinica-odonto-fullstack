@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Section from "../ui/layout/Section";
 import TitlesSection from "../ui/layout/TitlesSection";
-import BlogCard from "../cards/BlogCard";
+import BlogList from "../ui/blog/BlogList";
 
 export default function Blog() {
   return (
@@ -33,7 +33,7 @@ export default function Blog() {
           </div>
         }
       >
-        <BlogCard />
+        <BlogList limit={6} />
       </Suspense>
     </Section>
   );

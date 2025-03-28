@@ -1,7 +1,7 @@
 import React from "react";
 import Section from "../ui/layout/Section";
 import TitlesSection from "../ui/layout/TitlesSection";
-import TestimonialsCard from "../cards/TestimonialsCard";
+import TestimonialsCard from "../ui/testemonials/TestimonialsCard";
 
 export default function Testimonials() {
   return (

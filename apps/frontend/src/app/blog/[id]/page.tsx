@@ -1,6 +1,8 @@
 import Hero from "@/components/sections/Hero";
 import { notFound } from "next/navigation";
 import { ResponseBlogPostDto } from "@odonto/core";
+import Section from "@/components/ui/layout/Section";
+import BlogPost from "@/components/ui/blog/BlogPost";
 
 async function fetchArticle(id: string): Promise<ResponseBlogPostDto | null> {
   try {
@@ -39,7 +41,11 @@ export default async function ArticlePage({
   return (
     <>
       <Hero title={article.title || "Detalhes do Artigo"} />
-      <h1>{article.title || "Título Não Disponível"}</h1>
+      <Section>
+        <BlogPost />
+
+
+        {/* <h1>{article.title || "Título Não Disponível"}</h1>
       <p>Autor: {article.author?.name || "Desconhecido"}</p>
       <p>
         Data:{" "}
@@ -50,7 +56,9 @@ export default async function ArticlePage({
       <div>
         <h2>Conteúdo</h2>
         <p>{article.content || "Conteúdo não disponível"}</p>
-      </div>
+      </div> */}
+      </Section>
+      
     </>
   );
 }
