@@ -12,6 +12,7 @@
     "dependencies": {
         "@odonto/core": "*",
         "@tabler/icons-react": "^3.30.0",
+        "date-fns": "^4.1.0",
         "next": "^15.0.3",
         "next-auth": "^5.0.0-beta.25",
         "react": "^18",

@@ -2,7 +2,9 @@ import Hero from "@/components/sections/Hero";
 import { notFound } from "next/navigation";
 import { ResponseBlogPostDto } from "@odonto/core";
 import Section from "@/components/ui/layout/Section";
-import BlogPost from "@/components/ui/blog/BlogPost";
+import Link from "next/link";
+import Image from "next/image";
+
 
 async function fetchArticle(id: string): Promise<ResponseBlogPostDto | null> {
   try {
@@ -47,13 +49,17 @@ export default async function ArticlePage({
             <img src={article.imgUrl} alt="" className="h-auto w-full  " />
             <div className="p-6 pb-12 m-4 mx-auto -mt-16 space-y-6 lg:max-w-2xl sm:px-10 sm:mx-12 lg:rounded-md bg-gray-100">
               <div className="space-y-2">
-                <a rel="noopener noreferrer" href="#" className="inline-block text-2xl font-semibold sm:text-3xl">{article.title || "Título Não Disponível"}</a>
-                <p className="text-xs ">By 
-                  <a rel="noopener noreferrer" href="#" className="text-xs hover:underline"> {article.author?.name || "Desconhecido"}</a>
-                </p>
-              <span className="text-xs">{article.createdAt
-                ? new Date(article.createdAt).toLocaleDateString("pt-BR")
-                : "Data indisponível"}</span>
+                <Link  href="#" className="inline-block text-2xl font-semibold sm:text-3xl">{article.title || "Título Não Disponível"}</Link>
+                
+                <div  className="flex items-center">  
+                <Image className="rounded-full w-12 items-center flex border-2 border-gray-100 me-2" height={256} width={256} alt="dd" src={article.author?.imgUrl || ""} />
+                  <p className="flex flex-col"> {article.author?.name || "Desconhecido"}
+                  <span className="text-xs">Em: {article.createdAt
+                    ? new Date(article.createdAt).toLocaleDateString("pt-BR")
+                    : "Data indisponível"}</span>
+                  </p>
+                </div>
+              
               </div>
               <div className="">
                 <p>{article.content || "Conteúdo não disponível"}</p>
